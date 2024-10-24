@@ -4,11 +4,20 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppointmentController;
+
 
 // Default welcome route
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.form');
+Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
+
+Route::get('/client/form', function () {
+    return view('client.form');
+})->name('client.form');
+
 
 // Dashboard route with auth and verification
 Route::get('/dashboard', function () {
