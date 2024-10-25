@@ -11,14 +11,14 @@ class VerificationController extends Controller
     // Show the email verification notice
     public function show()
     {
-        return view('auth.verify-email'); // Kung wala pa ito, maaari natin itong i-generate
+        return view('auth.verify-email'); 
     }
 
     // Handle the email verification
     public function verify(EmailVerificationRequest $request)
     {
-        $request->fulfill(); // Mark email as verified
-        return redirect('/dashboard'); // After verification
+        $request->fulfill(); 
+        return redirect('/dashboard'); 
     }
 
     // Resend the verification email

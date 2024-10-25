@@ -137,13 +137,13 @@
             <label for="delayed_no">No</label>
         </div>
     </div>
-                <!-- Hidden by default -->
+               
                 <div class="form-group" id="delayed_date_container" style="display:none;">
                     <label for="delayed_date">Delayed Date:</label>
                     <input type="date" id="delayed_date" name="delayed_date">
                 </div>
                 <script>
-                    // Function to toggle the delayed date field visibility
+                    
                     function toggleDelayedDate() {
                         var delayedYes = document.getElementById("delayed_yes").checked;
                         var delayedDateContainer = document.getElementById("delayed_date_container");
@@ -165,7 +165,7 @@
 </div>
 
 <script>
-    // Prevent past dates for the appointment
+   
     var today = new Date().toISOString().split('T')[0];
     document.getElementById("appointment_date").setAttribute('min', today);
 
@@ -346,7 +346,7 @@
             </div>
     `;
         
-            // Ensure Planned Date of Marriage doesn't allow past dates
+           
             document.getElementById("planned_date_of_marriage").setAttribute('min', today);
 
         } else if (selectedService === "Death Certificate") {

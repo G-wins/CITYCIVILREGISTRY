@@ -9,23 +9,20 @@ use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
-    // Method to show the appointment form
+   
     public function create()
     {
-        return view('client.form'); // Kung nasa resources/views/client/form.blade.php yung form mo
- // Returns the form view
+        return view('client.form'); 
     }
 
-    // Method to store the appointment data
     public function store(Request $request)
     {
-        // Validate the form, including document-specific fields
         $request->validate([
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'contact_no' => 'required|digits:10', // 10-digit phone number
+            'contact_no' => 'required|digits:10', 
             'sex' => 'required',
             'age' => 'required|integer|min:1|max:120',
             'appointment_type' => 'required',
@@ -37,10 +34,10 @@ class AppointmentController extends Controller
             'delayed_date' => 'nullable|date|after_or_equal:today',
         ]);
 
-        // Create a new Appointment instance
+        
         $appointment = new Appointment();
         $appointment->first_name = $request->input('first_name');
-        $appointment->middle_name = $request->input('middle_name'); // Optional field
+        $appointment->middle_name = $request->input('middle_name'); 
         $appointment->last_name = $request->input('last_name');
         $appointment->address = $request->input('address');
         $appointment->contact_no = $request->input('contact_no');
@@ -48,11 +45,10 @@ class AppointmentController extends Controller
         $appointment->age = $request->input('age');
         $appointment->appointment_type = $request->input('appointment_type');
         $appointment->appointment_date = $request->input('appointment_date');
-        $appointment->reference_number = uniqid('REF-'); // Generate unique reference number
-        $appointment->status = 'Pending'; // Default status
-        $appointment->attended = false; // Default attended status
+        $appointment->reference_number = uniqid('REF-'); 
+        $appointment->status = 'Pending'; 
+        $appointment->attended = false; 
 
-        // Handle additional fields based on the document type
         switch ($request->input('appointment_type')) {
             case 'Birth Certificate':
                 $request->validate([
@@ -136,37 +132,34 @@ class AppointmentController extends Controller
                 $appointment->date_of_death = $request->input('date_of_death');
                 break;
 
-            case 'Other': // For Other Document
+            case 'Other': 
                 $request->validate([
                     'other_document' => 'required|string|max:255',
                 ]);
-                $appointment->other_document = $request->input('other_document'); // Save specified document
+                $appointment->other_document = $request->input('other_document');
                 break;
         }
 
-        // Handle common fields for all document types
+        
         $appointment->requesting_party = $request->input('requesting_party');
         $appointment->relationship_to_owner = $request->input('relationship_to_owner');
         $appointment->purpose = $request->input('purpose');
 
-        // Handle delayed fields
-        $appointment->delayed = $request->input('delayed') === 'Yes' ? 1 : 0; // Convert delayed yes/no to 1/0
+       
+        $appointment->delayed = $request->input('delayed') === 'Yes' ? 1 : 0; 
         if ($appointment->delayed) {
-            $appointment->delayed_date = $request->input('delayed_date'); // Save delay date only if delayed is yes
+            $appointment->delayed_date = $request->input('delayed_date'); 
         }
 
 
-    // Save with timezone adjustment
     $now = Carbon::now('Asia/Manila');
-    $appointment->created_at = $now->format('Y-m-d h:i:s A'); // e.g., 2024-10-24 01:45:00 PM
+    $appointment->created_at = $now->format('Y-m-d h:i:s A'); 
     $appointment->updated_at = $now->format('Y-m-d h:i:s A');
 
 
 
-        // Save the appointment to the database
         $appointment->save();
 
-        // Redirect with a success message
         return redirect('/appointment')->with('success', 'Appointment created successfully!');
     }
 }
