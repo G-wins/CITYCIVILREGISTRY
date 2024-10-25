@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class AppointmentController extends Controller
 {
@@ -152,6 +154,14 @@ class AppointmentController extends Controller
         if ($appointment->delayed) {
             $appointment->delayed_date = $request->input('delayed_date'); // Save delay date only if delayed is yes
         }
+
+
+    // Save with timezone adjustment
+    $now = Carbon::now('Asia/Manila');
+    $appointment->created_at = $now->format('Y-m-d h:i:s A'); // e.g., 2024-10-24 01:45:00 PM
+    $appointment->updated_at = $now->format('Y-m-d h:i:s A');
+
+
 
         // Save the appointment to the database
         $appointment->save();

@@ -3,146 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>City Civil Registry Appointment</title>
-    <style>
-        /* General styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .form-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-            border-radius: 8px;
-        }
-
-        h2 {
-            text-align: center;
-        }
-
-        .section-header {
-            margin-top: 50px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #333;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 15px;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-            
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1 1 200px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-
-        .radio-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        button[type="submit"] {
-            background-color: #007BFF;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
-            display: block;
-            width: 100%;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #0056b3;
-        
-        }
-
-        
-/*CONTACT NUMBER */
-     .form-group input,
-    .form-group select {
-        width: 100%;
-        padding: 8px;
-        box-sizing: border-box;
-    }
-
-    .contact-container {
-        display: flex;
-        align-items: center;
-    }
-
-    .country-code {
-        background-color: #f0f0f0;
-        border: 1px solid #000;
-        padding: 6.5px;
-        border-right: none;
-    }
-
-    input[type="tel"] {
-        border: 1px solid #000;
-        padding: 8px;
-        flex: 1;
-    }
-
-    
-    /*adjust Delayed Yes or No*/
-    .radio-group {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px; 
-}
-
-.radio-group input[type="radio"] {
-    margin-right: 5px; 
-}
-
-.radio-group label {
-    margin-right: 15px;
-}
-
-
-
-
-        @media (max-width: 600px) {
-            .form-row {
-                flex-direction: column;
-            }
-            
-    
-        }
-    </style>
+    <title>City Civil Registry</title>
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
 </head>
-
 <body>
-
 <div class="form-container">
     <h2>City Civil Registry Appointment</h2>
     <form action="{{ url('/appointment') }}" method="POST">
@@ -184,15 +48,12 @@
                         var contactInput = document.getElementById("contact_no");
                         var value = contactInput.value;
 
-                        // Remove any non-digit characters
+                        
                         contactInput.value = value.replace(/[^0-9]/g, '');
 
-                        // Ensure the number starts with "9" (after +63, it should be 09xxxxxxx)
                         if (!contactInput.value.startsWith("9")) {
                             contactInput.value = "9";
                         }
-
-                        // Limit input to 10 digits (since +63 is already displayed)
                         if (contactInput.value.length > 10) {
                             contactInput.value = contactInput.value.slice(0, 10);
                         }
@@ -214,19 +75,13 @@
             <script>
                     function checkAgeLimit() {
                         var ageInput = document.getElementById("age");
-                        
-                        // Check if the input exceeds 120 and reset it to 120 if necessary
                         if (ageInput.value > 120) {
                             ageInput.value = 120;
                         }
-
-                        // Check if the input is below 1 and reset it to 1 if necessary
                         if (ageInput.value < 1) {
                             ageInput.value = 1;
                         }
                     }
-
-                    // Optionally prevent manual typing of out-of-range values using input event
                     document.getElementById("age").addEventListener("input", function() {
                         var value = this.value;
                         if (value > 120) {
@@ -258,12 +113,8 @@
             <input type="text" id="other_document" name="other_document">
         </div>
 
-        <!-- Dynamic Form Content -->
         <div id="dynamic_form"></div>
-
-        <!-- Appointment Date -->
         <div class="form-group">
-
             <label for="requesting_party">Requesting Party:</label>
             <input type="text" id="requesting_party" name="requesting_party" required><br>
         </div>
@@ -323,7 +174,7 @@
         var dynamicForm = document.getElementById("dynamic_form");
         var otherDocumentField = document.getElementById("other_document_field");
 
-        dynamicForm.innerHTML = ""; // Clear existing form
+        dynamicForm.innerHTML = ""; 
 
         if (selectedService === "Other") {
             otherDocumentField.style.display = "block";
@@ -526,7 +377,6 @@
                 </div>
             `;
         }
-        // You can add similar code for "Marriage License" based on your requirements.
     }
 </script>
 
