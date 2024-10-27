@@ -11,6 +11,9 @@ use App\Http\Controllers\AppointmentController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/appointments/unavailable-dates', [AppointmentController::class, 'unavailableDates']);
+Route::get('/appointments/available-slots', [AppointmentController::class, 'availableSlots']);
+
 
 Route::get('/appointment/choose', function () {
     return view('client.index'); // Initial screen with buttons

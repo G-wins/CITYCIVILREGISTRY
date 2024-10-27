@@ -1,4 +1,27 @@
 
+/* Container para sa input at icon */
+.input-with-icon {
+    position: relative;
+    width: 100%;
+}
+
+/* Input field styling */
+.input-with-icon input[type="text"] {
+    width: 100%;
+    padding-right: 30px;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+/* Icon styling */
+.input-with-icon .calendar-icon {
+    position: absolute;
+    right: 10px;
+    top: 65%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #333; 
+}
 
 
 /* General Styling */

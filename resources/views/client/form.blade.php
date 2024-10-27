@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Civil Registry</title>
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 <div class="form-container">
@@ -156,15 +161,81 @@
                     }
                 </script>
         <div class="form-group">
+        <div class="input-with-icon">
             <label for="appointment_date">Appointment Date:</label>
-            <input type="date" name="appointment_date" id="appointment_date" required>
+            <input type="text" name="appointment_date" id="appointment_date" required>
+            <input type="hidden" id="appointment_time" name="appointment_time">
+            <i class="fas fa-calendar-alt calendar-icon"></i> <!-- Icon -->
+
+
         </div>
+        <div id="slot-container"></div>
+       
+
 
         <button type="submit">Submit Appointment</button>
     </form>
 </div>
 
 <script>
+
+    //APPOINTMENT CALENDAR
+    $(function() {
+    var today = new Date();
+
+    // Fetch booked dates and initialize the date picker
+    $.ajax({
+        url: '/appointments/unavailable-dates',
+        method: 'GET',
+        success: function(bookedDates) {
+            $("#appointment_date").datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: today,
+                beforeShowDay: function(date) {
+                    var dateString = $.datepicker.formatDate('yy-mm-dd', date);
+                    return [bookedDates.indexOf(dateString) === -1];
+                },
+                onSelect: function(dateText) {
+                    loadAvailableSlots(dateText);
+                }
+            });
+        },
+        error: function() {
+            console.error("Error fetching unavailable dates.");
+        }
+    });
+
+    function loadAvailableSlots(selectedDate) {
+        $.ajax({
+            url: '/appointments/available-slots',
+            method: 'GET',
+            data: { date: selectedDate },
+            success: function(slots) {
+                displaySlotOptions(slots);
+            },
+            error: function() {
+                console.error("Error fetching available slots.");
+            }
+        });
+    }
+
+    function displaySlotOptions(slots) {
+        var slotsHtml = '<div><strong>Select a Time Slot:</strong></div>';
+        slots.forEach(function(slot) {
+            slotsHtml += `<button type="button" onclick="selectSlot('${slot}')">${slot}</button>`;
+        });
+        $('#slot-container').html(slotsHtml);
+    }
+});
+
+// Function to set the selected slot
+function selectSlot(slot) {
+    $('#appointment_time').val(slot);
+    alert("Selected slot: " + slot);
+}
+
+
+    
    
     var today = new Date().toISOString().split('T')[0];
     document.getElementById("appointment_date").setAttribute('min', today);

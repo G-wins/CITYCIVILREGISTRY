@@ -162,4 +162,28 @@ class AppointmentController extends Controller
 
         return redirect('/appointment')->with('success', 'Appointment created successfully!');
     }
+      // Fetch unavailable dates
+      public function unavailableDates()
+      {
+          $unavailableDates = Appointment::where('status', '!=', 'Cancelled')
+              ->pluck('appointment_date')
+              ->unique()
+              ->values();
+  
+          return response()->json($unavailableDates);
+      }
+  
+      // Fetch available slots
+      public function availableSlots(Request $request)
+      {
+          $selectedDate = $request->input('date');
+          
+          $amSlots = 100 - Appointment::where('appointment_date', $selectedDate)->where('appointment_time', 'AM')->count();
+          $pmSlots = 100 - Appointment::where('appointment_date', $selectedDate)->where('appointment_time', 'PM')->count();
+  
+          return response()->json([
+              'AM' => $amSlots > 0 ? $amSlots : 'Full',
+              'PM' => $pmSlots > 0 ? $pmSlots : 'Full'
+          ]);
+      }
 }
