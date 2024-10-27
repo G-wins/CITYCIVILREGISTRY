@@ -11,6 +11,20 @@ use App\Http\Controllers\AppointmentController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/appointment/choose', function () {
+    return view('client.index'); // Initial screen with buttons
+})->name('appointment.index');
+
+Route::get('/appointment/existing', function () {
+    return view('client.form'); // Existing Document form
+})->name('existing_document');
+
+Route::get('/appointment/new', function () {
+    return view('client.new_form'); // New Document Request form
+})->name('new_document');
+
+
 Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.form');
 Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
 

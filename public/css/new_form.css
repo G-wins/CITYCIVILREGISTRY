@@ -1,0 +1,201 @@
+
+
+
+/* General Styling */
+.form-container {
+    max-width: 100%;
+    width: 800px; 
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+/* General styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+.form-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+}
+
+h2 {
+    text-align: center;
+}
+
+.section-header {
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-row .form-group {
+    flex: 1 1 200px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+
+}
+
+
+/*CONTACT NUMBER */
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.contact-container {
+    display: flex;
+    align-items: center;
+}
+
+.country-code {
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    padding: 6.5px;
+    border-right: none;
+}
+
+input[type="tel"] {
+    border: 1px solid #000;
+    padding: 8px;
+    flex: 1;
+}
+
+    
+    /*adjust Delayed Yes or No*/
+    .radio-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px; 
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 5px; 
+}
+
+.radio-group label {
+    margin-right: 15px;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        flex-direction: column;
+    }
+
+
+   /* Mobile View */
+@media (max-width: 600px) {
+    h2 {
+        font-size: 20px; 
+    }
+
+    .form-container {
+        width: 95%; 
+        padding: 15px; 
+    }
+
+    .form-row {
+        flex-direction: column; 
+    }
+
+    .form-row .form-group {
+        flex: 1 1 100%;
+    }
+
+    input[type="text"], input[type="tel"], select, input[type="number"], input[type="date"] {
+        font-size: 16px; 
+    }
+    .country-code {
+        background-color: #f0f0f0;
+        border: 1px solid #000;
+        padding: 8px;
+        border-right: none;
+    }
+
+}
+
+/* Tablet View */
+@media (min-width: 601px) and (max-width: 1024px) {
+    h2 {
+        font-size: 22px; 
+    }
+
+    .form-container {
+        width: 90%; 
+        padding: 20px;
+    }
+
+    .form-row .form-group {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
+
+/* Larger Screens */
+@media (min-width: 1025px) {
+    .form-container {
+        width: 800px; 
+    }
+
+    .form-row .form-group {
+        flex: 1 1 calc(33.33% - 20px); 
+    }
+} 
+    
+        }

@@ -8,7 +8,7 @@
 </head>
 <body>
 <div class="form-container">
-    <h2>CITY CIVIL REGISTRY</h2>
+    <h2>City Civil Registry Appointment</h2>
     <form action="{{ url('/appointment') }}" method="POST">
         @csrf
 
@@ -244,6 +244,123 @@
                         <input type="text" id="father_last_name" name="father_last_name" required>
                     </div>
                 </div>
+                      <div class="section-header">Request for</div>
+      <div class="form-group">
+            <label for="request_for">Select Request Type:</label>
+            <select id="request_for" name="request_for" required>
+                <option value="">Select Request Type</option>
+                <option value="copy_issuance">Copy Issuance</option>
+                <option value="authentication">Authentication</option>
+                <option value="viewable_online">Viewable Online</option>
+                <option value="endorsement">Endorsement</option>
+                <option value="docprint">Docprint</option>
+                <option value="premium_annotation">Premium Annotation</option>
+            </select>
+        </div>
+
+
+        <!-- FOR MUSLIM -->
+        <div class="section-header">For Muslim</div>
+        <div class="form-group">
+            <input type="checkbox" name="muslim_conversion" value="certificate_conversion_islam"> Certificate of Conversion to Islam
+        </div>
+
+        <!-- REQUIREMENTS -->
+        <div class="section-header">Requirements</div>
+        <div class="form-group">
+            <input type="checkbox" name="requirement_id" value="valid_id"> Your Valid Government-Issued ID
+            <input type="checkbox" name="requirement_representative_id" value="representative_id"> If Representative, Valid Government-Issued ID of Representative, Signed Authorization Letter and Valid Government-Issued ID of the Document Owner
+        </div>
+
+        <!-- BReN, if known -->
+        <div class="form-group">
+            <label for="bren">BReN, if known</label>
+            <input type="text" name="bren" maxlength="12" placeholder="Birth Reference Number">
+            <small>The BReN can be found on the previously issued PSA copy of the birth certificate of the person/child, if any.</small>
+        </div>
+
+        <!-- BIRTH CERTIFICATE DETAILS -->
+        <div class="section-header">Person’s/Child’s Information</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="child_last_name">Last Name (if female, last name before marriage):</label>
+                <input type="text" id="child_last_name" name="child_last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="child_first_name">First Name (include JR., SR., II, III, IV, etc, if applicable):</label>
+                <input type="text" id="child_first_name" name="child_first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="child_middle_name">Middle Name (if female, middle name before marriage):</label>
+                <input type="text" id="child_middle_name" name="child_middle_name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="child_sex">Sex:</label>
+            <select id="child_sex" name="child_sex" required>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date_of_birth">Date of Birth:</label>
+            <input type="date" id="date_of_birth" name="date_of_birth" required>
+        </div>
+
+        <div class="form-group">
+            <label for="place_of_birth">Place of Birth (City/Municipality and Province, Country if born abroad):</label>
+            <input type="text" id="place_of_birth" name="place_of_birth" required>
+        </div>
+
+        <!-- PURPOSE OF REQUEST -->
+        <div class="section-header">Purpose of Your Request</div>
+        <div class="form-group">
+            <label for="purpose_of_request">Purpose:</label>
+            <select id="purpose_of_request" name="purpose_of_request" required>
+                <option value="">Select Purpose</option>
+                <option value="claim_benefits_loan">Claim Benefits/Loan</option>
+                <option value="employment_local">Employment (Local)</option>
+                <option value="school_requirements">School Requirements</option>
+                <option value="passport_travel">Passport/Travel</option>
+                <option value="employment_abroad">Employment (Abroad)</option>
+                <option value="others">Others (Specify)</option>
+            </select>
+        </div>
+
+        <!-- REQUESTER'S DETAILS -->
+        <div class="section-header">Requester’s Details</div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="requester_last_name">Last Name:</label>
+                <input type="text" id="requester_last_name" name="requester_last_name" required>
+            </div>
+            <div class="form-group">
+                <label for="requester_first_name">First Name (include JR., SR., II, III, IV, etc, if applicable):</label>
+                <input type="text" id="requester_first_name" name="requester_first_name" required>
+            </div>
+            <div class="form-group">
+                <label for="requester_middle_name">Middle Name:</label>
+                <input type="text" id="requester_middle_name" name="requester_middle_name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="requester_address">Address (House No., Street Name, Barangay):</label>
+            <input type="text" id="requester_address" name="requester_address" required>
+        </div>
+
+        <div class="form-group">
+            <label for="requester_city_province">City/Municipality, Province (Country if abroad):</label>
+            <input type="text" id="requester_city_province" name="requester_city_province" required>
+        </div>
+
+        <div class="form-group">
+            <label for="requester_mobile_number">Mobile Number:</label>
+            <input type="tel" id="requester_mobile_number" name="requester_mobile_number" placeholder="9123456789" maxlength="10" required>
+        </div>
             `;
     
         } else if (selectedService === "Marriage Certificate") {
