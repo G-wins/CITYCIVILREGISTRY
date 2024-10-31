@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Civil Registry</title>
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
 <div class="form-container">
-    <h2>City Civil Registry Appointment</h2>
+    <h2>CITY CIVIL REGISTRY</h2>
     <form action="{{ url('/appointment') }}" method="POST">
         @csrf
 
@@ -32,9 +37,26 @@
         </div>
 
         <div class="form-group">
-            <label for="address">Address:</label>
-            <input type="text" name="address" required>
-        </div>
+        <label for="mailing_address">Mailing Address:</label>
+        <input type="text" id="mailing_address" name="mailing_address" placeholder="House No., Street Name / Barangay" required>
+        <small class="hint">House No., Street Name / Barangay</small>
+    </div>
+    <div class="form-row">
+                <!-- City/Municipality Field -->
+                <div class="form-group">
+                    <label for="city_municipality">City/Municipality:</label>
+                    <input type="text" id="city_municipality" name="city_municipality" required>
+                </div>
+
+                <!-- Province Field -->
+                <div class="form-group">
+                    <label for="province">Province:</label>
+                    <input type="text" id="province" name="province" required>
+                </div>
+            </div>
+    
+    
+
 
         <div class="form-row">
             <div class="form-group">
@@ -103,6 +125,7 @@
                 <option value="Marriage Certificate">Marriage Certificate</option>
                 <option value="Marriage License">Marriage License</option>
                 <option value="Death Certificate">Death Certificate</option>
+                <option value="Cenomar">Cenomar</option>
                 <option value="Other">Other (Specify)</option>
             </select>
         </div>
@@ -124,20 +147,28 @@
             <input type="text" id="relationship_to_owner" name="relationship_to_owner" required><br>
         </div>
 
-        <div class="form-group">
-            <label for="purpose">Purpose:</label>
-             <input type="text" id="purpose" name="purpose" required><br>
-        </div>
-        <div class="form-group">
-    <label>Delayed Registration:</label>
+        <div class="section-header">Purpose of Request</div>
+                    <div class="form-group">
+                        <label for="purpose">Purpose:</label>
+                        <select name="purpose" id="purpose" onchange="toggleOtherPurpose()" required>
+                            <option value="">Select Purpose</option>
+                            <option value="Claim Benefits/Loan">Claim Benefits/Loan</option>
+                            <option value="Employment (Local)">Employment (Local)</option>
+                            <option value="School Requirements">School Requirements</option>
+                            <option value="Passport/Travel">Passport/Travel</option>
+                            <option value="Employment (Abroad)">Employment (Abroad)</option>
+                            <option value="Other">Other (Specify)</option>
+                        </select>
+                        <input type="text" name="purpose_other" id="purpose_other" placeholder="Specify if other" style="display:none; margin-top: 25px;">
+                    </div>
+           
+        <label>Delayed Registration:</label>
         <div class="radio-group">
             <input type="radio" id="delayed_yes" name="delayed" value="Yes" onclick="toggleDelayedDate()" required>
             <label for="delayed_yes">Yes</label>
             <input type="radio" id="delayed_no" name="delayed" value="No" onclick="toggleDelayedDate()" required>
             <label for="delayed_no">No</label>
-        </div>
-    </div>
-               
+        </div> 
                 <div class="form-group" id="delayed_date_container" style="display:none;">
                     <label for="delayed_date">Delayed Date:</label>
                     <input type="date" id="delayed_date" name="delayed_date">
@@ -156,16 +187,126 @@
                     }
                 </script>
         <div class="form-group">
+        <div class="input-with-icon">
             <label for="appointment_date">Appointment Date:</label>
-            <input type="date" name="appointment_date" id="appointment_date" required>
-        </div>
+            <input type="text" name="appointment_date" id="appointment_date" required>
+            <input type="hidden" id="appointment_time" name="appointment_time">
+            <i class="fas fa-calendar-alt calendar-icon"></i> <!-- Icon -->
 
-        <button type="submit">Submit Appointment</button>
+
+        </div>
+        <div id="slot-container"></div>
+        
+         <!-- Privacy Notice Section -->
+         <div class="section-header">Privacy Notice</div>
+        <div class="form-group">
+            <p>1. I declare that I am the document owner/duly-authorized representative of the document owner whose information appears in this application form.</p>
+            <p>2. I give my consent to the processing of the above information subject to the exemptions provided by the Data Privacy Act and other applicable laws and regulations.</p>
+            <p>3. I trust that the above information shall remain confidential and shall only be retained for as long as necessary for the fulfillment of the declared purpose, or when processing is relevant to such purpose, in strict accordance with PSA’s records retention policy.</p>
+            <p>4. I further affirm that all the statements/information that appear in this application form are true, correct, and complete to the best of my knowledge and belief.</p>
+            <label>
+                <input type="checkbox" name="privacy_agreement" required> I agree to the Privacy Notice and the processing of my information.
+            </label>
+
+        <button type="submit" id="submit_button">Submit Appointment</button>
     </form>
 </div>
 
 <script>
-   
+
+    //APPOINTMENT CALENDAR
+    $(function() {
+    var today = new Date();
+
+    // Fetch booked dates and initialize the date picker
+    $.ajax({
+        url: '/appointments/unavailable-dates',
+        method: 'GET',
+        success: function(bookedDates) {
+            let originalScrollPosition;
+
+$("#appointment_date").datepicker({
+    dateFormat: 'yy-mm-dd',
+    minDate: new Date(),
+    beforeShow: function(input, inst) {
+        originalScrollPosition = $(window).scrollTop();
+    },
+    onSelect: function(dateText, inst) {
+        setTimeout(function() {
+            $(window).scrollTop(originalScrollPosition);
+        }, 0);
+
+
+    loadAvailableSlots(dateText);
+},
+onClose: function() {
+        $(window).scrollTop(originalScrollPosition);
+    },
+
+                beforeShow: function(input, inst) {
+                    $(".form-container").css("height", "auto");
+                    $(".form-container").css("padding-bottom", "200px"); // Increase space below for the calendar
+                    $("#submit_button").css("margin-top", "250px"); // Adjust this value as needed
+                    
+                    setTimeout(function() {
+                        inst.dpDiv.css({
+                            top: $(input).offset().top + $(input).outerHeight() + 5,
+                            left: $(input).offset().left,
+                            zIndex: 1000
+                        });
+                    }, 0);
+                },
+                onClose: function() {
+                    $(".form-container").css("padding-bottom", "200px"); // Adjust as needed
+                    $("#submit_button").css("margin-top", "20px"); // Original position
+                }
+            });
+        },
+        error: function() {
+            console.error("Error fetching unavailable dates.");
+        }
+    });
+});
+
+
+//PLACE OF BIRTH (COUNTRY IF BORN ABROAD)
+function toggleCountryField() {
+    var bornAbroadCheckbox = document.getElementById("born_abroad");
+    var countryContainer = document.getElementById("country_container");
+
+    if (bornAbroadCheckbox.checked) {
+        countryContainer.style.display = "block";
+    } else {
+        countryContainer.style.display = "none";
+    }
+}
+
+//PURPOSE DYNAMIC FORM(BIRTH CERTIFICATE)
+function toggleOtherPurpose() {
+    const purposeSelect = document.getElementById("purpose");
+    const otherInput = document.getElementById("purpose_other");
+
+    if (purposeSelect.value === "Other") {
+        otherInput.style.display = "block"; 
+        otherInput.required = true;         
+    } else {
+        otherInput.style.display = "none";  
+        otherInput.required = false;        
+        otherInput.value = "";              
+    }
+}
+//DEATH CERTIFICATE (DIED ABROAD)
+function toggleCountryFieldForDeath() {
+    var diedAbroadCheckbox = document.getElementById("died_abroad");
+    var countryContainer = document.getElementById("country_container");
+
+    if (diedAbroadCheckbox.checked) {
+        countryContainer.style.display = "block";
+    } else {
+        countryContainer.style.display = "none";
+    }
+}
+ 
     var today = new Date().toISOString().split('T')[0];
     document.getElementById("appointment_date").setAttribute('min', today);
 
@@ -183,48 +324,108 @@
         }
 
         if (selectedService === "Birth Certificate") {
-            dynamicForm.innerHTML = `
-                <div class="section-header">Child Information</div>
-                <div class="form-row">
+            dynamicForm.innerHTML = `  
+                <div class="section-header">Request Information</div>
+                <div class="form-group">
+                    <label for="request_type">Request Type:</label>
+                    <select name="request_type" required>
+                        <option value="">Select Request Type</option>
+                        <option value="Copy Issuance">Copy Issuance</option>
+                        <option value="Authentication">Authentication</option>
+                        <option value="Viewable Online">Viewable Online</option>
+                        <option value="Endorsement">Endorsement</option>
+                        <option value="DocPrint">DocPrint</option>
+                        <option value="Premium Annotation">Premium Annotation</option>
+                        <option value="CD/LI">CD/LI</option>
+                    </select>
+                </div>
+                  <div class="form-group">
+                <label>For Muslim: Certificate of Conversion to Islam</label>
+                <div class="radio-group">
+                    <input type="radio" id="muslim_yes" name="certificate_of_conversion" value="Yes" required>
+                    <label for="muslim_yes">Yes</label>
+                    <input type="radio" id="muslim_no" name="certificate_of_conversion" value="No" checked required>
+                    <label for="muslim_no">No</label>
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <label for="brn">Birth Reference Number (BRN):</label>
+                    <input type="text" name="brn" maxlength="14" placeholder="000000-0000000-0">
+                </div>
+               <div class="section-header">BIRTH CERTIFICATE DETAILS</div>
+                <h4>Person's/Child's Information</h4>
                     <div class="form-group">
-                        <label for="child_first_name">First Name:</label>
-                        <input type="text" id="child_first_name" name="child_first_name" required>
+                        <label for="child_last_name">Last Name: (if female, last name before marriage)</label>
+                        <input type="text" name="child_last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="child_middle_name">Middle Name:</label>
-                        <input type="text" id="child_middle_name" name="child_middle_name">
+                        <label for="child_first_name">First Name: (include JR., SR., II, III, IV, etc., if applicable)</label>
+                        <input type="text" name="child_first_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="child_last_name">Last Name:</label>
-                        <input type="text" id="child_last_name" name="child_last_name" required>
+                        <label for="child_middle_name">Middle Name: (if female, middle name before marriage)</label>
+                        <input type="text" name="child_middle_name">
                     </div>
                 </div>
-
+                 <div class="form-group">
+                    <label>Sex:</label>
+                    <select name="child_sex" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="date_of_birth">Date of Birth:</label>
                     <input type="date" id="date_of_birth" name="date_of_birth" required>
                 </div>
-                <div class="form-group">
-                    <label for="place_of_birth">Place of Birth:</label>
-                    <input type="text" id="place_of_birth" name="place_of_birth" required>
+                
+                <!-- Born Abroad Checkbox -->
+                <label>Place of Birth</label>
+                <div class="form-group born-abroad" style="position: relative;">
+                    <div style="position: absolute; left: 0; top: 0;">
+                        <input type="checkbox" id="born_abroad" onclick="toggleCountryField()">
+                    </div>
+                    <label for="born_abroad" style="padding-left: 25px; font-size: 14px;">Born Abroad</label>
                 </div>
 
-                <div class="section-header">Family Background</div>
+                <!-- Country Field (Visible if Born Abroad is checked) -->
+                <div class="form-group" id="country_container" style="display: none;">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" placeholder="Specify country if born abroad">
+                    <small class="hint">Please specify country if born abroad only.</small>
+                </div>
+            </div>
 
+            <div class="form-row">
+                <!-- City/Municipality Field -->
+                <div class="form-group">
+                    <label for="city_municipality">City/Municipality:</label>
+                    <input type="text" id="city_municipality" name="city_municipality" required>
+                </div>
+
+                <!-- Province Field -->
+                <div class="form-group">
+                    <label for="province">Province:</label>
+                    <input type="text" id="province" name="province" required>
+                </div>
+            </div>
+                <div class="section-header">Family Background</div>
                 <!-- Mother's Information -->
                 <div class="form-group"><strong>Mother's Maiden Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="mother_first_name">First Name:</label>
-                        <input type="text" id="mother_first_name" name="mother_first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_middle_name">Middle Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_last_name">Last Name:</label>
+                        <label for="mother_last_name">First Name:</label>
                         <input type="text" id="mother_last_name" name="mother_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_first_name">Middle Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Last Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
                     </div>
                 </div>
 
@@ -232,154 +433,64 @@
                 <div class="form-group"><strong>Father's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="father_first_name">First Name:</label>
-                        <input type="text" id="father_first_name" name="father_first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="father_middle_name">Middle Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="father_last_name">Last Name:</label>
+                        <label for="father_last_name">First Name:</label>
                         <input type="text" id="father_last_name" name="father_last_name" required>
                     </div>
+                    <div class="form-group">
+                        <label for="father_first_name">Middle Name:</label>
+                        <input type="text" id="father_first_name" name="father_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="father_middle_name">Last Name:</label>
+                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                    </div>
                 </div>
-                      <div class="section-header">Request for</div>
-      <div class="form-group">
-            <label for="request_for">Select Request Type:</label>
-            <select id="request_for" name="request_for" required>
-                <option value="">Select Request Type</option>
-                <option value="copy_issuance">Copy Issuance</option>
-                <option value="authentication">Authentication</option>
-                <option value="viewable_online">Viewable Online</option>
-                <option value="endorsement">Endorsement</option>
-                <option value="docprint">Docprint</option>
-                <option value="premium_annotation">Premium Annotation</option>
-            </select>
-        </div>
-
-
-        <!-- FOR MUSLIM -->
-        <div class="section-header">For Muslim</div>
+              
+        <div class="section-header">Conforme</div>
         <div class="form-group">
-            <input type="checkbox" name="muslim_conversion" value="certificate_conversion_islam"> Certificate of Conversion to Islam
+            <label for="requester_signature">Requester's or Authorized Representative's Signature:</label>
+            <input type="text" name="requester_signature" placeholder="Signature over Printed Name" required>
         </div>
-
-        <!-- REQUIREMENTS -->
-        <div class="section-header">Requirements</div>
         <div class="form-group">
-            <input type="checkbox" name="requirement_id" value="valid_id"> Your Valid Government-Issued ID
-            <input type="checkbox" name="requirement_representative_id" value="representative_id"> If Representative, Valid Government-Issued ID of Representative, Signed Authorization Letter and Valid Government-Issued ID of the Document Owner
+            <label for="government_id_no">Government-Issued ID No.:</label>
+            <input type="text" name="government_id_no" required>
         </div>
-
-        <!-- BReN, if known -->
+        <div class="section-header">Acknowledgement of Receipt</div>
         <div class="form-group">
-            <label for="bren">BReN, if known</label>
-            <input type="text" name="bren" maxlength="12" placeholder="Birth Reference Number">
-            <small>The BReN can be found on the previously issued PSA copy of the birth certificate of the person/child, if any.</small>
+            <label for="received_by">Received by:</label>
+            <input type="text" name="received_by" placeholder="Signature over Printed Name" required>
         </div>
-
-        <!-- BIRTH CERTIFICATE DETAILS -->
-        <div class="section-header">Person’s/Child’s Information</div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="child_last_name">Last Name (if female, last name before marriage):</label>
-                <input type="text" id="child_last_name" name="child_last_name" required>
-            </div>
-            <div class="form-group">
-                <label for="child_first_name">First Name (include JR., SR., II, III, IV, etc, if applicable):</label>
-                <input type="text" id="child_first_name" name="child_first_name" required>
-            </div>
-            <div class="form-group">
-                <label for="child_middle_name">Middle Name (if female, middle name before marriage):</label>
-                <input type="text" id="child_middle_name" name="child_middle_name">
-            </div>
-        </div>
-
         <div class="form-group">
-            <label for="child_sex">Sex:</label>
-            <select id="child_sex" name="child_sex" required>
-                <option value="">Select</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="date_of_birth">Date of Birth:</label>
-            <input type="date" id="date_of_birth" name="date_of_birth" required>
-        </div>
-
-        <div class="form-group">
-            <label for="place_of_birth">Place of Birth (City/Municipality and Province, Country if born abroad):</label>
-            <input type="text" id="place_of_birth" name="place_of_birth" required>
-        </div>
-
-        <!-- PURPOSE OF REQUEST -->
-        <div class="section-header">Purpose of Your Request</div>
-        <div class="form-group">
-            <label for="purpose_of_request">Purpose:</label>
-            <select id="purpose_of_request" name="purpose_of_request" required>
-                <option value="">Select Purpose</option>
-                <option value="claim_benefits_loan">Claim Benefits/Loan</option>
-                <option value="employment_local">Employment (Local)</option>
-                <option value="school_requirements">School Requirements</option>
-                <option value="passport_travel">Passport/Travel</option>
-                <option value="employment_abroad">Employment (Abroad)</option>
-                <option value="others">Others (Specify)</option>
-            </select>
-        </div>
-
-        <!-- REQUESTER'S DETAILS -->
-        <div class="section-header">Requester’s Details</div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="requester_last_name">Last Name:</label>
-                <input type="text" id="requester_last_name" name="requester_last_name" required>
-            </div>
-            <div class="form-group">
-                <label for="requester_first_name">First Name (include JR., SR., II, III, IV, etc, if applicable):</label>
-                <input type="text" id="requester_first_name" name="requester_first_name" required>
-            </div>
-            <div class="form-group">
-                <label for="requester_middle_name">Middle Name:</label>
-                <input type="text" id="requester_middle_name" name="requester_middle_name">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label for="requester_address">Address (House No., Street Name, Barangay):</label>
-            <input type="text" id="requester_address" name="requester_address" required>
-        </div>
-
-        <div class="form-group">
-            <label for="requester_city_province">City/Municipality, Province (Country if abroad):</label>
-            <input type="text" id="requester_city_province" name="requester_city_province" required>
-        </div>
-
-        <div class="form-group">
-            <label for="requester_mobile_number">Mobile Number:</label>
-            <input type="tel" id="requester_mobile_number" name="requester_mobile_number" placeholder="9123456789" maxlength="10" required>
+            <label for="date_received">Date Received:</label>
+            <input type="date" name="date_received" required>
         </div>
             `;
     
         } else if (selectedService === "Marriage Certificate") {
             dynamicForm.innerHTML = `
+                     <div class="section-header">Request Information</div>
+                <div class="form-group">
+                    <label for="request_type">Request Type:</label>
+                    <select name="request_type" required>
+                        <option value="">Select Request Type</option>
+                        <option value="Marriage Certificate">Marriage Certificate</option>
+                        <option value="Authentication">Authentication</option>
+                        <option value="CD/LI">CD/LI</option>
+                    </select>
                 <div class="section-header">Marriage Information</div>
-                <!-- Husband's Information -->
                 <div class="form-group"><strong>Husband's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="husband_last_name">Last Name:</label>
+                        <input type="text" id="husband_last_name" name="husband_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="husband_first_name">First Name:</label>
-                        <input type="text" id="husband_first_name" name="husband_first_name" required>
+                        <input type="text" id="husband_first_name" name="husband_first_name">
                     </div>
                     <div class="form-group">
                         <label for="husband_middle_name">Middle Name:</label>
-                        <input type="text" id="husband_middle_name" name="husband_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="husband_last_name">Last Name:</label>
-                        <input type="text" id="husband_last_name" name="husband_last_name" required>
+                        <input type="text" id="husband_middle_name" name="husband_middle_name" required>
                     </div>
                 </div>
 
@@ -387,16 +498,16 @@
                 <div class="form-group"><strong>Wife's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="wife_last_name">Last Name:</label>
+                        <input type="text" id="wife_last_name" name="wife_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="wife_first_name">First Name:</label>
-                        <input type="text" id="wife_first_name" name="wife_first_name" required>
+                        <input type="text" id="wife_first_name" name="wife_first_name">
                     </div>
                     <div class="form-group">
                         <label for="wife_middle_name">Middle Name:</label>
-                        <input type="text" id="wife_middle_name" name="wife_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="wife_last_name">Last Name:</label>
-                        <input type="text" id="wife_last_name" name="wife_last_name" required>
+                        <input type="text" id="wife_middle_name" name="wife_middle_name" required>
                     </div>
                 </div>
 
@@ -404,33 +515,68 @@
                     <label for="date_of_marriage">Date of Marriage:</label>
                     <input type="date" id="date_of_marriage" name="date_of_marriage" required>
                 </div>
+                  <div class="form-group">
+                <label>Place of Marriage:</label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city_municipality">City/Municipality:</label>
+                        <input type="text" id="city_municipality" name="city_municipality" required>
+                    </div>
+                    <div class ="form-group">
+                        <label for="province">Province:</label>
+                        <input type="text" id="marriage_province" name="marriage_province" required>
+                    </div>
+                                </div>
+                        <div class="form-group born-abroad" style="position: relative;">
+                    <div style="position: absolute; left: 0; top: 0;">
+                        <input type="checkbox" id="born_abroad" onclick="toggleCountryField()">
+                    </div>
+                    <label for="born_abroad" style="padding-left: 25px; font-size: 14px;">Married Abroad</label>
+                </div>
+                <div class="form-group" id="country_container" style="display: none;">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" placeholder="Specify country if born abroad">
+                    <small class="hint">Please specify country if married abroad only</small>
+                </div>
+            </div>
             `;
 
         } else if (selectedService === "Marriage License") {
-              dynamicForm.innerHTML = `
-        <div class="form-group">
-            <div class="section-header">Marriage License Information</div>
-
-            
-            <!-- Applicant's Information -->
-            <div class="form-row">
+              dynamicForm.innerHTML =`
+                 <div class="section-header">Request Information</div>
                 <div class="form-group">
-                    <label for="applicant_first_name">First Name:</label>
-                    <input type="text" name="applicant_first_name" required>
-                </div>
+                 <label for="request_type">Request Type:</label>
+                 <select name="request_type" required>
+                    <option value="">Select Request Type</option>
+                    <option value="Marriage Certificate">Marriage Certificate</option>
+                    <option value="Authentication">Authentication</option>
+                    <option value="CD/LI">CD/LI</option>
+                 </select>
+                  <div class="form-group">
+                    <label for="brn">Birth Reference Number (BRN):</label>
+                    <input type="text" name="brn" maxlength="11" placeholder="0-000-0000000">
+                 </div>
+                 <div class="form-group">
+                 <div class="section-header">Marriage License Information</div>    
+                 <!-- Applicant's Information -->
+                 <div class="form-row">
+                     <div class="form-group">
+                        <label for="applicant_first_name">First Name:</label>
+                                <input type="text" name="applicant_first_name" required>
+                         </div>
 
-                <div class="form-group">
-                    <label for="applicant_middle_name">Middle Name:</label>
-                    <input type="text" name="applicant_middle_name">
-                </div>
+                         <div class="form-group">
+                             <label for="applicant_middle_name">Middle Name:</label>
+                              <input type="text" name="applicant_middle_name">
+                          </div>
 
-                <div class="form-group">
-                    <label for="applicant_last_name">Last Name:</label>
-                    <input type="text" name="applicant_last_name" required>
-                </div>
-            </div>
+                            <div class="form-group">
+                                <label for="applicant_last_name">Last Name:</label>
+                                <input type="text" name="applicant_last_name" required>
+                            </div>
+                        </div>
 
-            <!-- Spouse's Information -->
+                        <!-- Spouse's Information -->
             <div class="form-group"><strong>Spouse's Information</strong></div>
             <div class="form-row">
                 <div class="form-group">
@@ -468,33 +614,128 @@
 
         } else if (selectedService === "Death Certificate") {
             dynamicForm.innerHTML = `
+             <div class="section-header">Request Information</div>
+                <div class="form-group">
+                    <label for="request_type">Request Type:</label>
+                    <select name="request_type" required>
+                        <option value="">Select Request Type</option>
+                        <option value="Death Certificate">Death Certificate</option>
+                        <option value="Authentication">Authentication</option>
+                        <option value="CD/LI">CD/LI</option>
+                    </select>
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <label for="brn">Birth Reference Number (BRN):</label>
+                    <input type="text" name="brn" maxlength="14" placeholder="000000-0000000-0">
+                </div>
                 <div class="section-header">Deceased Information</div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="deceased_first_name">First Name:</label>
-                        <input type="text" id="deceased_first_name" name="deceased_first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="deceased_middle_name">Middle Name:</label>
-                        <input type="text" id="deceased_middle_name" name="deceased_middle_name">
-                    </div>
                     <div class="form-group">
                         <label for="deceased_last_name">Last Name:</label>
                         <input type="text" id="deceased_last_name" name="deceased_last_name" required>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="place_of_death">Place of Death:</label>
-                    <input type="text" id="place_of_death" name="place_of_death" required>
+                    <div class="form-group">
+                        <label for="deceased_first_name">First Name:</label>
+                        <input type="text" id="deceased_first_name" name="deceased_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="deceased_middle_name">Middle Name:</label>
+                        <input type="text" id="deceased_middle_name" name="deceased_middle_name" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="date_of_death">Date of Death:</label>
                     <input type="date" id="date_of_death" name="date_of_death" required>
                 </div>
+                <div class="form-group">
+                    <label>Place of Death:</label>
+                      <div class="form-group died-abroad" style="position: relative;">
+                        <div style="position: absolute; left: 0; top: 0;">
+                            <input type="checkbox" id="died_abroad" onclick="toggleCountryFieldForDeath()">
+                        </div>
+                        <label for="died_abroad" style="padding-left: 25px; font-size: 14px;">Died Abroad</label>
+                    </div>
+                    <div class="form-group" id="country_container" style="display: none;">
+                        <label for="country">Country:</label>
+                        <input type="text" id="country" name="country" placeholder="Specify country if died abroad">
+                        <small class="hint">Please specify country if death occurred abroad only.</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="death_city_municipality">City/Municipality:</label>
+                            <input type="text" id="death_city_municipality" name="death_city_municipality" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="death_province">Province:</label>
+                            <input type="text" id="death_province" name="death_province" required>
+                        </div>
+                    </div>
+                </div>
+
+             
             `;
-        }
+
+        } else if (selectedService === "Cenomar") {
+    dynamicForm.innerHTML = `
+        <div class="section-header">CENOMAR Request Information</div>
+
+        <!-- Request Information for CENOMAR -->
+        <div class="form-group">
+            <label for="request_type">Request Type:</label>
+            <select name="request_type" required>
+                <option value="">Select Request Type</option>
+                <option value="">Certificate of No Marriage (CENOMAR)</option>
+                <option value="Viewable Online">Viewable Online</option>
+                <option value="DocPrint">DocPrint</option>
+            </select>
+        </div>
+           <div class="form-group">
+                    <label for="brn">Birth Reference Number (BRN):</label>
+                    <input type="text" name="brn" maxlength="14" placeholder="000000-0000000-0">
+            </div>
+                     <div class="section-header">Family Background</div>
+
+                <!-- Mother's Information -->
+                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mother_last_name">First Name:</label>
+                        <input type="text" id="mother_last_name" name="mother_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_first_name">Middle Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Last Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
+                    </div>
+                </div>
+
+                <!-- Father's Information -->
+                <div class="form-group"><strong>Father's Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="father_last_name">First Name:</label>
+                        <input type="text" id="father_last_name" name="father_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="father_first_name">Middle Name:</label>
+                        <input type="text" id="father_first_name" name="father_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="father_middle_name">Last Name:</label>
+                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                    </div>
+                </div> 
+    `;
+}
     }
+
+    
 </script>
 
 </body>

@@ -173,7 +173,7 @@
        
 
 
-        <button type="submit">Submit Appointment</button>
+        <button type="submit" id="submit_button">Submit Appointment</button>
     </form>
 </div>
 
@@ -188,15 +188,42 @@
         url: '/appointments/unavailable-dates',
         method: 'GET',
         success: function(bookedDates) {
-            $("#appointment_date").datepicker({
-                dateFormat: 'yy-mm-dd',
-                minDate: today,
-                beforeShowDay: function(date) {
-                    var dateString = $.datepicker.formatDate('yy-mm-dd', date);
-                    return [bookedDates.indexOf(dateString) === -1];
+            let originalScrollPosition;
+
+$("#appointment_date").datepicker({
+    dateFormat: 'yy-mm-dd',
+    minDate: new Date(),
+    beforeShow: function(input, inst) {
+        originalScrollPosition = $(window).scrollTop();
+    },
+    onSelect: function(dateText, inst) {
+        setTimeout(function() {
+            $(window).scrollTop(originalScrollPosition);
+        }, 0);
+
+
+    loadAvailableSlots(dateText);
+},
+onClose: function() {
+        $(window).scrollTop(originalScrollPosition);
+    },
+
+                beforeShow: function(input, inst) {
+                    $(".form-container").css("height", "auto");
+                    $(".form-container").css("padding-bottom", "200px"); // Increase space below for the calendar
+                    $("#submit_button").css("margin-top", "250px"); // Adjust this value as needed
+                    
+                    setTimeout(function() {
+                        inst.dpDiv.css({
+                            top: $(input).offset().top + $(input).outerHeight() + 5,
+                            left: $(input).offset().left,
+                            zIndex: 1000
+                        });
+                    }, 0);
                 },
-                onSelect: function(dateText) {
-                    loadAvailableSlots(dateText);
+                onClose: function() {
+                    $(".form-container").css("padding-bottom", "200px"); // Adjust as needed
+                    $("#submit_button").css("margin-top", "20px"); // Original position
                 }
             });
         },
@@ -204,35 +231,10 @@
             console.error("Error fetching unavailable dates.");
         }
     });
-
-    function loadAvailableSlots(selectedDate) {
-        $.ajax({
-            url: '/appointments/available-slots',
-            method: 'GET',
-            data: { date: selectedDate },
-            success: function(slots) {
-                displaySlotOptions(slots);
-            },
-            error: function() {
-                console.error("Error fetching available slots.");
-            }
-        });
-    }
-
-    function displaySlotOptions(slots) {
-        var slotsHtml = '<div><strong>Select a Time Slot:</strong></div>';
-        slots.forEach(function(slot) {
-            slotsHtml += `<button type="button" onclick="selectSlot('${slot}')">${slot}</button>`;
-        });
-        $('#slot-container').html(slotsHtml);
-    }
 });
 
-// Function to set the selected slot
-function selectSlot(slot) {
-    $('#appointment_time').val(slot);
-    alert("Selected slot: " + slot);
-}
+
+
 
 
     
