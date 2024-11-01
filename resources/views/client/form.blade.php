@@ -21,17 +21,17 @@
         <div class="section-header">Applicant's Information</div>
         <div class="form-row">
             <div class="form-group">
-            <label for="first_name">First Name:</label>
-                <input type="text" name="first_name" required>
+            <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" required>
                
             </div>
             <div class="form-group">
-                <label for="middle_name">Middle Name:</label>
-                <input type="text" name="middle_name">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name">
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" name="last_name" required>
+                <label for="middle_name">Middle Name:</label>
+                <input type="text" name="middle_name" required>
 
             </div>
         </div>
@@ -108,6 +108,7 @@
                 <option value="Marriage Certificate">Marriage Certificate</option>
                 <option value="Marriage License">Marriage License</option>
                 <option value="Death Certificate">Death Certificate</option>
+                <option value="Cenomar">Cenomar</option>
                 <option value="Other">Other (Specify)</option>
             </select>
         </div>
@@ -260,16 +261,16 @@ onClose: function() {
                 <div class="section-header">Child Information</div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="child_last_name">last Name:</label>
+                        <input type="text" id="child_last_name" name="child_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="child_first_name">First Name:</label>
-                        <input type="text" id="child_first_name" name="child_first_name" required>
+                        <input type="text" id="child_first_name" name="child_first_name">
                     </div>
                     <div class="form-group">
                         <label for="child_middle_name">Middle Name:</label>
-                        <input type="text" id="child_middle_name" name="child_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="child_last_name">Last Name:</label>
-                        <input type="text" id="child_last_name" name="child_last_name" required>
+                        <input type="text" id="child_middle_name" name="child_middle_name" required>
                     </div>
                 </div>
 
@@ -284,37 +285,36 @@ onClose: function() {
 
                 <div class="section-header">Family Background</div>
 
-                <!-- Mother's Information -->
-                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="mother_first_name">First Name:</label>
-                        <input type="text" id="mother_first_name" name="mother_first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_middle_name">Middle Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_last_name">Last Name:</label>
-                        <input type="text" id="mother_last_name" name="mother_last_name" required>
-                    </div>
-                </div>
-
                 <!-- Father's Information -->
                 <div class="form-group"><strong>Father's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="father_last_name">Last Name:</label>
+                        <input type="text" id="father_last_name" name="father_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="father_first_name">First Name:</label>
-                        <input type="text" id="father_first_name" name="father_first_name" required>
+                        <input type="text" id="father_first_name" name="father_first_name">
                     </div>
                     <div class="form-group">
                         <label for="father_middle_name">Middle Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name">
+                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                    </div>
+                </div>
+                     <!-- Mother's Information -->
+                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mother_last_name">Last Name:</label>
+                        <input type="text" id="mother_last_name" name="mother_last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="father_last_name">Last Name:</label>
-                        <input type="text" id="father_last_name" name="father_last_name" required>
+                        <label for="mother_first_name">First Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Middle Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
                     </div>
                 </div>
             `;
@@ -322,37 +322,36 @@ onClose: function() {
         } else if (selectedService === "Marriage Certificate") {
             dynamicForm.innerHTML = `
                 <div class="section-header">Marriage Information</div>
-                <!-- Husband's Information -->
+                   <!-- Husband's Information -->
                 <div class="form-group"><strong>Husband's Name</strong></div>
                 <div class="form-row">
-                    <div class="form-group">
-                        <label for="husband_first_name">First Name:</label>
-                        <input type="text" id="husband_first_name" name="husband_first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="husband_middle_name">Middle Name:</label>
-                        <input type="text" id="husband_middle_name" name="husband_middle_name">
-                    </div>
                     <div class="form-group">
                         <label for="husband_last_name">Last Name:</label>
                         <input type="text" id="husband_last_name" name="husband_last_name" required>
                     </div>
+                    <div class="form-group">
+                        <label for="husband_first_name">First Name:</label>
+                        <input type="text" id="husband_first_name" name="husband_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="husband_middle_name">Middle Name:</label>
+                        <input type="text" id="husband_middle_name" name="husband_middle_name" required>
+                    </div>
                 </div>
-
-                <!-- Wife's Information -->
+                 <!-- Wife's Information -->
                 <div class="form-group"><strong>Wife's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="wife_last_name">Last Name:</label>
+                        <input type="text" id="wife_last_name" name="wife_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="wife_first_name">First Name:</label>
-                        <input type="text" id="wife_first_name" name="wife_first_name" required>
+                        <input type="text" id="wife_first_name" name="wife_first_name">
                     </div>
                     <div class="form-group">
                         <label for="wife_middle_name">Middle Name:</label>
-                        <input type="text" id="wife_middle_name" name="wife_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="wife_last_name">Last Name:</label>
-                        <input type="text" id="wife_last_name" name="wife_last_name" required>
+                        <input type="text" id="wife_middle_name" name="wife_middle_name" required>
                     </div>
                 </div>
 
@@ -371,18 +370,18 @@ onClose: function() {
             <!-- Applicant's Information -->
             <div class="form-row">
                 <div class="form-group">
+                    <label for="applicant_last_name">Last Name:</label>
+                    <input type="text" name="applicant_last_name" required>
+                </div>
+
+                <div class="form-group">
                     <label for="applicant_first_name">First Name:</label>
-                    <input type="text" name="applicant_first_name" required>
+                    <input type="text" name="applicant_first_name">
                 </div>
 
                 <div class="form-group">
                     <label for="applicant_middle_name">Middle Name:</label>
-                    <input type="text" name="applicant_middle_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="applicant_last_name">Last Name:</label>
-                    <input type="text" name="applicant_last_name" required>
+                    <input type="text" name="applicant_middle_name" required>
                 </div>
             </div>
 
@@ -390,18 +389,18 @@ onClose: function() {
             <div class="form-group"><strong>Spouse's Information</strong></div>
             <div class="form-row">
                 <div class="form-group">
+                    <label for="spouse_last_name">Last Name:</label>
+                    <input type="text" name="spouse_last_name" required>
+                </div>
+
+                <div class="form-group">
                     <label for="spouse_first_name">First Name:</label>
-                    <input type="text" name="spouse_first_name" required>
+                    <input type="text" name="spouse_first_name">
                 </div>
 
                 <div class="form-group">
                     <label for="spouse_middle_name">Middle Name:</label>
-                    <input type="text" name="spouse_middle_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="spouse_last_name">Last Name:</label>
-                    <input type="text" name="spouse_last_name" required>
+                    <input type="text" name="spouse_middle_name" required>
                 </div>
             </div>
 
@@ -427,16 +426,16 @@ onClose: function() {
                 <div class="section-header">Deceased Information</div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label for="deceased_last_name">Last Name:</label>
+                        <input type="text" id="deceased_last_name" name="deceased_last_name" required>
+                    </div>
+                    <div class="form-group">
                         <label for="deceased_first_name">First Name:</label>
-                        <input type="text" id="deceased_first_name" name="deceased_first_name" required>
+                        <input type="text" id="deceased_first_name" name="deceased_first_name">
                     </div>
                     <div class="form-group">
                         <label for="deceased_middle_name">Middle Name:</label>
-                        <input type="text" id="deceased_middle_name" name="deceased_middle_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="deceased_last_name">Last Name:</label>
-                        <input type="text" id="deceased_last_name" name="deceased_last_name" required>
+                        <input type="text" id="deceased_middle_name" name="deceased_middle_name" required>
                     </div>
                 </div>
 
@@ -449,6 +448,59 @@ onClose: function() {
                     <input type="date" id="date_of_death" name="date_of_death" required>
                 </div>
             `;
+        } else if (selectedService === "Cenomar") {
+    dynamicForm.innerHTML = `
+        <div class="section-header">CENOMAR Request Information</div>
+
+        <!-- Request Information for CENOMAR -->
+        <div class="form-group">
+            <label for="request_type">Request Type:</label>
+            <select name="request_type" required>
+                <option value="">Select Request Type</option>
+                <option value="">Certificate of No Marriage (CENOMAR)</option>
+                <option value="Viewable Online">Viewable Online</option>
+                <option value="DocPrint">DocPrint</option>
+            </select>
+        </div>
+           <div class="form-group">
+                    <label for="brn">Birth Reference Number (BRN):</label>
+                    <input type="text" name="brn" maxlength="14" placeholder="000000-0000000-0">
+            </div>
+                     <div class="section-header">Family Background</div>
+                <!-- Father's Information -->
+                <div class="form-group"><strong>Father's Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="father_last_name">First Name:</label>
+                        <input type="text" id="father_last_name" name="father_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="father_first_name">Middle Name:</label>
+                        <input type="text" id="father_first_name" name="father_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="father_middle_name">Last Name:</label>
+                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                    </div>
+                </div> 
+                    <!-- Mother's Information -->
+                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mother_last_name">First Name:</label>
+                        <input type="text" id="mother_last_name" name="mother_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_first_name">Middle Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Last Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
+                    </div>
+                </div>
+
+    `;
         }
     }
 </script>
