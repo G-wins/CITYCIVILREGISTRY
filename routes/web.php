@@ -5,7 +5,15 @@ use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AdminController;
+use App\Http\Middleware\AdminMiddleware;
 
+Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.dashboard');
+
+
+Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
 // Default welcome route
 Route::get('/', function () {
