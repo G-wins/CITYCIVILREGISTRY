@@ -446,24 +446,6 @@ function toggleCountryFieldForDeath() {
                     </div>
                 </div>
               
-        <div class="section-header">Conforme</div>
-        <div class="form-group">
-            <label for="requester_signature">Requester's or Authorized Representative's Signature:</label>
-            <input type="text" name="requester_signature" placeholder="Signature over Printed Name" required>
-        </div>
-        <div class="form-group">
-            <label for="government_id_no">Government-Issued ID No.:</label>
-            <input type="text" name="government_id_no" required>
-        </div>
-        <div class="section-header">Acknowledgement of Receipt</div>
-        <div class="form-group">
-            <label for="received_by">Received by:</label>
-            <input type="text" name="received_by" placeholder="Signature over Printed Name" required>
-        </div>
-        <div class="form-group">
-            <label for="date_received">Date Received:</label>
-            <input type="date" name="date_received" required>
-        </div>
             `;
     
         } else if (selectedService === "Marriage Certificate") {

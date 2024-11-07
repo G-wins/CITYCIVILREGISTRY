@@ -1,12 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        #confirmation_modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            max-height: 80vh; /* Limit the height to 80% of the viewport */
+            overflow-y: auto; /* Enable vertical scrolling */
+            margin: 0 auto;
+            position: relative;
+            padding-right: 10px; /* Extra padding for scrollbar */
+        }
+        #close_modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+
+    </style>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Civil Registry</title>
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -14,9 +48,9 @@
 <body>
 <div class="form-container">
     <h2>CITY CIVIL REGISTRY</h2>
-    <form action="{{ url('/appointment') }}" method="POST">
+    <form id="appointment_form" action="{{ url('/appointment') }}" method="POST">
         @csrf
-
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <!-- Basic Information -->
         <div class="section-header">Applicant's Information</div>
         <div class="form-row">
@@ -31,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label for="middle_name">Middle Name:</label>
-                <input type="text" name="middle_name" required>
+                <input type="text" name="middle_name">
 
             </div>
         </div>
@@ -174,11 +208,141 @@
        
 
 
-        <button type="submit" id="submit_button">Submit Appointment</button>
+        <button type="button" id="submit_btn" class="btn btn-primary w-100 py-2 mt-2" onclick="showConfirmation()">Next</button>
+        <div id="confirmation_modal" style="display:none;">
+            <div class="modal-content bg-light">
+                <span id="close_modal" onclick="closeModal()">X</span>
+                <h2>Confirm Your Information</h2>
+                <div id="modal_data"></div>
+                <button class="btn btn-primary w-100 py-2 mt-2" onclick="submitForm()">Confirm and Submit</button>
+            </div>
+        </div>
     </form>
 </div>
-
+ 
 <script>
+   var isSubmitting = false;
+
+// Function to show the confirmation modal
+function showConfirmation() {
+    var missingFields = validateRequiredFields();
+    if (missingFields.length > 0) {
+        showWarningMessage(missingFields);
+        return;
+    }
+
+    var formData = collectFormData();
+    var modalData = document.getElementById("modal_data");
+    modalData.innerHTML = ''; 
+
+    for (let key in formData) {
+        if (formData[key]) {
+            modalData.innerHTML += `<p><strong>${key}:</strong> ${formData[key]}</p>`;
+        }
+    }
+
+    document.getElementById("confirmation_modal").style.display = "flex";
+}
+
+// Function to validate required fields
+function validateRequiredFields() {
+    var formElements = document.getElementById("appointment_form").elements;
+    var missingFields = [];
+
+    for (let i = 0; i < formElements.length; i++) {
+        var element = formElements[i];
+        if (element.hasAttribute("required") && !element.value.trim()) {
+            missingFields.push(element.name);
+        }
+    }
+
+    return missingFields;
+}
+
+// Function to show warning message
+function showWarningMessage(missingFields) {
+    var existingAlert = document.querySelector(".alert-warning");
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+
+    var warningMessage = "Please fill in the following required fields:\n" + missingFields.join(", ");
+    var alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-warning mt-3";
+    alertDiv.role = "alert";
+    alertDiv.innerHTML = warningMessage;
+
+    var form = document.getElementById("appointment_form");
+    form.parentNode.insertBefore(alertDiv, form);
+}
+
+// Function to collect form data
+function collectFormData() {
+    var formData = {};
+    var formElements = document.getElementById("appointment_form").elements;
+
+    for (let i = 0; i < formElements.length; i++) {
+        var element = formElements[i];
+        if (element.name && element.value && element.name !== "_token") {
+            formData[element.name] = element.value;
+        }
+    }
+
+    return formData;
+}
+
+// Function to submit the form
+function submitForm() {
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    // Disable the confirm button to prevent re-clicking
+    document.getElementById("confirm_button").disabled = true;
+
+    var formData = new FormData(document.getElementById('appointment_form'));
+
+    $.ajax({
+        url: "{{ route('appointment.store') }}",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            document.getElementById("confirmation_modal").style.display = "none";
+            document.getElementById("appointment_form").style.display = "none";
+            document.getElementById("thankYouMessage").style.display = "block";
+            isSubmitting = false;
+        },
+        error: function(xhr, status, error) {
+            console.log("Status: " + status);
+            console.log("Error: " + error);
+            console.log("Response Text: " + xhr.responseText);
+
+            alert('Something went wrong. Please try again.');
+            isSubmitting = false;
+
+            // Re-enable the confirm button if there's an error
+            document.getElementById("confirm_button").disabled = false;
+        }
+    });
+}
+
+// Attach event listeners
+document.getElementById("submit_btn").addEventListener("click", function(event) {
+    event.preventDefault();
+    showConfirmation();
+});
+
+
+// Close modal function
+function closeModal() {
+    document.getElementById("confirmation_modal").style.display = "none";
+}
+
+
+
+
 
     //APPOINTMENT CALENDAR
     $(function() {
@@ -191,48 +355,48 @@
         success: function(bookedDates) {
             let originalScrollPosition;
 
-$("#appointment_date").datepicker({
-    dateFormat: 'yy-mm-dd',
-    minDate: new Date(),
-    beforeShow: function(input, inst) {
-        originalScrollPosition = $(window).scrollTop();
-    },
-    onSelect: function(dateText, inst) {
-        setTimeout(function() {
-            $(window).scrollTop(originalScrollPosition);
-        }, 0);
-
-
-    loadAvailableSlots(dateText);
-},
-onClose: function() {
-        $(window).scrollTop(originalScrollPosition);
-    },
-
-                beforeShow: function(input, inst) {
-                    $(".form-container").css("height", "auto");
-                    $(".form-container").css("padding-bottom", "200px"); // Increase space below for the calendar
-                    $("#submit_button").css("margin-top", "250px"); // Adjust this value as needed
-                    
-                    setTimeout(function() {
-                        inst.dpDiv.css({
-                            top: $(input).offset().top + $(input).outerHeight() + 5,
-                            left: $(input).offset().left,
-                            zIndex: 1000
-                        });
-                    }, 0);
-                },
-                onClose: function() {
-                    $(".form-container").css("padding-bottom", "200px"); // Adjust as needed
-                    $("#submit_button").css("margin-top", "20px"); // Original position
-                }
-            });
+    $("#appointment_date").datepicker({
+        dateFormat: 'yy-mm-dd',
+        minDate: new Date(),
+        beforeShow: function(input, inst) {
+            originalScrollPosition = $(window).scrollTop();
         },
-        error: function() {
-            console.error("Error fetching unavailable dates.");
-        }
+        onSelect: function(dateText, inst) {
+            setTimeout(function() {
+                $(window).scrollTop(originalScrollPosition);
+            }, 0);
+
+
+        loadAvailableSlots(dateText);
+    },
+    onClose: function() {
+            $(window).scrollTop(originalScrollPosition);
+        },
+
+                    beforeShow: function(input, inst) {
+                        $(".form-container").css("height", "auto");
+                        $(".form-container").css("padding-bottom", "200px"); // Increase space below for the calendar
+                        $("#submit_button").css("margin-top", "250px"); // Adjust this value as needed
+                        
+                        setTimeout(function() {
+                            inst.dpDiv.css({
+                                top: $(input).offset().top + $(input).outerHeight() + 5,
+                                left: $(input).offset().left,
+                                zIndex: 1000
+                            });
+                        }, 0);
+                    },
+                    onClose: function() {
+                        $(".form-container").css("padding-bottom", "200px"); // Adjust as needed
+                        $("#submit_button").css("margin-top", "20px"); // Original position
+                    }
+                });
+            },
+            error: function() {
+                console.error("Error fetching unavailable dates.");
+            }
+        });
     });
-});
 
 
 
@@ -270,7 +434,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="child_middle_name">Middle Name:</label>
-                        <input type="text" id="child_middle_name" name="child_middle_name" required>
+                        <input type="text" id="child_middle_name" name="child_middle_name">
                     </div>
                 </div>
 
@@ -298,7 +462,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="father_middle_name">Middle Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                        <input type="text" id="father_middle_name" name="father_middle_name">
                     </div>
                 </div>
                      <!-- Mother's Information -->
@@ -314,7 +478,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="mother_middle_name">Middle Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name">
                     </div>
                 </div>
             `;
@@ -335,7 +499,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="husband_middle_name">Middle Name:</label>
-                        <input type="text" id="husband_middle_name" name="husband_middle_name" required>
+                        <input type="text" id="husband_middle_name" name="husband_middle_name">
                     </div>
                 </div>
                  <!-- Wife's Information -->
@@ -351,7 +515,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="wife_middle_name">Middle Name:</label>
-                        <input type="text" id="wife_middle_name" name="wife_middle_name" required>
+                        <input type="text" id="wife_middle_name" name="wife_middle_name">
                     </div>
                 </div>
 
@@ -363,60 +527,62 @@ onClose: function() {
 
         } else if (selectedService === "Marriage License") {
               dynamicForm.innerHTML = `
-        <div class="form-group">
-            <div class="section-header">Marriage License Information</div>
+            <div class="form-group">
+                <div class="section-header">Marriage License Information</div>
 
-            
-            <!-- Applicant's Information -->
-            <div class="form-row">
+                
+                <!-- Applicant's Information -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="applicant_last_name">Last Name:</label>
+                        <input type="text" name="applicant_last_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicant_first_name">First Name:</label>
+                        <input type="text" name="applicant_first_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="applicant_middle_name">Middle Name:</label>
+                        <input type="text" name="applicant_middle_name">
+                    </div>
+                </div>
+
+                <!-- Spouse's Information -->
+                <div class="form-group"><strong>Spouse's Information</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="spouse_last_name">Last Name:</label>
+                        <input type="text" name="spouse_last_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spouse_first_name">First Name:</label>
+                        <input type="text" name="spouse_first_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="spouse_middle_name">Middle Name:</label>
+                        <input type="text" name="spouse_middle_name">
+                    </div>
+                </div>
+
+                <!-- Planned Date and Place of Marriage -->
+                <div class="form-group"><strong>Marriage Details</strong></div>
                 <div class="form-group">
-                    <label for="applicant_last_name">Last Name:</label>
-                    <input type="text" name="applicant_last_name" required>
-                </div>
+                        <label for="planned_date_of_marriage">Planned Date of Marriage:</label>
+                        <input type="date" id="planned_date_of_marriage" name="planned_date_of_marriage" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="applicant_first_name">First Name:</label>
-                    <input type="text" name="applicant_first_name">
+                    <div class="form-group">
+                        <label for="place_of_marriage">Place of Marriage:</label>
+                        <input type="text" name="place_of_marriage" required>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="applicant_middle_name">Middle Name:</label>
-                    <input type="text" name="applicant_middle_name" required>
-                </div>
-            </div>
-
-            <!-- Spouse's Information -->
-            <div class="form-group"><strong>Spouse's Information</strong></div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="spouse_last_name">Last Name:</label>
-                    <input type="text" name="spouse_last_name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="spouse_first_name">First Name:</label>
-                    <input type="text" name="spouse_first_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="spouse_middle_name">Middle Name:</label>
-                    <input type="text" name="spouse_middle_name" required>
-                </div>
-            </div>
-
-            <!-- Planned Date and Place of Marriage -->
-            <div class="form-group"><strong>Marriage Details</strong></div>
-             <div class="form-group">
-                    <label for="planned_date_of_marriage">Planned Date of Marriage:</label>
-                    <input type="date" id="planned_date_of_marriage" name="planned_date_of_marriage" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="place_of_marriage">Place of Marriage:</label>
-                    <input type="text" name="place_of_marriage" required>
-                </div>
-            </div>
-    `;
+        
+        
+                `;
         
            
             document.getElementById("planned_date_of_marriage").setAttribute('min', today);
@@ -435,7 +601,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="deceased_middle_name">Middle Name:</label>
-                        <input type="text" id="deceased_middle_name" name="deceased_middle_name" required>
+                        <input type="text" id="deceased_middle_name" name="deceased_middle_name">
                     </div>
                 </div>
 
@@ -480,7 +646,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="father_middle_name">Last Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                        <input type="text" id="father_middle_name" name="father_middle_name">
                     </div>
                 </div> 
                     <!-- Mother's Information -->
@@ -496,7 +662,7 @@ onClose: function() {
                     </div>
                     <div class="form-group">
                         <label for="mother_middle_name">Last Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name">
                     </div>
                 </div>
 

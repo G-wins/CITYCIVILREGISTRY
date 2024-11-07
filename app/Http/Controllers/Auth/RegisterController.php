@@ -19,31 +19,29 @@ class RegisterController extends Controller
     }
 
     public function register(Request $request)
-    {
-        // Validation ng data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-        
-        
+{
+    // Validation ng data
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+    ]);
 
-        // Create the user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'is_admin' => true, 
-        ]);
+    // Create the user
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'is_admin' => true, 
+    ]);
 
-        // Fire event para sa verification
-        event(new Registered($user));
+    // Fire event para sa verification
+    event(new Registered($user));
 
-        // Auto login pagkatapos mag-register
+    // Auto login pagkatapos mag-register
     auth::login($user);
 
-        // Redirect sa dashboard or verification
-        return redirect('/email/verify');
-    }
+    // Redirect sa dashboard
+    return redirect()->route('dashboard');
+}
 }

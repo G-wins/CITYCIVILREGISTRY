@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerificationController;
 use App\Http\Controllers\ProfileController;
@@ -7,7 +8,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
+use App\Models\Appointment; 
 
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.dashboard');
 
 
@@ -44,9 +48,9 @@ Route::get('/client/form', function () {
 })->name('client.form');
 
 
-// Dashboard route with auth and verification
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $appointments = Appointment::all(); // Kunin lahat ng appointments
+    return view('dashboard', compact('appointments')); // I-pass ang appointments data sa view
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Profile routes under 'auth' middleware
