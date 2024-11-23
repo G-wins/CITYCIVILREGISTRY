@@ -9,15 +9,22 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Models\Appointment; 
+use App\Http\Controllers\NewAppointmentController; 
+
+Route::get('/appointment/create', [NewAppointmentController::class, 'create'])->name('new-appointment.create');
+Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
+Route::get('/appointments/unavailable-dates', [NewAppointmentController::class, 'unavailableDates'])->name('appointments.unavailable-dates');
+Route::post('/appointments/available-slots', [NewAppointmentController::class, 'availableSlots'])->name('appointments.available-slots');
+
+
+
+Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
+
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.dashboard');
 
-
-Route::middleware(['auth', AdminMiddleware::class])->group(function () {
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
-});
 
 // Default welcome route
 Route::get('/', function () {

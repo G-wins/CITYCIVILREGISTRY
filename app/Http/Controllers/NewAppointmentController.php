@@ -16,16 +16,19 @@ class NewAppointmentController extends Controller
     
         public function store(Request $request)
         {
+
+        
+            
             $request->validate([
-                'last_name' => 'required|string|max:255',
-                'first_name' => 'nullable|string|max:255',
-                'middle_name' => 'required|string|max:255',
-                'mailing_address' => 'required|string|max:255',
-                'city_municipality' => 'required|string|max:255',
-                'province' => 'required|string|max:255',
+                'requester_last_name' => 'required|string|max:255',
+                'requester_first_name' => 'nullable|string|max:255',
+                'requester_middle_name' => 'required|string|max:255',
+                'requester_mailing_address' => 'required|string|max:255',
+                'requester_city_municipality' => 'required|string|max:255',
+                'requester_province' => 'required|string|max:255',
                 'contact_no' => 'required|digits:10',
-                'sex' => 'required',
-                'age' => 'required|integer|min:1|max:120',
+                'requester_sex' => 'required',
+                'requester_age' => 'required|integer|min:1|max:120',
                 'appointment_type' => 'required',
                 'appointment_date' => 'required|date|after_or_equal:today',
                 'requesting_party' => 'required|string|max:255',
@@ -34,22 +37,33 @@ class NewAppointmentController extends Controller
                 'delayed' => 'required|in:Yes,No',
                 'delayed_date' => 'nullable|date|after_or_equal:today',
             ]);
+
+            // Determine the table dynamically based on appointment_type
+            $modelClass = $this->getModelClass($request->input('appointment_type'));
+
+            if (!$modelClass) {
+                return redirect()->back()->withErrors(['appointment_type' => 'Mali o invalid na appointment type']);
+            }
     
-            $appointment = new Appointment();
-            $appointment->last_name = $request->input('last_name');
-            $appointment->first_name = $request->input('first_name'); 
-            $appointment->middle_name = $request->input('middle_name');
-            $appointment->mailing_address = $request->input('mailing_address');
-            $appointment->city_municipality = $request->input('city_municipality');
-            $appointment->province = $request->input('province');
-            $appointment->contact_no = $request->input('contact_no');
-            $appointment->sex = $request->input('sex');
-            $appointment->age = $request->input('age');
-            $appointment->appointment_type = $request->input('appointment_type');
-            $appointment->appointment_date = $request->input('appointment_date');
-            $appointment->reference_number = uniqid('REF-');
-            $appointment->status = 'Pending';
-            $appointment->attended = false;
+            $appointment = new $modelClass();
+            $appointment->fill($request->only([
+                'requester_last_name',
+                'requester_first_name',
+                'requester_middle_name',
+                'requester_mailing_address',
+                'requester_city_municipality',
+                'requester_province',
+                'contact_no',
+                'requester_sex',
+                'requester_age',
+                'appointment_date',
+                'requesting_party',
+                'relationship_to_owner',
+                'purpose',
+                'delayed',
+                'delayed_date',
+            ]));
+
     
             switch ($request->input('appointment_type')) {
                 case 'Birth Certificate':
@@ -62,134 +76,192 @@ class NewAppointmentController extends Controller
                         'child_middle_name' => 'nullable|string|max:255',
                         'child_sex' => 'required',
                         'date_of_birth' => 'required|date',
-                        'place_of_birth' => 'required|string|max:255',
-                        'father_last_name' => 'required|string|max:255',
-                        'father_first_name' => 'nullable|string|max:255',
-                        'father_middle_name' => 'nullable|string|max:255',
-                        'mother_last_name' => 'required|string|max:255',
-                        'mother_first_name' => 'nullable|string|max:255',
-                        'mother_middle_name' => 'nullable|string|max:255',
+                        'place_of_birth_city_municipality' => 'required|string|max:255',
+                        'place_of_birth_province' => 'required|string|max:255',
                         'born_abroad' => 'sometimes|boolean',
                         'country' => 'required_if:born_abroad,true|string|max:255',
+                        'father_last_name' => 'required|string|max:255',
+                        'father_first_name' => 'required|string|max:255',
+                        'father_middle_name' => 'nullable|string|max:255',
+                        'mother_last_name' => 'required|string|max:255',
+                        'mother_first_name' => 'required|string|max:255',
+                        'mother_middle_name' => 'nullable|string|max:255',
                     ]);
-                    $appointment->request_type = $request->input('request_type');
-                    $appointment->certificate_of_conversion = $request->input('certificate_of_conversion');
-                    $appointment->brn = $request->input('brn');
-                    $appointment->child_last_name = $request->input('child_last_name');
-                    $appointment->child_first_name = $request->input('child_first_name');
-                    $appointment->child_middle_name = $request->input('child_middle_name');
-                    $appointment->child_sex = $request->input('child_sex');
-                    $appointment->date_of_birth = $request->input('date_of_birth');
-                    $appointment->place_of_birth = $request->input('place_of_birth');
-                    $appointment->father_last_name = $request->input('father_last_name');
-                    $appointment->father_first_name = $request->input('father_first_name');
-                    $appointment->father_middle_name = $request->input('father_middle_name');
-                    $appointment->mother_last_name = $request->input('mother_last_name');
-                    $appointment->mother_first_name = $request->input('mother_first_name');
-                    $appointment->mother_middle_name = $request->input('mother_middle_name');
-                    $appointment->born_abroad = $request->input('born_abroad', false);
-                    $appointment->country = $request->input('country');
+
+                    $appointment->fill($request->only([
+                        'request_type',
+                        'certificate_of_conversion',
+                        'brn',
+                        'child_last_name',
+                        'child_first_name',
+                        'child_middle_name',
+                        'child_sex',
+                        'date_of_birth',
+                        'born_abroad',
+                        'country',
+                        'place_of_birth_city_municipality',
+                        'place_of_birth_province',
+                        'father_last_name',
+                        'father_first_name',
+                        'father_middle_name',
+                        'mother_last_name',
+                        'mother_first_name',
+                        'mother_middle_name',
+
+                    ]));
                     break;
+
     
                 case 'Marriage Certificate':
+
                     $request->validate([
                         'request_type' => 'required|string|max:255',
                         'husband_last_name' => 'required|string|max:255',
-                        'husband_first_name' => 'nullable|string|max:255',
+                        'husband_first_name' => 'required|string|max:255',
                         'husband_middle_name' => 'nullable|string|max:255',
                         'wife_last_name' => 'required|string|max:255',
-                        'wife_first_name' => 'nullable|string|max:255',
+                        'wife_first_name' => 'required|string|max:255',
                         'wife_middle_name' => 'nullable|string|max:255',
                         'date_of_marriage' => 'required|date',
                         'married_abroad' => 'sometimes|boolean',
                         'country' => 'required_if:married_abroad,true|string|max:255',
+                        'marriage_city_municipality' => 'required|string|max:255',
+                        'marriage_province' => 'required|string|max:255',
                     ]);
-                    $appointment->request_type = $request->input('request_type');
-                    $appointment->husband_last_name = $request->input('husband_last_name');
-                    $appointment->husband_first_name = $request->input('husband_first_name');
-                    $appointment->husband_middle_name = $request->input('husband_middle_name');
-                    $appointment->wife_last_name = $request->input('wife_last_name');
-                    $appointment->wife_first_name = $request->input('wife_first_name');
-                    $appointment->wife_middle_name = $request->input('wife_middle_name');
-                    $appointment->date_of_marriage = $request->input('date_of_marriage');
-                    $appointment->married_abroad = $request->input('married_abroad', false);
-                    $appointment->country = $request->input('country');
+                    $appointment->fill($request->only([
+                        'request_type',
+                        'husband_last_name',
+                        'husband_first_name',
+                        'husband_middle_name',
+                        'wife_last_name',
+                        'wife_first_name',
+                        'wife_middle_name',
+                        'date_of_marriage',
+                        'married_abroad',
+                        'country',
+                        'marriage_city_municipality',
+                        'marriage_province',
+                        
+                    ]));
                     break;
+    
     
                 case 'Marriage License':
                     $request->validate([
-                        'request_type' => 'required|string|max:255',
-                        'brn' => 'nullable|string|max:11',
-                        'applicant_last_name' => 'required|string|max:255',
-                        'applicant_first_name' => 'nullable|string|max:255',
-                        'applicant_middle_name' => 'nullable|string|max:255',
-                        'spouse_last_name' => 'required|string|max:255',
-                        'spouse_first_name' => 'nullable|string|max:255',
-                        'spouse_middle_name' => 'nullable|string|max:255',
-                        'planned_date_of_marriage' => 'required|date|after_or_equal:today',
-                        'place_of_marriage' => 'required|string|max:255',
+                    'request_type' => 'required|string|max:255',
+                    'brn' => 'nullable|string|max:11',
+                    'applicant_last_name' => 'required|string|max:255',
+                    'applicant_first_name' => 'required|string|max:255',
+                    'applicant_middle_name' => 'nullable|string|max:255',
+                    'spouse_last_name' => 'required|string|max:255',
+                    'spouse_first_name' => 'required|string|max:255',
+                    'spouse_middle_name' => 'nullable|string|max:255',
+                    'planned_date_of_marriage' => 'required|date|after_or_equal:today',
+                    'place_of_marriage' => 'required|string|max:255',
                     ]);
-                    $appointment->request_type = $request->input('request_type');
-                    $appointment->brn = $request->input('brn');
-                    $appointment->applicant_last_name = $request->input('applicant_last_name');
-                    $appointment->applicant_first_name = $request->input('applicant_first_name');
-                    $appointment->applicant_middle_name = $request->input('applicant_middle_name');
-                    $appointment->spouse_last_name = $request->input('spouse_last_name');
-                    $appointment->spouse_first_name = $request->input('spouse_first_name');
-                    $appointment->spouse_middle_name = $request->input('spouse_middle_name');
-                    $appointment->planned_date_of_marriage = $request->input('planned_date_of_marriage');
-                    $appointment->place_of_marriage = $request->input('place_of_marriage');
+                  
+                    $appointment->fill($request->only([
+                        'request_type',
+                        'brn',
+                        'applicant_last_name',
+                        'applicant_first_name',
+                        'applicant_middle_name',
+                        'spouse_last_name',
+                        'spouse_first_name',
+                        'spouse_middle_name',
+                        'planned_date_of_marriage',
+                        'place_of_marriage',
+
+                        
+                    ]));
                     break;
-    
+
                 case 'Death Certificate':
                     $request->validate([
                         'request_type' => 'required|string|max:255',
                         'brn' => 'nullable|string|max:14',
                         'deceased_last_name' => 'required|string|max:255',
-                        'deceased_first_name' => 'nullable|string|max:255',
+                        'deceased_first_name' => 'required|string|max:255',
                         'deceased_middle_name' => 'nullable|string|max:255',
                         'date_of_death' => 'required|date',
-                        'place_of_death' => 'required|string|max:255',
                         'died_abroad' => 'sometimes|boolean',
                         'country' => 'required_if:died_abroad,true|string|max:255',
+                        'death_city_municipality' => 'required|string|max:255',
+                        'death_province' => 'required|string|max:255',
                     ]);
-                    $appointment->request_type = $request->input('request_type');
-                    $appointment->brn = $request->input('brn');
-                    $appointment->deceased_last_name = $request->input('deceased_last_name');
-                    $appointment->deceased_first_name = $request->input('deceased_first_name');
-                    $appointment->deceased_middle_name = $request->input('deceased_middle_name');
-                    $appointment->date_of_death = $request->input('date_of_death');
-                    $appointment->place_of_death = $request->input('place_of_death');
-                    $appointment->died_abroad = $request->input('died_abroad', false);
-                    $appointment->country = $request->input('country');
+                    $appointment->fill($request->only([
+                        'request_type',
+                        'brn',
+                        'deceased_last_name',
+                        'deceased_first_name',
+                        'deceased_middle_name',
+                        'date_of_death',
+                        'died_abroad',
+                        'country',
+                        'death_city_municipality',
+                        'death_province',
+                    ]));
                     break;
+
+
+
     
                 case 'Cenomar':
                     $request->validate([
-                        'request_type' => 'required|string|max:255',
-                        'brn' => 'nullable|string|max:14',
-                        'father_last_name' => 'required|string|max:255',
-                        'father_first_name' => 'nullable|string|max:255',
-                        'father_middle_name' => 'nullable|string|max:255',
-                        'mother_last_name' => 'required|string|max:255',
-                        'mother_first_name' => 'nullable|string|max:255',
-                        'mother_middle_name' => 'nullable|string|max:255',
-                    ]);
-                    $appointment->request_type = $request->input('request_type');
-                    $appointment->brn = $request->input('brn');
-                    $appointment->father_last_name = $request->input('father_last_name');
-                    $appointment->father_first_name = $request->input('father_first_name');
-                    $appointment->father_middle_name = $request->input('father_middle_name');
-                    $appointment->mother_last_name = $request->input('mother_last_name');
-                    $appointment->mother_first_name = $request->input('mother_first_name');
-                    $appointment->mother_middle_name = $request->input('mother_middle_name');
-                    break;
-    
+                    'request_type' => 'required|string|max:255',
+                    'brn' => 'nullable|string|max:14',
+                    'person_last_name' => 'required|string|max:255',
+                    'person_first_name' => 'required|string|max:255',
+                    'person_middle_name' => 'nullable|string|max:255',
+                    'person_sex' => 'required|string',
+                    'date_of_birth' => 'required|date',
+                    'born_abroad' => 'sometimes|boolean',
+                    'country' => 'required_if:born_abroad,true|string|max:255',
+                    'person_city_municipality' => 'required|string|max:255',
+                    'person_province' => 'required|string|max:255',
+                    'father_last_name' => 'required|string|max:255',
+                    'father_first_name' => 'required|string|max:255',
+                    'father_middle_name' => 'nullable|string|max:255',
+                    'mother_last_name' => 'required|string|max:255',
+                    'mother_first_name' => 'required|string|max:255',
+                    'mother_middle_name' => 'nullable|string|max:255',
+                ]);
+                    
+                $appointment->fill($request->only([
+                    'request_type', 
+                    'brn', 
+                    'person_last_name', 
+                    'person_first_name', 
+                    'person_middle_name', 
+                    'person_sex', 
+                    'date_of_birth', 
+                    'born_abroad', 
+                    'country',
+                    'person_city_municipality', 
+                    'person_province',
+                    'father_last_name', 
+                    'father_first_name', 
+                    'father_middle_name', 
+                    'mother_last_name', 
+                    'mother_first_name', 
+                    'mother_middle_name'
+                ]));
+                break;
+
+
+
+
                 case 'Other':
                     $request->validate([
                         'other_document' => 'required|string|max:255',
+                        'document_details' => 'required|string',
                     ]);
+
+
+
                     $appointment->other_document = $request->input('other_document');
+                    $appointment->document_details = $request->input('document_details'); // Assign the new field
+
                     break;
             }
     
@@ -204,11 +276,16 @@ class NewAppointmentController extends Controller
             $now = Carbon::now('Asia/Manila');
             $appointment->created_at = $now->format('Y-m-d h:i:s A');
             $appointment->updated_at = $now->format('Y-m-d h:i:s A');
+
+            $appointment->reference_number = 'REF-' . strtoupper(uniqid());
+
     
             $appointment->save();
     
             return redirect('/appointment')->with('success', 'Appointment created successfully!');
         }
+
+        
     
         public function unavailableDates()
         {
@@ -230,7 +307,27 @@ class NewAppointmentController extends Controller
                 'AM' => $amSlots > 0 ? $amSlots : 'Full',
                 'PM' => $pmSlots > 0 ? $pmSlots : 'Full'
             ]);
+
+        }
+    // Determine model based on appointment_type
+    private function getModelClass($appointmentType)
+    {
+        switch ($appointmentType) {
+            case 'Birth Certificate':
+                return \App\Models\AppointmentBirthCertificate::class;
+            case 'Marriage Certificate':
+                return \App\Models\AppointmentMarriageCertificate::class;
+            case 'Marriage License':
+                return \App\Models\AppointmentMarriageLicense::class;
+            case 'Death Certificate':
+                return \App\Models\AppointmentDeathCertificate::class;
+            case 'Cenomar':
+                return \App\Models\AppointmentCenomar::class;
+            case 'Other Document':
+                return \App\Models\AppointmentOtherDocument::class;
+            default:
+                return null;
+        }
         }
     }
     
-

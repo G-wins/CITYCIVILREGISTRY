@@ -15,7 +15,7 @@ class RegisterController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('auth.register');  // Tignan natin kung mayroon nang view na ito, o mag-generate tayo ng form.
+        return view('auth.register');  
     }
 
     public function register(Request $request)

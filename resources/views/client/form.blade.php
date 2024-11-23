@@ -169,7 +169,7 @@
              <input type="text" id="purpose" name="purpose" required><br>
         </div>
         <div class="form-group">
-    <label>Delayed Registration:</label>
+    <label>Late Registration:</label>
         <div class="radio-group">
             <input type="radio" id="delayed_yes" name="delayed" value="Yes" onclick="toggleDelayedDate()" required>
             <label for="delayed_yes">Yes</label>
@@ -179,7 +179,7 @@
     </div>
                
                 <div class="form-group" id="delayed_date_container" style="display:none;">
-                    <label for="delayed_date">Delayed Date:</label>
+                    <label for="delayed_date">Late Registration Date:</label>
                     <input type="date" id="delayed_date" name="delayed_date">
                 </div>
                 <script>

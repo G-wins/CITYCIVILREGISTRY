@@ -14,44 +14,44 @@
 <body>
 <div class="form-container">
     <h2>CITY CIVIL REGISTRY</h2>
-    <form action="{{ url('/appointment') }}" method="POST">
+    <form action="{{ route('new-appointment.store') }}" method="POST">
         @csrf
 
         <!-- Basic Information -->
-        <div class="section-header">Applicant's Information</div>
+        <div class="section-header">Requester's Details</div>
         <div class="form-row">
             <div class="form-group">
-            <label for="first_name">First Name:</label>
-                <input type="text" name="first_name" required>
+            <label for="requester_last_name">Last Name:</label>
+                <input type="text" name="requester_last_name" required>
                
             </div>
             <div class="form-group">
-                <label for="middle_name">Middle Name:</label>
-                <input type="text" name="middle_name">
+                <label for="requester_first_name">First Name:</label>
+                <input type="text" name="requester_first_name">
             </div>
             <div class="form-group">
-                <label for="last_name">Last Name:</label>
-                <input type="text" name="last_name" required>
+                <label for="requester_middle_name">Middle Name:</label>
+                <input type="text" name="requester_middle_name" required>
 
             </div>
         </div>
 
         <div class="form-group">
-        <label for="mailing_address">Mailing Address:</label>
-        <input type="text" id="mailing_address" name="mailing_address" placeholder="House No., Street Name / Barangay" required>
+        <label for="requester_mailing_address">Mailing Address:</label>
+        <input type="text" id="requester_mailing_address" name="requester_mailing_address" placeholder="House No., Street Name / Barangay" required>
         <small class="hint">House No., Street Name / Barangay</small>
     </div>
     <div class="form-row">
                 <!-- City/Municipality Field -->
                 <div class="form-group">
-                    <label for="city_municipality">City/Municipality:</label>
-                    <input type="text" id="city_municipality" name="city_municipality" required>
+                    <label for="requester_city_municipality">City/Municipality:</label>
+                    <input type="text" id="requester_city_municipality" name="requester_city_municipality" required>
                 </div>
 
                 <!-- Province Field -->
                 <div class="form-group">
-                    <label for="province">Province:</label>
-                    <input type="text" id="province" name="province" required>
+                    <label for="requester_province">Province:</label>
+                    <input type="text" id="requester_province" name="requester_province" required>
                 </div>
             </div>
     
@@ -83,20 +83,19 @@
                 </script>
             </div>
             <div class="form-group">
-                <label for="sex">Sex:</label>
-                <select name="sex" required>
-                    <option value="">Select</option>
+                <label for="requester_sex">Sex:</label>
+                <select name="requester_sex" required>
+                    <option value="" selected disabled>Select</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
-                    <option value="lgbtq">LGBTQ</option>
                 </select>
             </div>
             <div class="form-group">
-            <label for="age">Age:</label>
-            <input type="number" name="age" id="age" min="1" max="120" required oninput="checkAgeLimit()">
+            <label for="requester_age">Age:</label>
+            <input type="number" name="requester_age" id="requester_age" min="1" max="120" required oninput="checkAgeLimit()">
             <script>
                     function checkAgeLimit() {
-                        var ageInput = document.getElementById("age");
+                        var ageInput = document.getElementById("requester_age");
                         if (ageInput.value > 120) {
                             ageInput.value = 120;
                         }
@@ -104,7 +103,7 @@
                             ageInput.value = 1;
                         }
                     }
-                    document.getElementById("age").addEventListener("input", function() {
+                    document.getElementById("requester_age").addEventListener("input", function() {
                         var value = this.value;
                         if (value > 120) {
                             this.value = 120;
@@ -120,7 +119,7 @@
         <div class="form-group">
             <label for="appointment_type">Document Service Needed:</label>
             <select id="appointment_type" name="appointment_type" onchange="showForm()" required>
-                <option value="">Select Service</option>
+                <option value="" selected disabled>Select Service</option>
                 <option value="Birth Certificate">Birth Certificate</option>
                 <option value="Marriage Certificate">Marriage Certificate</option>
                 <option value="Marriage License">Marriage License</option>
@@ -151,7 +150,7 @@
                     <div class="form-group">
                         <label for="purpose">Purpose:</label>
                         <select name="purpose" id="purpose" onchange="toggleOtherPurpose()" required>
-                            <option value="">Select Purpose</option>
+                            <option value="" selected disabled>Select Purpose</option>
                             <option value="Claim Benefits/Loan">Claim Benefits/Loan</option>
                             <option value="Employment (Local)">Employment (Local)</option>
                             <option value="School Requirements">School Requirements</option>
@@ -197,16 +196,7 @@
         </div>
         <div id="slot-container"></div>
         
-         <!-- Privacy Notice Section -->
-         <div class="section-header">Privacy Notice</div>
-        <div class="form-group">
-            <p>1. I declare that I am the document owner/duly-authorized representative of the document owner whose information appears in this application form.</p>
-            <p>2. I give my consent to the processing of the above information subject to the exemptions provided by the Data Privacy Act and other applicable laws and regulations.</p>
-            <p>3. I trust that the above information shall remain confidential and shall only be retained for as long as necessary for the fulfillment of the declared purpose, or when processing is relevant to such purpose, in strict accordance with PSA’s records retention policy.</p>
-            <p>4. I further affirm that all the statements/information that appear in this application form are true, correct, and complete to the best of my knowledge and belief.</p>
-            <label>
-                <input type="checkbox" name="privacy_agreement" required> I agree to the Privacy Notice and the processing of my information.
-            </label>
+      
 
         <button type="submit" id="submit_button">Submit Appointment</button>
     </form>
@@ -252,7 +242,7 @@ onClose: function() {
                         inst.dpDiv.css({
                             top: $(input).offset().top + $(input).outerHeight() + 5,
                             left: $(input).offset().left,
-                            zIndex: 1000
+                            Index: 1000
                         });
                     }, 0);
                 },
@@ -314,6 +304,9 @@ function toggleCountryFieldForDeath() {
         var selectedService = document.getElementById("appointment_type").value;
         var dynamicForm = document.getElementById("dynamic_form");
         var otherDocumentField = document.getElementById("other_document_field");
+       
+      
+    
 
         dynamicForm.innerHTML = ""; 
 
@@ -329,7 +322,7 @@ function toggleCountryFieldForDeath() {
                 <div class="form-group">
                     <label for="request_type">Request Type:</label>
                     <select name="request_type" required>
-                        <option value="">Select Request Type</option>
+                        <option value="" selected disabled>Select Request Type</option>
                         <option value="Copy Issuance">Copy Issuance</option>
                         <option value="Authentication">Authentication</option>
                         <option value="Viewable Online">Viewable Online</option>
@@ -371,7 +364,7 @@ function toggleCountryFieldForDeath() {
                  <div class="form-group">
                     <label>Sex:</label>
                     <select name="child_sex" required>
-                        <option value="">Select</option>
+                        <option value="" selected disabled>Select</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                     </select>
@@ -393,7 +386,7 @@ function toggleCountryFieldForDeath() {
                 <!-- Country Field (Visible if Born Abroad is checked) -->
                 <div class="form-group" id="country_container" style="display: none;">
                     <label for="country">Country:</label>
-                    <input type="text" id="country" name="country" placeholder="Specify country if born abroad">
+                    <input type="text" id="country" name="country" placeholder="Please specify country if born abroad">
                     <small class="hint">Please specify country if born abroad only.</small>
                 </div>
             </div>
@@ -401,51 +394,50 @@ function toggleCountryFieldForDeath() {
             <div class="form-row">
                 <!-- City/Municipality Field -->
                 <div class="form-group">
-                    <label for="city_municipality">City/Municipality:</label>
-                    <input type="text" id="city_municipality" name="city_municipality" required>
+                    <label for="place_of_birth_city_municipality">City/Municipality:</label>
+                    <input type="text" id="place_of_birth_city_municipality" name="place_of_birth_city_municipality" required>
                 </div>
 
                 <!-- Province Field -->
                 <div class="form-group">
-                    <label for="province">Province:</label>
-                    <input type="text" id="province" name="province" required>
+                    <label for="place_of_birth_province">Province:</label>
+                    <input type="text" id="place_of_birth_province" name="place_of_birth_province" required>
                 </div>
             </div>
                 <div class="section-header">Family Background</div>
-                <!-- Mother's Information -->
-                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="mother_last_name">First Name:</label>
-                        <input type="text" id="mother_last_name" name="mother_last_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_first_name">Middle Name:</label>
-                        <input type="text" id="mother_first_name" name="mother_first_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="mother_middle_name">Last Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
-                    </div>
-                </div>
 
                 <!-- Father's Information -->
                 <div class="form-group"><strong>Father's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="father_last_name">First Name:</label>
+                        <label for="father_last_name">Last Name:</label>
                         <input type="text" id="father_last_name" name="father_last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="father_first_name">Middle Name:</label>
-                        <input type="text" id="father_first_name" name="father_first_name">
+                        <label for="father_first_name">First Name:</label>
+                        <input type="text" id="father_first_name" name="father_first_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="father_middle_name">Last Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                        <label for="father_middle_name">Middle Name:</label>
+                        <input type="text" id="father_middle_name" name="father_middle_name">
                     </div>
                 </div>
-              
+                <!-- Mother's Information -->
+                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mother_last_name">Last Name:</label>
+                        <input type="text" id="mother_last_name" name="mother_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_first_name">First Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Middle Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name">
+                    </div>
+                </div>
             `;
     
         } else if (selectedService === "Marriage Certificate") {
@@ -454,13 +446,13 @@ function toggleCountryFieldForDeath() {
                 <div class="form-group">
                     <label for="request_type">Request Type:</label>
                     <select name="request_type" required>
-                        <option value="">Select Request Type</option>
+                        <option value="" selected disabled>Select Request Type</option>
                         <option value="Marriage Certificate">Marriage Certificate</option>
                         <option value="Authentication">Authentication</option>
                         <option value="CD/LI">CD/LI</option>
                     </select>
                 <div class="section-header">Marriage Information</div>
-                <div class="form-group"><strong>Husband's Name</strong></div>
+                <div class="form-group"><strong>NAME OF HUSBAND</strong></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="husband_last_name">Last Name:</label>
@@ -468,16 +460,16 @@ function toggleCountryFieldForDeath() {
                     </div>
                     <div class="form-group">
                         <label for="husband_first_name">First Name:</label>
-                        <input type="text" id="husband_first_name" name="husband_first_name">
+                        <input type="text" id="husband_first_name" name="husband_first_name" required>
                     </div>
                     <div class="form-group">
                         <label for="husband_middle_name">Middle Name:</label>
-                        <input type="text" id="husband_middle_name" name="husband_middle_name" required>
+                        <input type="text" id="husband_middle_name" name="husband_middle_name">
                     </div>
                 </div>
 
                 <!-- Wife's Information -->
-                <div class="form-group"><strong>Wife's Name</strong></div>
+                <div class="form-group"><strong>MAIDEN NAME OF WIFE</strong></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="wife_last_name">Last Name:</label>
@@ -485,11 +477,11 @@ function toggleCountryFieldForDeath() {
                     </div>
                     <div class="form-group">
                         <label for="wife_first_name">First Name:</label>
-                        <input type="text" id="wife_first_name" name="wife_first_name">
+                        <input type="text" id="wife_first_name" name="wife_first_name" required>
                     </div>
                     <div class="form-group">
                         <label for="wife_middle_name">Middle Name:</label>
-                        <input type="text" id="wife_middle_name" name="wife_middle_name" required>
+                        <input type="text" id="wife_middle_name" name="wife_middle_name">
                     </div>
                 </div>
 
@@ -499,17 +491,7 @@ function toggleCountryFieldForDeath() {
                 </div>
                   <div class="form-group">
                 <label>Place of Marriage:</label>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="city_municipality">City/Municipality:</label>
-                        <input type="text" id="city_municipality" name="city_municipality" required>
-                    </div>
-                    <div class ="form-group">
-                        <label for="province">Province:</label>
-                        <input type="text" id="marriage_province" name="marriage_province" required>
-                    </div>
-                                </div>
-                        <div class="form-group born-abroad" style="position: relative;">
+                 <div class="form-group born-abroad" style="position: relative;">
                     <div style="position: absolute; left: 0; top: 0;">
                         <input type="checkbox" id="born_abroad" onclick="toggleCountryField()">
                     </div>
@@ -517,10 +499,21 @@ function toggleCountryFieldForDeath() {
                 </div>
                 <div class="form-group" id="country_container" style="display: none;">
                     <label for="country">Country:</label>
-                    <input type="text" id="country" name="country" placeholder="Specify country if born abroad">
+                    <input type="text" id="country" name="country" placeholder="Please specify country if married abroad">
                     <small class="hint">Please specify country if married abroad only</small>
                 </div>
             </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="marriage_city_municipality">City/Municipality:</label>
+                        <input type="text" id="marriage_city_municipality" name="marriage_city_municipality" required>
+                    </div>
+                    <div class ="form-group">
+                        <label for="marriage_province">Province:</label>
+                        <input type="text" id="marriage_province" name="marriage_province" required>
+                    </div>
+                  </div>
+                       
             `;
 
         } else if (selectedService === "Marriage License") {
@@ -529,11 +522,13 @@ function toggleCountryFieldForDeath() {
                 <div class="form-group">
                  <label for="request_type">Request Type:</label>
                  <select name="request_type" required>
-                    <option value="">Select Request Type</option>
+                    <option value="" selected disabled>Select Request Type</option>
                     <option value="Marriage Certificate">Marriage Certificate</option>
                     <option value="Authentication">Authentication</option>
                     <option value="CD/LI">CD/LI</option>
                  </select>
+                 </div>
+                 
                   <div class="form-group">
                     <label for="brn">Birth Reference Number (BRN):</label>
                     <input type="text" name="brn" maxlength="11" placeholder="0-000-0000000">
@@ -543,24 +538,29 @@ function toggleCountryFieldForDeath() {
                  <!-- Applicant's Information -->
                  <div class="form-row">
                      <div class="form-group">
-                        <label for="applicant_first_name">First Name:</label>
-                                <input type="text" name="applicant_first_name" required>
+                        <label for="applicant_last_name">Last Name:</label>
+                                <input type="text" name="applicant_last_name" required>
                          </div>
 
                          <div class="form-group">
-                             <label for="applicant_middle_name">Middle Name:</label>
-                              <input type="text" name="applicant_middle_name">
+                             <label for="applicant_first_name">First Name:</label>
+                              <input type="text" name="applicant_first_name" required>
                           </div>
 
                             <div class="form-group">
-                                <label for="applicant_last_name">Last Name:</label>
-                                <input type="text" name="applicant_last_name" required>
+                                <label for="applicant_middle_name">Middle Name:</label>
+                                <input type="text" name="applicant_middle_name">
                             </div>
                         </div>
 
                         <!-- Spouse's Information -->
             <div class="form-group"><strong>Spouse's Information</strong></div>
             <div class="form-row">
+                <div class="form-group">
+                    <label for="spouse_last_name">Last Name:</label>
+                    <input type="text" name="spouse_last_name" required>
+                </div>
+
                 <div class="form-group">
                     <label for="spouse_first_name">First Name:</label>
                     <input type="text" name="spouse_first_name" required>
@@ -569,11 +569,6 @@ function toggleCountryFieldForDeath() {
                 <div class="form-group">
                     <label for="spouse_middle_name">Middle Name:</label>
                     <input type="text" name="spouse_middle_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="spouse_last_name">Last Name:</label>
-                    <input type="text" name="spouse_last_name" required>
                 </div>
             </div>
 
@@ -600,7 +595,7 @@ function toggleCountryFieldForDeath() {
                 <div class="form-group">
                     <label for="request_type">Request Type:</label>
                     <select name="request_type" required>
-                        <option value="">Select Request Type</option>
+                        <option value="" selected disabled>Select Request Type</option>
                         <option value="Death Certificate">Death Certificate</option>
                         <option value="Authentication">Authentication</option>
                         <option value="CD/LI">CD/LI</option>
@@ -620,11 +615,11 @@ function toggleCountryFieldForDeath() {
                     </div>
                     <div class="form-group">
                         <label for="deceased_first_name">First Name:</label>
-                        <input type="text" id="deceased_first_name" name="deceased_first_name">
+                        <input type="text" id="deceased_first_name" name="deceased_first_name" required>
                     </div>
                     <div class="form-group">
                         <label for="deceased_middle_name">Middle Name:</label>
-                        <input type="text" id="deceased_middle_name" name="deceased_middle_name" required>
+                        <input type="text" id="deceased_middle_name" name="deceased_middle_name">
                     </div>
                 </div>
                 <div class="form-group">
@@ -641,7 +636,7 @@ function toggleCountryFieldForDeath() {
                     </div>
                     <div class="form-group" id="country_container" style="display: none;">
                         <label for="country">Country:</label>
-                        <input type="text" id="country" name="country" placeholder="Specify country if died abroad">
+                        <input type="text" id="country" name="country" placeholder="Please specify country if died abroad">
                         <small class="hint">Please specify country if death occurred abroad only.</small>
                     </div>
 
@@ -668,7 +663,7 @@ function toggleCountryFieldForDeath() {
         <div class="form-group">
             <label for="request_type">Request Type:</label>
             <select name="request_type" required>
-                <option value="">Select Request Type</option>
+                <option value="" selected disabled>Select Request Type</option>
                 <option value="">Certificate of No Marriage (CENOMAR)</option>
                 <option value="Viewable Online">Viewable Online</option>
                 <option value="DocPrint">DocPrint</option>
@@ -678,42 +673,115 @@ function toggleCountryFieldForDeath() {
                     <label for="brn">Birth Reference Number (BRN):</label>
                     <input type="text" name="brn" maxlength="14" placeholder="000000-0000000-0">
             </div>
-                     <div class="section-header">Family Background</div>
-
-                <!-- Mother's Information -->
-                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
-                <div class="form-row">
+             <div class="section-header">BIRTH DETAILS</div>
+                <h4>Person's Information</h4>
                     <div class="form-group">
-                        <label for="mother_last_name">First Name:</label>
-                        <input type="text" id="mother_last_name" name="mother_last_name" required>
+                        <label for="person_last_name">Last Name: (if female, last name before marriage)</label>
+                        <input type="text" name="person_last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="mother_first_name">Middle Name:</label>
-                        <input type="text" id="mother_first_name" name="mother_first_name">
+                        <label for="person_first_name">First Name: (include JR., SR., II, III, IV, etc., if applicable)</label>
+                        <input type="text" name="person_first_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="mother_middle_name">Last Name:</label>
-                        <input type="text" id="mother_middle_name" name="mother_middle_name" required>
+                        <label for="person_middle_name">Middle Name: (if female, middle name before marriage)</label>
+                        <input type="text" name="person_middle_name">
                     </div>
                 </div>
+                 <div class="form-group">
+                    <label>Sex:</label>
+                    <select name="person_sex" required>
+                        <option value="" selected disabled>Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="date_of_birth">Date of Birth:</label>
+                    <input type="date" id="date_of_birth" name="date_of_birth" required>
+                </div>
+                
+                <!-- Born Abroad Checkbox -->
+                <label>Place of Birth</label>
+                <div class="form-group born-abroad" style="position: relative;">
+                    <div style="position: absolute; left: 0; top: 0;">
+                        <input type="checkbox" id="born_abroad" onclick="toggleCountryField()">
+                    </div>
+                    <label for="born_abroad" style="padding-left: 25px; font-size: 14px;">Born Abroad</label>
+                </div>
+
+                <!-- Country Field (Visible if Born Abroad is checked) -->
+                <div class="form-group" id="country_container" style="display: none;">
+                    <label for="country">Country:</label>
+                    <input type="text" id="country" name="country" placeholder="Please specify country if born abroad">
+                    <small class="hint">Please specify country if born abroad only.</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <!-- City/Municipality Field -->
+                <div class="form-group">
+                    <label for="person_city_municipality">City/Municipality:</label>
+                    <input type="text" id="person_city_municipality" name="person_city_municipality" required>
+                </div>
+
+                <!-- Province Field -->
+                <div class="form-group">
+                    <label for="person_province">Province:</label>
+                    <input type="text" id="person_province" name="person_province" required>
+                </div>
+            </div>
+                     <div class="section-header">Family Background</div>
 
                 <!-- Father's Information -->
                 <div class="form-group"><strong>Father's Name</strong></div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="father_last_name">First Name:</label>
+                        <label for="father_last_name">Last Name:</label>
                         <input type="text" id="father_last_name" name="father_last_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="father_first_name">Middle Name:</label>
-                        <input type="text" id="father_first_name" name="father_first_name">
+                        <label for="father_first_name">First Name:</label>
+                        <input type="text" id="father_first_name" name="father_first_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="father_middle_name">Last Name:</label>
-                        <input type="text" id="father_middle_name" name="father_middle_name" required>
+                        <label for="father_middle_name">Middle Name:</label>
+                        <input type="text" id="father_middle_name" name="father_middle_name">
                     </div>
                 </div> 
+
+                 <!-- Mother's Information -->
+                <div class="form-group"><strong>Mother's Maiden Name</strong></div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="mother_last_name">Last Name:</label>
+                        <input type="text" id="mother_last_name" name="mother_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_first_name">First Name:</label>
+                        <input type="text" id="mother_first_name" name="mother_first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mother_middle_name">Middle Name:</label>
+                        <input type="text" id="mother_middle_name" name="mother_middle_name">
+                    </div>
+                </div>
     `;
+
+            } else if (selectedService === "Other") {
+                dynamicForm.innerHTML = `
+                    <div class="section-header">Other Document Information</div>
+
+                    <!-- Document Details -->
+                    <div class="form-group">
+                        <label for="document_details">Document Details:</label>
+                        <textarea id="document_details" name="document_details" rows="4" placeholder="Provide additional details about the document" required></textarea>
+                    </div>
+
+
+                     
+            `;
+
 }
     }
 
