@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
 class AppointmentOtherDocument extends Model
 {
     use HasFactory;
@@ -13,8 +14,7 @@ class AppointmentOtherDocument extends Model
 
 
     protected $fillable = [
-        // General fields for all appointments
-        'other_document',
+        // General appointment fields
         'requester_last_name',
         'requester_first_name',
         'requester_middle_name',
@@ -25,14 +25,21 @@ class AppointmentOtherDocument extends Model
         'requester_sex',
         'requester_age',
         'appointment_type',
+       
+        // Specific fields for "Other Document"
         'other_document',
         'document_details',
+
         'requesting_party',
         'relationship_to_owner',
         'purpose',
         'delayed',
         'delayed_date',
         'appointment_date',
+        'reference_number',
+        'status',
+        'attended',
+
        
     ];
 
@@ -40,3 +47,5 @@ class AppointmentOtherDocument extends Model
         'delayed' => 'boolean',
     ];
 }
+  
+

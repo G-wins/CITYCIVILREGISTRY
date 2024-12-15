@@ -248,22 +248,27 @@ class NewAppointmentController extends Controller
                 ]));
                 break;
 
-
-
-
-                case 'Other':
+                case 'Other Document':
                     $request->validate([
                         'other_document' => 'required|string|max:255',
-                        'document_details' => 'required|string',
-                    ]);
+                        'document_details' => 'required|string|max:5000',
+                    
+                ]);
+
+                $appointment->fill($request->only([
+                    'other_document',
+                    'document_details',
+                   
+                ]));
+                break;
 
 
+               
+                    
 
-                    $appointment->other_document = $request->input('other_document');
-                    $appointment->document_details = $request->input('document_details'); // Assign the new field
-
-                    break;
             }
+
+
     
             $appointment->requesting_party = $request->input('requesting_party');
             $appointment->relationship_to_owner = $request->input('relationship_to_owner');

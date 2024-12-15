@@ -125,16 +125,11 @@
                 <option value="Marriage License">Marriage License</option>
                 <option value="Death Certificate">Death Certificate</option>
                 <option value="Cenomar">Cenomar</option>
-                <option value="Other">Other (Specify)</option>
+                <option value="Other Document">Other (Specify)</option>
             </select>
         </div>
 
-        <!-- Field for "Other" document type -->
-        <div id="other_document_field" class="form-group" style="display:none;">
-            <label for="other_document">Specify Document:</label>
-            <input type="text" id="other_document" name="other_document">
-        </div>
-
+       
         <div id="dynamic_form"></div>
         <div class="form-group">
             <label for="requesting_party">Requesting Party:</label>
@@ -303,18 +298,11 @@ function toggleCountryFieldForDeath() {
     function showForm() {
         var selectedService = document.getElementById("appointment_type").value;
         var dynamicForm = document.getElementById("dynamic_form");
-        var otherDocumentField = document.getElementById("other_document_field");
        
       
     
 
-        dynamicForm.innerHTML = ""; 
-
-        if (selectedService === "Other") {
-            otherDocumentField.style.display = "block";
-        } else {
-            otherDocumentField.style.display = "none";
-        }
+      
 
         if (selectedService === "Birth Certificate") {
             dynamicForm.innerHTML = `  
@@ -768,18 +756,19 @@ function toggleCountryFieldForDeath() {
                 </div>
     `;
 
-            } else if (selectedService === "Other") {
+            } else if (selectedService === "Other Document") {
                 dynamicForm.innerHTML = `
-                    <div class="section-header">Other Document Information</div>
+                
+                  <div class="form-group">
+                    <label for="other_document">Specify Document:</label>
+                    <input type="text" id="other_document" name="other_document" placeholder="e.g., Barangay Clearance" required>
+                </div>
 
-                    <!-- Document Details -->
-                    <div class="form-group">
-                        <label for="document_details">Document Details:</label>
-                        <textarea id="document_details" name="document_details" rows="4" placeholder="Provide additional details about the document" required></textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="document_details">Document Details:</label>
+                    <textarea id="document_details" name="document_details" rows="4" placeholder="Provide additional details about the document" required></textarea>
+                </div>
 
-
-                     
             `;
 
 }
