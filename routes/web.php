@@ -55,10 +55,10 @@ Route::get('/client/form', function () {
 })->name('client.form');
 
 
-Route::get('/dashboard', function () {
-    $appointments = Appointment::all(); // Kunin lahat ng appointments
-    return view('dashboard', compact('appointments')); // I-pass ang appointments data sa view
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
 
 // Profile routes under 'auth' middleware
 Route::middleware('auth')->group(function () {

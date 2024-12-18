@@ -14,22 +14,22 @@
                     <!-- Tabs -->
                     <ul class="flex border-b">
                         <li class="-mb-px mr-1">
-                            <a href="#birthCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Birth Certificate</a>
+                            <a href="#birthCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Birth Certificates</a>
                         </li>
                         <li class="-mb-px mr-1">
-                            <a href="#marraigeCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Marraige Certificate</a>
+                            <a href="#marriageCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Marriage Certificates</a>
                         </li>
                         <li class="-mb-px mr-1">
-                            <a href="#marraigeLicense" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Marraige License</a>
+                            <a href="#marriageLicense" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Marriage License</a>
                         </li>
                         <li class="-mb-px mr-1">
-                            <a href="#deathCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Death Certificate</a>
+                            <a href="#deathCertificate" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Death Certificates</a>
                         </li>
                         <li class="-mb-px mr-1">
                             <a href="#cenomar" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Cenomar</a>
                         </li>
                         <li class="-mb-px mr-1">
-                            <a href="#appointments" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Others</a>
+                            <a href="#otherDocument" class="bg-white inline-block py-2 px-4 text-blue-500 font-semibold hover:text-blue-800">Other Document</a>
                         </li>
                         <!-- Add more tabs as needed -->
                     </ul>
@@ -43,23 +43,26 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
+                                    <th class="border px-4 py-2">Reference Number</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
                                     @if($appointment->appointment_type === 'Birth Certificate')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div id="marraigeCertificate" class="tab-content hidden">
+                    <div id="marriageCertificate" class="tab-content hidden">
                         <table class="table-auto w-full">
                             <thead>
                                 <tr>
@@ -67,23 +70,28 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
+                                    <th class="border px-4 py-2">Reference Number</th>
+
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
                                     @if($appointment->appointment_type === 'Marriage Certificate')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div id="marraigeLicense" class="tab-content hidden">
+                    <div id="marriageLicense" class="tab-content hidden">
                         <table class="table-auto w-full">
                             <thead>
                                 <tr>
@@ -91,16 +99,20 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
+                                    <th class="border px-4 py-2">Reference Number</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
                                     @if($appointment->appointment_type === 'Marriage License')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
@@ -115,16 +127,20 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
+                                    <th class="border px-4 py-2">Reference Number</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
                                     @if($appointment->appointment_type === 'Death Certificate')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
@@ -139,23 +155,27 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
+                                    <th class="border px-4 py-2">Reference Number</th>
+
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
                                     @if($appointment->appointment_type === 'Cenomar')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-                    <div id="appointments" class="tab-content">
+                    <div id="otherDocument" class="tab-content">
                         <table class="table-auto w-full">
                             <thead>
                                 <tr>
@@ -163,16 +183,19 @@
                                     <th class="border px-4 py-2">First Name</th>
                                     <th class="border px-4 py-2">Middle Name</th>
                                     <th class="border px-4 py-2">Appointment Date</th>
-                                </tr>
+                                    <th class="border px-4 py-2">Reference Number</th>
+
                             </thead>
                             <tbody>
                                 @foreach($appointments as $appointment)
-                                    @if($appointment->appointment_type === 'Other')
+                                    @if($appointment->appointment_type === 'Other Document')
                                         <tr>
-                                            <td class="border px-4 py-2">{{ $appointment->last_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->first_name }}</td>
-                                            <td class="border px-4 py-2">{{ $appointment->middle_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_last_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_first_name }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->requester_middle_name }}</td>
                                             <td class="border px-4 py-2">{{ $appointment->appointment_date }}</td>
+                                            <td class="border px-4 py-2">{{ $appointment->reference_number }}</td>
+
                                         </tr>
                                     @endif
                                 @endforeach
