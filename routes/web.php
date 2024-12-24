@@ -16,6 +16,7 @@ Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->n
 Route::get('/appointments/unavailable-dates', [NewAppointmentController::class, 'unavailableDates'])->name('appointments.unavailable-dates');
 Route::post('/appointments/available-slots', [NewAppointmentController::class, 'availableSlots'])->name('appointments.available-slots');
 
+Route::post('/new-appointment', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
 
 
 Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->name('new-appointment.store');

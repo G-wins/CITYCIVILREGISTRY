@@ -203,50 +203,52 @@ class NewAppointmentController extends Controller
                     ]));
                     break;
 
+                    
 
+                    case 'Cenomar':
+                        $request->validate([
+                        'request_type' => 'required|string|max:255',
+                        'brn' => 'nullable|string|max:14',
+                        'person_last_name' => 'required|string|max:255',
+                        'person_first_name' => 'required|string|max:255',
+                        'person_middle_name' => 'nullable|string|max:255',
+                        'person_sex' => 'required|string',
+                        'date_of_birth' => 'required|date',
+                        'born_abroad' => 'sometimes|boolean',
+                        'country' => 'required_if:born_abroad,true|string|max:255',
+                        'person_city_municipality' => 'required|string|max:255',
+                        'person_province' => 'required|string|max:255',
+                        'father_last_name' => 'required|string|max:255',
+                        'father_first_name' => 'required|string|max:255',
+                        'father_middle_name' => 'nullable|string|max:255',
+                        'mother_last_name' => 'required|string|max:255',
+                        'mother_first_name' => 'required|string|max:255',
+                        'mother_middle_name' => 'nullable|string|max:255',
+                    ]);
+                        
+                    $appointment->fill($request->only([
+                        'request_type', 
+                        'brn', 
+                        'person_last_name', 
+                        'person_first_name', 
+                        'person_middle_name', 
+                        'person_sex', 
+                        'date_of_birth', 
+                        'born_abroad', 
+                        'country',
+                        'person_city_municipality', 
+                        'person_province',
+                        'father_last_name', 
+                        'father_first_name', 
+                        'father_middle_name', 
+                        'mother_last_name', 
+                        'mother_first_name', 
+                        'mother_middle_name'
+                    ]));
+                    break;
 
     
-                case 'Cenomar':
-                    $request->validate([
-                    'request_type' => 'required|string|max:255',
-                    'brn' => 'nullable|string|max:14',
-                    'person_last_name' => 'required|string|max:255',
-                    'person_first_name' => 'required|string|max:255',
-                    'person_middle_name' => 'nullable|string|max:255',
-                    'person_sex' => 'required|string',
-                    'date_of_birth' => 'required|date',
-                    'born_abroad' => 'sometimes|boolean',
-                    'country' => 'required_if:born_abroad,true|string|max:255',
-                    'person_city_municipality' => 'required|string|max:255',
-                    'person_province' => 'required|string|max:255',
-                    'father_last_name' => 'required|string|max:255',
-                    'father_first_name' => 'required|string|max:255',
-                    'father_middle_name' => 'nullable|string|max:255',
-                    'mother_last_name' => 'required|string|max:255',
-                    'mother_first_name' => 'required|string|max:255',
-                    'mother_middle_name' => 'nullable|string|max:255',
-                ]);
-                    
-                $appointment->fill($request->only([
-                    'request_type', 
-                    'brn', 
-                    'person_last_name', 
-                    'person_first_name', 
-                    'person_middle_name', 
-                    'person_sex', 
-                    'date_of_birth', 
-                    'born_abroad', 
-                    'country',
-                    'person_city_municipality', 
-                    'person_province',
-                    'father_last_name', 
-                    'father_first_name', 
-                    'father_middle_name', 
-                    'mother_last_name', 
-                    'mother_first_name', 
-                    'mother_middle_name'
-                ]));
-                break;
+               
 
                 case 'Other Document':
                     $request->validate([

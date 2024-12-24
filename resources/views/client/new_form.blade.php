@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+<style>
+        #confirmation_modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            max-height: 80vh; /* Limit the height to 80% of the viewport */
+            overflow-y: auto; /* Enable vertical scrolling */
+            margin: 0 auto;
+            position: relative;
+            padding-right: 10px; /* Extra padding for scrollbar */
+        }
+        #close_modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+
+    </style>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>City Civil Registry</title>
@@ -14,7 +48,7 @@
 <body>
 <div class="form-container">
     <h2>CITY CIVIL REGISTRY</h2>
-    <form action="{{ route('new-appointment.store') }}" method="POST">
+    <form id="appointment_form" action="{{ route('new-appointment.store') }}" method="POST">
         @csrf
 
         <!-- Basic Information -->
@@ -193,11 +227,141 @@
         
       
 
-        <button type="submit" id="submit_button">Submit Appointment</button>
+        <button type="button" id="submit_btn" class="btn btn-primary w-100 py-2 mt-2" onclick="showConfirmation()">Next</button>
+        <div id="confirmation_modal" style="display:none;">
+            <div class="modal-content bg-light">
+                <span id="close_modal" onclick="closeModal()">X</span>
+                <h2>Confirm Your Information</h2>
+                <div id="modal_data"></div>
+                <button class="btn btn-primary w-100 py-2 mt-2" onclick="submitForm()">Confirm and Submit</button>
+            </div>
+        </div>
     </form>
 </div>
-
+ 
 <script>
+   var isSubmitting = false;
+
+// Function to show the confirmation modal
+function showConfirmation() {
+    var missingFields = validateRequiredFields();
+    if (missingFields.length > 0) {
+        showWarningMessage(missingFields);
+        return;
+    }
+
+    var formData = collectFormData();
+    var modalData = document.getElementById("modal_data");
+    modalData.innerHTML = ''; 
+
+    for (let key in formData) {
+        if (formData[key]) {
+            modalData.innerHTML += `<p><strong>${key}:</strong> ${formData[key]}</p>`;
+        }
+    }
+
+    document.getElementById("confirmation_modal").style.display = "flex";
+}
+
+// Function to validate required fields
+function validateRequiredFields() {
+    var formElements = document.getElementById("appointment_form").elements;
+    var missingFields = [];
+
+    for (let i = 0; i < formElements.length; i++) {
+        var element = formElements[i];
+        if (element.hasAttribute("required") && !element.value.trim()) {
+            missingFields.push(element.name);
+        }
+    }
+
+    return missingFields;
+}
+
+// Function to show warning message
+function showWarningMessage(missingFields) {
+    var existingAlert = document.querySelector(".alert-warning");
+    if (existingAlert) {
+        existingAlert.remove();
+    }
+
+    var warningMessage = "Please fill in the following required fields:\n" + missingFields.join(", ");
+    var alertDiv = document.createElement("div");
+    alertDiv.className = "alert alert-warning mt-3";
+    alertDiv.role = "alert";
+    alertDiv.innerHTML = warningMessage;
+
+    var form = document.getElementById("appointment_form");
+    form.parentNode.insertBefore(alertDiv, form);
+}
+
+// Function to collect form data
+function collectFormData() {
+    var formData = {};
+    var formElements = document.getElementById("appointment_form").elements;
+
+    for (let i = 0; i < formElements.length; i++) {
+        var element = formElements[i];
+        if (element.name && element.value && element.name !== "_token") {
+            formData[element.name] = element.value;
+        }
+    }
+
+    return formData;
+}
+
+// Function to submit the form
+function submitForm() {
+    // Prevent multiple submissions
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    // Disable the confirm button to prevent re-clicking
+    document.getElementById("confirm_button").disabled = true;
+
+    var formData = new FormData(document.getElementById('appointment_form'));
+
+    $.ajax({
+        url: "{{ route('new-appointment.store') }}",
+        method: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            document.getElementById("confirmation_modal").style.display = "none";
+            document.getElementById("appointment_form").style.display = "none";
+            document.getElementById("thankYouMessage").style.display = "block";
+            isSubmitting = false;
+        },
+        error: function(xhr, status, error) {
+            console.log("Status: " + status);
+            console.log("Error: " + error);
+            console.log("Response Text: " + xhr.responseText);
+
+            alert('Something went wrong. Please try again.');
+            isSubmitting = false;
+
+            // Re-enable the confirm button if there's an error
+            document.getElementById("confirm_button").disabled = false;
+        }
+    });
+}
+
+// Attach event listeners
+document.getElementById("submit_btn").addEventListener("click", function(event) {
+    event.preventDefault();
+    showConfirmation();
+});
+
+
+// Close modal function
+function closeModal() {
+    document.getElementById("confirmation_modal").style.display = "none";
+}
+
+
+
+
 
     //APPOINTMENT CALENDAR
     $(function() {
@@ -652,7 +816,7 @@ function toggleCountryFieldForDeath() {
             <label for="request_type">Request Type:</label>
             <select name="request_type" required>
                 <option value="" selected disabled>Select Request Type</option>
-                <option value="">Certificate of No Marriage (CENOMAR)</option>
+                <option value="Certificate of No Marriage (CENOMAR)">Certificate of No Marriage (CENOMAR)</option>
                 <option value="Viewable Online">Viewable Online</option>
                 <option value="DocPrint">DocPrint</option>
             </select>
