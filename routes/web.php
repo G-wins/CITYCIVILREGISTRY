@@ -7,20 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
-use App\Http\Middleware\AdminMiddleware;
-use App\Models\Appointment; 
-use App\Http\Controllers\NewAppointmentController; 
-
-Route::get('/appointment/create', [NewAppointmentController::class, 'create'])->name('new-appointment.create');
-Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
-Route::get('/appointments/unavailable-dates', [NewAppointmentController::class, 'unavailableDates'])->name('appointments.unavailable-dates');
-Route::post('/appointments/available-slots', [NewAppointmentController::class, 'availableSlots'])->name('appointments.available-slots');
-
-Route::post('/new-appointment', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
-
-
-Route::post('/appointment/store', [NewAppointmentController::class, 'store'])->name('new-appointment.store');
-
+ 
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -34,18 +21,6 @@ Route::get('/', function () {
 Route::get('/appointments/unavailable-dates', [AppointmentController::class, 'unavailableDates']);
 Route::get('/appointments/available-slots', [AppointmentController::class, 'availableSlots']);
 
-
-Route::get('/appointment/choose', function () {
-    return view('client.index'); // Initial screen with buttons
-})->name('appointment.index');
-
-Route::get('/appointment/existing', function () {
-    return view('client.form'); // Existing Document form
-})->name('existing_document');
-
-Route::get('/appointment/new', function () {
-    return view('client.new_form'); // New Document Request form
-})->name('new_document');
 
 
 Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.form');
