@@ -7,8 +7,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
- 
+use App\Http\Controllers\NotificationController;
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+});
+
+ 
+//mark as read notification dashboard   
+Route::get('/notifications/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/admin', [AdminController::class, 'index'])->middleware('auth')->name('admin.dashboard');

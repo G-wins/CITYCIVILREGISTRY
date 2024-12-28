@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -34,6 +35,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'remember_token',
     ];
+      /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean', // Tiyakin na boolean ang is_admin
+    ];
+  /**
+     * Determine if the user is an admin.
+     *
+     * @return bool
+     */
+
+
 
     /**
      * Get the attributes that should be cast.
@@ -46,5 +63,11 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin; // Shortcut method para ma-check kung admin ang user
     }
 }

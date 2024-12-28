@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\User; 
+use App\Notifications\NewAppointmentNotification;
 
 
 class AppointmentController extends Controller
@@ -287,8 +289,18 @@ class AppointmentController extends Controller
 
         $appointment->save();
 
-        return redirect('/appointment')->with('success', 'Appointment created successfully!');
-    }
+         // **Send Notification to Admin**
+         $admin = User::where('is_admin', true)->first(); // Kunin ang admin user
+         if ($admin) {
+             $admin->notify(new NewAppointmentNotification([
+                 'name' => $appointment->requester_last_name . ', ' . $appointment->requester_first_name,
+                 'document_type' => $request->input('appointment_type'),
+                 'submitted_at' => $now->format('Y-m-d h:i:s A'),
+             ]));
+         }
+
+         return redirect('/appointment')->with('success', 'Appointment created successfully!');
+        }
 
     
 
