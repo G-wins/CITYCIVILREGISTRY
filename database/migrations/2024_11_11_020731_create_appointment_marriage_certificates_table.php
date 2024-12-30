@@ -32,7 +32,7 @@ class CreateAppointmentMarriageCertificatesTable extends Migration
             $table->string('wife_first_name');
             $table->string('wife_middle_name')->nullable();
             $table->date('date_of_marriage');
-            $table->boolean('married_abroad')->default(false);
+            $table->boolean('married_abroad')->nullable();
             $table->string('country')->nullable();
             $table->string('marriage_city_municipality');
             $table->string('marriage_province');

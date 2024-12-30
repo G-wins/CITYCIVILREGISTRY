@@ -60,11 +60,11 @@
             </div>
             <div class="form-group">
                 <label for="requester_first_name">First Name:</label>
-                <input type="text" name="requester_first_name">
+                <input type="text" name="requester_first_name"  required>
             </div>
             <div class="form-group">
                 <label for="requester_middle_name">Middle Name:</label>
-                <input type="text" name="requester_middle_name" required>
+                <input type="text" name="requester_middle_name">
 
             </div>
         </div>
@@ -642,7 +642,7 @@ function toggleCountryFieldForDeath() {
                 </div>
                   <div class="form-group">
                 <label>Place of Marriage:</label>
-                 <div class="form-group born-abroad" style="position: relative;">
+                     <div class="form-group born-abroad" style="position: relative;">
                     <div style="position: absolute; left: 0; top: 0;">
                         <input type="checkbox" id="born_abroad" onclick="toggleCountryField()">
                     </div>

@@ -32,7 +32,7 @@ class CreateAppointmentCenomarsTable extends Migration
             $table->string('person_middle_name')->nullable();
             $table->enum('person_sex', ['male', 'female']);
             $table->date('date_of_birth');
-            $table->boolean('born_abroad')->default(false);
+            $table->boolean('born_abroad')->nullable();
             $table->string('country')->nullable();
             $table->string('person_city_municipality');         
             $table->string('person_province');       

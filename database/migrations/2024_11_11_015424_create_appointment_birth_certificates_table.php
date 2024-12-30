@@ -14,7 +14,7 @@ class CreateAppointmentBirthCertificatesTable extends Migration
         
         // General appointment fields
         $table->string('requester_last_name');
-        $table->string('requester_first_name')->nullable();
+        $table->string('requester_first_name');
         $table->string('requester_middle_name')->nullable();
         $table->string('requester_mailing_address');
         $table->string('requester_city_municipality');
@@ -33,7 +33,7 @@ class CreateAppointmentBirthCertificatesTable extends Migration
         $table->string('child_middle_name')->nullable();
         $table->string('child_sex');
         $table->date('date_of_birth');
-        $table->boolean('born_abroad')->default(false);
+        $table->boolean('born_abroad')->nullable();
         $table->string('country')->nullable();
         $table->string('place_of_birth_city_municipality');
         $table->string('place_of_birth_province');
@@ -41,10 +41,10 @@ class CreateAppointmentBirthCertificatesTable extends Migration
         
         // Parent's details
         $table->string('father_last_name');
-        $table->string('father_first_name')->nullable();
+        $table->string('father_first_name');
         $table->string('father_middle_name')->nullable();
         $table->string('mother_last_name');
-        $table->string('mother_first_name')->nullable();
+        $table->string('mother_first_name');
         $table->string('mother_middle_name')->nullable();
 
         $table->string('requesting_party');

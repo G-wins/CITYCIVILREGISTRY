@@ -30,7 +30,7 @@ class CreateAppointmentDeathCertificatesTable extends Migration
         $table->string('deceased_first_name');
         $table->string('deceased_middle_name')->nullable();
         $table->date('date_of_death');
-        $table->boolean('died_abroad')->default(false);
+        $table->boolean('died_abroad')->nullable();
         $table->string('country')->nullable();
         $table->string('death_city_municipality');
         $table->string('death_province');
