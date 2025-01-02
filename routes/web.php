@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\WelcomeController;
+
+
+Route::get('/appointment-welcome', [WelcomeController::class, 'index'])->name('appointment.welcome');
+Route::get('/appointment-form', [AppointmentController::class, 'showForm'])->name('appointment.form');
+
 
 
 Route::middleware(['auth'])->group(function () {

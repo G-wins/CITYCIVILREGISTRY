@@ -43,6 +43,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="{{ asset('js/your_custom_script.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
 </head>
 <body>
 <div class="form-container">
@@ -237,126 +240,52 @@
         </div>
     </form>
 </div>
+
+
+
+
+
  
-<script>
-   var isSubmitting = false;
+    <script>
+    var isSubmitting = false;
 
-// Function to show the confirmation modal
-function showConfirmation() {
-    var missingFields = validateRequiredFields();
-    if (missingFields.length > 0) {
-        showWarningMessage(missingFields);
-        return;
+    // Function to show the confirmation modal
+    function showConfirmation() {
+        const formElements = document.querySelectorAll("#appointment_form [name]"); // Select all elements with 'name'
+        const modalData = document.getElementById("modal_data");
+        modalData.innerHTML = ''; // Clear previous data
+
+        formElements.forEach(element => {
+            if (element.type !== "hidden" && element.name !== "_token" && element.value.trim() !== "") {
+                // Append the field name (formatted) and its value to the modal
+                modalData.innerHTML += `<p><strong>${formatFieldName(element.name)}:</strong> ${element.value}</p>`;
+            }
+        });
+
+        // Show the modal
+        document.getElementById("confirmation_modal").style.display = "flex";
     }
 
-    var formData = collectFormData();
-    var modalData = document.getElementById("modal_data");
-    modalData.innerHTML = ''; 
-
-    for (let key in formData) {
-        if (formData[key]) {
-            modalData.innerHTML += `<p><strong>${key}:</strong> ${formData[key]}</p>`;
-        }
+    // Function to format field names for display
+    function formatFieldName(fieldName) {
+        // Replace underscores with spaces and capitalize the first letter of each word
+        return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
     }
 
-    document.getElementById("confirmation_modal").style.display = "flex";
-}
-
-// Function to validate required fields
-function validateRequiredFields() {
-    var formElements = document.getElementById("appointment_form").elements;
-    var missingFields = [];
-
-    for (let i = 0; i < formElements.length; i++) {
-        var element = formElements[i];
-        if (element.hasAttribute("required") && !element.value.trim()) {
-            missingFields.push(element.name);
-        }
+    // Function to submit the form
+    function submitForm() {
+        document.getElementById("appointment_form").submit();
     }
 
-    return missingFields;
-}
-
-// Function to show warning message
-function showWarningMessage(missingFields) {
-    var existingAlert = document.querySelector(".alert-warning");
-    if (existingAlert) {
-        existingAlert.remove();
+    // Close modal function
+    function closeModal() {
+        document.getElementById("confirmation_modal").style.display = "none";
     }
 
-    var warningMessage = "Please fill in the following required fields:\n" + missingFields.join(", ");
-    var alertDiv = document.createElement("div");
-    alertDiv.className = "alert alert-warning mt-3";
-    alertDiv.role = "alert";
-    alertDiv.innerHTML = warningMessage;
 
-    var form = document.getElementById("appointment_form");
-    form.parentNode.insertBefore(alertDiv, form);
-}
-
-// Function to collect form data
-function collectFormData() {
-    var formData = {};
-    var formElements = document.getElementById("appointment_form").elements;
-
-    for (let i = 0; i < formElements.length; i++) {
-        var element = formElements[i];
-        if (element.name && element.value && element.name !== "_token") {
-            formData[element.name] = element.value;
-        }
-    }
-
-    return formData;
-}
-
-// Function to submit the form
-function submitForm() {
-    // Prevent multiple submissions
-    if (isSubmitting) return;
-    isSubmitting = true;
-
-    // Disable the confirm button to prevent re-clicking
-    document.getElementById("confirm_button").disabled = true;
-
-    var formData = new FormData(document.getElementById('appointment_form'));
-
-    $.ajax({
-        url: "{{ route('appointment.store') }}",
-        method: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            document.getElementById("confirmation_modal").style.display = "none";
-            document.getElementById("appointment_form").style.display = "none";
-            document.getElementById("thankYouMessage").style.display = "block";
-            isSubmitting = false;
-        },
-        error: function(xhr, status, error) {
-            console.log("Status: " + status);
-            console.log("Error: " + error);
-            console.log("Response Text: " + xhr.responseText);
-
-            alert('Something went wrong. Please try again.');
-            isSubmitting = false;
-
-            // Re-enable the confirm button if there's an error
-            document.getElementById("confirm_button").disabled = false;
-        }
-    });
-}
-
-// Attach event listeners
-document.getElementById("submit_btn").addEventListener("click", function(event) {
-    event.preventDefault();
-    showConfirmation();
-});
+ 
 
 
-// Close modal function
-function closeModal() {
-    document.getElementById("confirmation_modal").style.display = "none";
-}
 
 
 

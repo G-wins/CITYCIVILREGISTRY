@@ -1,0 +1,64 @@
+/* External CSS */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+}
+
+.welcome-container {
+    width: 80%;
+    margin: 50px auto;
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-container h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.welcome-container p {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+.steps, .requirements {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.steps h3, .requirements h3 {
+    color: #007bff;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.steps ol, .requirements ul {
+    margin-left: 20px;
+    color: #333;
+    font-size: 1rem;
+}
+
+.steps ol li, .requirements ul li {
+    margin-bottom: 5px;
+}
+
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
