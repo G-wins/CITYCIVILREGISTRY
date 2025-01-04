@@ -32,6 +32,8 @@
             cursor: pointer;
         }
 
+        
+
 
     </style>
 <meta charset="UTF-8">
@@ -230,16 +232,36 @@
       
 
         <button type="button" id="submit_btn" class="btn btn-primary w-100 py-2 mt-2" onclick="showConfirmation()">Next</button>
-        <div id="confirmation_modal" style="display:none;">
-            <div class="modal-content bg-light">
-                <span id="close_modal" onclick="closeModal()">X</span>
-                <h2>Confirm Your Information</h2>
-                <div id="modal_data"></div>
-                <button class="btn btn-primary w-100 py-2 mt-2" onclick="submitForm()">Confirm and Submit</button>
-            </div>
-        </div>
     </form>
+
+
+   <!-- Confirmation Modal -->
+   <div id="confirmation_modal" style="display:none;">
+    <div class="modal-content bg-light">
+        <span id="close_modal" onclick="closeModal()">X</span>
+        <h2>Confirm Your Information</h2>
+        <div id="modal_data"></div>
+        <button class="btn btn-primary w-100 py-2 mt-2" onclick="proceedToPrivacyNotice()">Confirm and Submit</button>
+    </div>
 </div>
+
+
+
+<!-- Privacy Notice Modal -->
+<div id="privacy_notice_modal" style="display:none;">
+    <div class="modal-content">
+        <h2>Privacy Notice</h2>
+        <p id="privacy_notice_message">Please review the following:</p>
+        <ol>
+            <li>I declare that I am the document owner/duly-authorized representative...</li>
+            <li>I give my consent to the processing...</li>
+            <li>I trust that the above information shall remain confidential...</li>
+            <li>I further affirm that all the statements/information...</li>
+        </ol>
+        <button class="btn btn-success w-100 py-2 mt-2" onclick="finalSubmit()">I Agree and Submit</button>
+    </div>
+</div>
+
 
 
 
@@ -249,41 +271,82 @@
     <script>
     var isSubmitting = false;
 
-    // Function to show the confirmation modal
+    // Show Confirmation Modal
     function showConfirmation() {
-        const formElements = document.querySelectorAll("#appointment_form [name]"); // Select all elements with 'name'
-        const modalData = document.getElementById("modal_data");
-        modalData.innerHTML = ''; // Clear previous data
+    // Populate the confirmation modal
+    const formElements = document.querySelectorAll("#appointment_form [name]");
+    const modalData = document.getElementById("modal_data");
+    modalData.innerHTML = '';
 
-        formElements.forEach(element => {
-            if (element.type !== "hidden" && element.name !== "_token" && element.value.trim() !== "") {
-                // Append the field name (formatted) and its value to the modal
-                modalData.innerHTML += `<p><strong>${formatFieldName(element.name)}:</strong> ${element.value}</p>`;
-            }
-        });
+    formElements.forEach(element => {
+        if (element.type !== "hidden" && element.value.trim() !== "") {
+            modalData.innerHTML += `<p><strong>${formatFieldName(element.name)}:</strong> ${element.value}</p>`;
+        }
+    });
 
-        // Show the modal
-        document.getElementById("confirmation_modal").style.display = "flex";
-    }
+    // Show the confirmation modal
+    document.getElementById("confirmation_modal").style.display = "flex";
+}
 
-    // Function to format field names for display
-    function formatFieldName(fieldName) {
-        // Replace underscores with spaces and capitalize the first letter of each word
-        return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-    }
+function proceedToPrivacyNotice() {
+    // Close the confirmation modal
+    document.getElementById("confirmation_modal").style.display = "none";
 
-    // Function to submit the form
-    function submitForm() {
-        document.getElementById("appointment_form").submit();
-    }
+    // Open Privacy Notice in a new tab
+    const privacyWindow = window.open('', '_blank');
+    privacyWindow.document.write(`
+        <html>
+        <head>
+            <title>Privacy Notice</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    margin: 20px;
+                }
+                h2 {
+                    text-align: center;
+                }
+                ol {
+                    margin-top: 20px;
+                }
+                button {
+                    display: block;
+                    margin: 20px auto;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>Privacy Notice</h2>
+            <p>Please review the following:</p>
+            <ol>
+                <li>I declare that I am the document owner/duly-authorized representative of the document owner whose information appears in this application form.</li>
+                <li>I give my consent to the processing of the above information subject to the exemptions provided by the Data Privacy Act and other applicable laws and regulations.</li>
+                <li>I trust that the above information shall remain confidential and shall only be retained as long as necessary for the fulfillment of the declared, specified, and legitimate purpose.</li>
+                <li>I further affirm that all the statements/information that appear in this application form are true, correct, and complete to the best of my knowledge and belief.</li>
+            </ol>
+            <button onclick="window.opener.finalSubmit(); window.close();">I Agree and Submit</button>
+        </body>
+        </html>
+    `);
+}
 
-    // Close modal function
-    function closeModal() {
-        document.getElementById("confirmation_modal").style.display = "none";
-    }
+function finalSubmit() {
+    // Submit the form
+    alert("Form submitted successfully!");
+    document.getElementById("appointment_form").submit();
+}
 
+function formatFieldName(fieldName) {
+    return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+}
 
- 
 
 
 
