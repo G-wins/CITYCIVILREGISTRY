@@ -235,30 +235,12 @@
     </form>
 
 
-   <!-- Confirmation Modal -->
-   <div id="confirmation_modal" style="display:none;">
-    <div class="modal-content bg-light">
+    <div id="confirmation_modal" style="display:none;">
+    <div class="modal-content">
         <span id="close_modal" onclick="closeModal()">X</span>
         <h2>Confirm Your Information</h2>
         <div id="modal_data"></div>
         <button class="btn btn-primary w-100 py-2 mt-2" onclick="proceedToPrivacyNotice()">Confirm and Submit</button>
-    </div>
-</div>
-
-
-
-<!-- Privacy Notice Modal -->
-<div id="privacy_notice_modal" style="display:none;">
-    <div class="modal-content">
-        <h2>Privacy Notice</h2>
-        <p id="privacy_notice_message">Please review the following:</p>
-        <ol>
-            <li>I declare that I am the document owner/duly-authorized representative...</li>
-            <li>I give my consent to the processing...</li>
-            <li>I trust that the above information shall remain confidential...</li>
-            <li>I further affirm that all the statements/information...</li>
-        </ol>
-        <button class="btn btn-success w-100 py-2 mt-2" onclick="finalSubmit()">I Agree and Submit</button>
     </div>
 </div>
 
@@ -271,9 +253,77 @@
     <script>
     var isSubmitting = false;
 
-    // Show Confirmation Modal
-    function showConfirmation() {
-    // Populate the confirmation modal
+    const privacyNotices = {
+        "Birth Certificate": `
+        <h2>Privacy Notice for Birth Certificate</h2>
+        <ol>
+            <li>
+                I declare that I am the document owner/duly-authorized representative of the document owner whose information appears in this application form. I further declare that I am fully aware that the above data shall be used for application of copy issuance/authentication/certification of civil registry document.
+            </li>
+            <li>
+                I give my consent to the processing of the above information subject to the exemptions provided by the Data Privacy Act and other applicable laws and regulations.
+            </li>
+            <li>
+                I trust that the above information shall remain confidential and shall only be retained for as long as necessary for the fulfillment of the declared, specified, and legitimate purpose, or when the processing is relevant to such purpose, strictly in accordance with PSA's records retention policy.
+            </li>
+            <li>
+                I further affirm that all the statements/information that appear in this application form are true, correct, and complete to the best of my knowledge and belief.
+            </li>
+        </ol>
+    `,
+        "Marriage Certificate": `
+        <h2>Privacy Notice for Marriage Certificate</h2>
+        <p>The PSA supports the policy of the State to protect the fundamental right of privacy. In view of the passage of Republic Act No. 10173 also known as "Data Privacy Act of 2012," this office cannot issue documents from which the identity of an individual is apparent or can be reasonably and directly ascertained without the consent of the individual whose personal information is processed.</p>
+        <p><strong>Such consent must be evidenced by written, electronic, or recorded means.</strong></p>
+        <p>Hence, original and certified true copy of the Certificate of Live Birth, Certificate of Marriage, Certificate of Death, and Certificate of No Marriage (CENOMAR), and Advisory on Marriages, can only be issued to:</p>
+        <ol>
+            <li>The owner himself or through a duly authorized representative;</li>
+            <li>His/her spouse, parent, direct descendants, guardian, or institution legally in-charge of him/her, if minor;</li>
+            <li>The court or proper public official whenever absolutely necessary in administrative, judicial, or other official proceedings to determine the identity of a person;</li>
+            <li>In case of the person's death, the nearest of kin.</li>
+        </ol>
+        <p>I understand that as per Data Privacy Act of 2012, PSA documents, if available in this office, cannot be released to me without valid IDs/government-issued IDs and proper authorization from the owner of the document, his/her parent (if minor), his/her spouse, his/her direct descendant, or his/her authorized guardian/institution-in-charge.</p>
+    `,
+
+        "Death Certificate": `
+        <h2>Privacy Notice for Death Certificate</h2>
+        <p>The PSA supports the policy of the State to protect the fundamental right of privacy. In view of the passage of Republic Act No. 10173 also known as "Data Privacy Act of 2012," this office cannot issue documents from which the identity of an individual is apparent or can be reasonably and directly ascertained without the consent of the individual whose personal information is processed.</p>
+        <p><strong>Such consent must be evidenced by written, electronic, or recorded means.</strong></p>
+        <p>Hence, original and certified true copy of the Certificate of Death can only be issued to:</p>
+        <ol>
+            <li>The owner himself or through a duly authorized representative;</li>
+            <li>His/her spouse, parent, direct descendants, guardian, or institution legally in-charge of him/her, if minor;</li>
+            <li>The court or public official whenever absolutely necessary in administrative, judicial, or other official proceedings to determine the identity of a person;</li>
+            <li>In case of the person's death, the nearest of kin.</li>
+        </ol>
+        <p>I understand that as per the Data Privacy Act of 2012, PSA documents, if available in this office, cannot be released to me without valid IDs/government-issued IDs and proper authorization from the owner of the document, his/her parent (if minor), his/her spouse, his/her direct descendant, or his/her authorized guardian/institution-in-charge.</p>
+    `,
+
+    "Cenomar": `
+        <h2>Privacy Notice for Certificate of No Marriage (CENOMAR)</h2>
+        <p>The PSA supports the policy of the State to protect the fundamental right of privacy. In view of the passage of Republic Act No. 10173 also known as "Data Privacy Act of 2012," this office cannot issue documents from which the identity of an individual is apparent or can be reasonably and directly ascertained without the consent of the individual whose personal information is processed.</p>
+        <p><strong>Such consent must be evidenced by written, electronic, or recorded means.</strong></p>
+        <p>Hence, original and certified true copy of the Certificate of Live Birth, Certificate of Marriage, Certificate of Death, and Certificate of No Marriage (CENOMAR), and Advisory on Marriages, can only be issued to:</p>
+        <ol>
+            <li>The owner himself or through a duly authorized representative;</li>
+            <li>His/her spouse, parent, direct descendants, guardian, or institution legally in-charge of him/her, if minor;</li>
+            <li>The court or proper public official whenever absolutely necessary in administrative, judicial, or other official proceedings to determine the identity of a person;</li>
+            <li>In case of the person's death, the nearest of kin.</li>
+        </ol>
+        <p>I understand that as per Data Privacy Act of 2012, PSA documents, if available in this office, cannot be released to me without valid IDs/government-issued IDs and proper authorization from the owner of the document, his/her parent (if minor), his/her spouse, his/her direct descendant, or his/her authorized guardian/institution-in-charge.</p>
+    `,
+
+    "Other Document": `
+        <h2>Privacy Notice for Other Document</h2>
+        <p>Please review the following:</p>
+        <ol>
+            <li>I declare that I am the document owner/duly-authorized representative for the specified document request.</li>
+            <li>I give my consent to the processing of my information under the Data Privacy Act.</li>
+            <li>All submitted information will remain confidential.</li>
+        </ol>`
+};
+
+function showConfirmation() {
     const formElements = document.querySelectorAll("#appointment_form [name]");
     const modalData = document.getElementById("modal_data");
     modalData.innerHTML = '';
@@ -284,15 +334,21 @@
         }
     });
 
-    // Show the confirmation modal
     document.getElementById("confirmation_modal").style.display = "flex";
 }
 
 function proceedToPrivacyNotice() {
-    // Close the confirmation modal
-    document.getElementById("confirmation_modal").style.display = "none";
+    const selectedService = document.getElementById("appointment_type").value;
 
-    // Open Privacy Notice in a new tab
+    if (!selectedService) {
+        alert("Please select a document service.");
+        return;
+    }
+
+    const privacyMessage = privacyNotices[selectedService] || `
+        <h2>Privacy Notice</h2>
+        <p>No specific privacy notice available for this service.</p>`;
+
     const privacyWindow = window.open('', '_blank');
     privacyWindow.document.write(`
         <html>
@@ -323,14 +379,7 @@ function proceedToPrivacyNotice() {
             </style>
         </head>
         <body>
-            <h2>Privacy Notice</h2>
-            <p>Please review the following:</p>
-            <ol>
-                <li>I declare that I am the document owner/duly-authorized representative of the document owner whose information appears in this application form.</li>
-                <li>I give my consent to the processing of the above information subject to the exemptions provided by the Data Privacy Act and other applicable laws and regulations.</li>
-                <li>I trust that the above information shall remain confidential and shall only be retained as long as necessary for the fulfillment of the declared, specified, and legitimate purpose.</li>
-                <li>I further affirm that all the statements/information that appear in this application form are true, correct, and complete to the best of my knowledge and belief.</li>
-            </ol>
+            ${privacyMessage}
             <button onclick="window.opener.finalSubmit(); window.close();">I Agree and Submit</button>
         </body>
         </html>
@@ -338,14 +387,18 @@ function proceedToPrivacyNotice() {
 }
 
 function finalSubmit() {
-    // Submit the form
     alert("Form submitted successfully!");
     document.getElementById("appointment_form").submit();
+}
+
+function closeModal() {
+    document.getElementById("confirmation_modal").style.display = "none";
 }
 
 function formatFieldName(fieldName) {
     return fieldName.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
 }
+
 
 
 
