@@ -1,104 +1,151 @@
-/* General Body Styling */
+/* General Styles */
 body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-/* Modal Overlay */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
-    display: none; /* Initially hidden */
+    padding: 0;
+    background: linear-gradient(135deg, #f7f7f7, #eaeaea);
+    height: 100vh;
+    display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
 }
 
-/* Modal Content */
-.modal-content {
-    background: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    width: 90%;
-    max-width: 500px;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    z-index: 1001;
-}
-
-.modal-content h2 {
-    margin-bottom: 15px;
-    color: #007bff;
-}
-
-.modal-content p {
-    line-height: 1.5;
-    margin-bottom: 20px;
-}
-
-.modal-buttons {
-    text-align: center;
-}
-
-.modal-buttons button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.modal-buttons button:hover {
-    background-color: #0056b3;
-}
-
-/* Welcome Content Styling */
 .welcome-container {
-    text-align: center;
-    max-width: 600px;
-    margin: auto;
-    padding: 20px;
+    width: 100%; /* Full width */
+    max-width: 100%; /* Ensures it spans the entire screen */
     background: white;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-radius: 0; /* Remove rounded corners for full-width layout */
+    box-shadow: none; /* Remove shadow if unnecessary for full width */
+    overflow: hidden;
+    animation: fadeIn 0.6s ease-in-out;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.welcome-container h1 {
-    color: #007bff;
-    margin-bottom: 20px;
+.welcome-header {
+    text-align: center;
+    padding: 20px;
+    background: #007bff;
+    color: white;
 }
 
-.steps, .requirements {
-    text-align: left;
-    margin: 20px 0;
+.welcome-header h1 {
+    font-size: 28px;
+    margin: 0;
 }
 
-.steps h3, .requirements h3 {
+.welcome-header p {
+    font-size: 16px;
+    margin: 10px 0 0;
+}
+
+.welcome-tabs {
+    display: flex;
+    justify-content: space-evenly; /* Spread tabs evenly across the width */
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.tab.active {
+    background: #007bff;
+    color: white;
+}
+
+.tab:hover {
+    background: #007bff;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    animation: fadeIn 0.6s ease-in-out;
+    flex: 1;
+    overflow-y: auto;
+    text-align: center;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.tab-content h3 {
+    font-size: 20px;
     margin-bottom: 10px;
-    color: #333;
+    color: #444;
+}
+
+.tab-content ol,
+.tab-content ul {
+    padding-left: 20px;
+    color: #555;
+    text-align: left; /* Align text in lists */
+}
+
+.tab-content {
+    margin-bottom: 50px; /* Add spacing below the tab content */
+}
+
+.welcome-footer {
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: 0;
 }
 
 .btn {
-    display: inline-block;
-    background-color: #28a745;
-    color: white;
-    text-decoration: none;
+    margin-top: 20px; /* Add margin above the button */
     padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
     border-radius: 5px;
-    margin-top: 20px;
-    font-size: 16px;
     cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #218838;
+    background: #218838;
+}
+
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-container {
+        width: 100%;
+        height: 100%;
+    }
+
+    .tab-content h3 {
+        font-size: 18px;
+    }
+
+    .btn {
+        font-size: 16px;
+    }
 }
