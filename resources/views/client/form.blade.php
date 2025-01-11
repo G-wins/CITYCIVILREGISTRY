@@ -863,58 +863,112 @@ function formatFieldName(fieldName) {
 
 
     //APPOINTMENT CALENDAR
-    $(function() {
-    var today = new Date();
+    $(document).ready(function () {
+        // Inject Custom CSS for Datepicker
+        const style = document.createElement('style');
+        style.innerHTML = `
+          .ui-datepicker {
+            z-index: 1000 !important;
+            margin-top: 8px !important;
+            font-size: 1.2em !important;
+            background-color: #ffffff !important;
+            border: 1px solid #ddd !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 780px !important; /* Increase width */
+            height: auto !important; /* Auto height */
+            padding: 15px; /* Adjust padding */
+        }
 
-    // Fetch booked dates and initialize the date picker
-    $.ajax({
-        url: '/appointments/unavailable-dates',
-        method: 'GET',
-        success: function(bookedDates) {
-            let originalScrollPosition;
+        .ui-datepicker table {
+            width: 100% !important; 
+            height: 100% !important;  
+        }
 
-$("#appointment_date").datepicker({
-    dateFormat: 'yy-mm-dd',
-    minDate: new Date(),
-    beforeShow: function(input, inst) {
-        originalScrollPosition = $(window).scrollTop();
-    },
-    onSelect: function(dateText, inst) {
-        setTimeout(function() {
-            $(window).scrollTop(originalScrollPosition);
-        }, 0);
+        .unavailable-date a {
+            background-color: #f44336 !important; 
+            color: white !important;
+            pointer-events: none; 
+        }
 
+        .slots-info {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        `;
+        document.head.appendChild(style);
 
-    loadAvailableSlots(dateText);
-},
-onClose: function() {
-        $(window).scrollTop(originalScrollPosition);
-    },
+        // Initialize Datepicker
+        var today = new Date();
 
-                beforeShow: function(input, inst) {
-                    $(".form-container").css("height", "auto");
-                    $(".form-container").css("padding-bottom", "200px"); // Increase space below for the calendar
-                    $("#submit_button").css("margin-top", "250px"); // Adjust this value as needed
-                    
-                    setTimeout(function() {
-                        inst.dpDiv.css({
-                            top: $(input).offset().top + $(input).outerHeight() + 5,
-                            left: $(input).offset().left,
-                            Index: 1000
-                        });
-                    }, 0);
+        // Fetch unavailable dates
+        $.ajax({
+            url: '/appointments/unavailable-dates',
+            method: 'GET',
+            success: function (bookedDates) {
+                $("#appointment_date").datepicker({
+                    dateFormat: 'yy-mm-dd',
+                    minDate: today,
+                    beforeShow: function (input, inst) {
+                        // Ensure calendar appears below the input
+                        setTimeout(function () {
+                            inst.dpDiv.css({
+                                top: $(input).offset().top + $(input).outerHeight() + 10,
+                                left: $(input).offset().left,
+                                zIndex: 1000
+                            });
+                        }, 0);
+                    },
+                    beforeShowDay: function (date) {
+                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
+
+                        // Disable and highlight unavailable dates
+                        if (bookedDates.includes(formattedDate)) {
+                            return [false, 'unavailable-date', 'Fully Booked'];
+                        }
+                        return [true, '', ''];
+                    },
+                    onSelect: function (dateText) {
+                        loadAvailableSlots(dateText); 
+                    }
+                });
+            },
+            error: function () {
+                console.error("Error fetching unavailable dates.");
+            }
+        });
+
+        // Function to Load Available Slots
+        function loadAvailableSlots(selectedDate) {
+            $.ajax({
+                url: '/appointments/slots',
+                method: 'GET',
+                data: { date: selectedDate },
+                success: function (response) {
+                    $('#slots-container').html(`
+                        <div class="slot-section">
+                            <h4>Available Slots</h4>
+                            <div>
+                                <strong>AM:</strong> ${response.am_slots} Slots
+                            </div>
+                            <div>
+                                <strong>PM:</strong> ${response.pm_slots} Slots
+                            </div>
+                        </div>
+                    `);
                 },
-                onClose: function() {
-                    $(".form-container").css("padding-bottom", "200px"); // Adjust as needed
-                    $("#submit_button").css("margin-top", "20px"); // Original position
+                error: function () {
+                    $('#slots-container').html('<p>Error fetching slots. Please try again.</p>');
                 }
             });
-        },
-        error: function() {
-            console.error("Error fetching unavailable dates.");
         }
     });
-});
+
+
+
+
 
 
 //PLACE OF BIRTH (COUNTRY IF BORN ABROAD)

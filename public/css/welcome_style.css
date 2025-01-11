@@ -1,151 +1,290 @@
-/* General Styles */
+/* Body Background */
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f7f7f7, #eaeaea);
-    height: 100vh;
+    background: linear-gradient(to bottom, #f9f9f9, #f5c8d1); 
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-.welcome-container {
-    width: 100%; /* Full width */
-    max-width: 100%; /* Ensures it spans the entire screen */
-    background: white;
-    border-radius: 0; /* Remove rounded corners for full-width layout */
-    box-shadow: none; /* Remove shadow if unnecessary for full width */
-    overflow: hidden;
-    animation: fadeIn 0.6s ease-in-out;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
 
-.welcome-header {
-    text-align: center;
-    padding: 20px;
-    background: #007bff;
+/* Hero Section */
+.hero {
+    background: linear-gradient(90deg, #ff914d, #e84d8a);
     color: white;
+    text-align: center;
+    padding: 20px;  
+    width: 100vw; 
+    margin: 0;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000;
+    box-sizing: border-box; 
 }
 
-.welcome-header h1 {
-    font-size: 28px;
+.hero h1 {
+    font-size: 2.5rem;  
     margin: 0;
 }
 
-.welcome-header p {
-    font-size: 16px;
-    margin: 10px 0 0;
+.hero p {
+    font-size: 1.2rem;  
+    margin: 10px 0;
 }
 
-.welcome-tabs {
-    display: flex;
-    justify-content: space-evenly; /* Spread tabs evenly across the width */
-    background: #f8f9fa;
-    border-bottom: 1px solid #ddd;
-}
 
-.tab {
-    flex: 1;
-    padding: 15px;
-    cursor: pointer;
-    text-align: center;
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    transition: all 0.3s ease;
-}
 
-.tab.active {
-    background: #007bff;
-    color: white;
-}
 
-.tab:hover {
-    background: #007bff;
-    color: white;
-}
 
-.tab-content {
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Modal (for Chat Support) */
+.modal {
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* Modal content */
+.modal-content {
+    background-color: white;
     padding: 20px;
-    animation: fadeIn 0.6s ease-in-out;
-    flex: 1;
-    overflow-y: auto;
+    border-radius: 5px;
     text-align: center;
+    width: 80%;
+    max-width: 400px;
 }
 
-.tab-content.active {
-    display: block;
+/* Button styles inside modal */
+button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #FFA500;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 100%;
 }
 
-.tab-content h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    color: #444;
+button:hover {
+    background-color: #ff8c00;
 }
 
-.tab-content ol,
-.tab-content ul {
-    padding-left: 20px;
+/* Close button style */
+#closeModalBtn {
+    background-color: #ff4d4d;
+}
+
+
+
+
+
+
+/* Modal styles */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    overflow: auto;
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px; 
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%; /* Full width */
+    max-width: 600px; /* Max width */
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);  
+    transition: transform 0.3s ease-in-out;
+    font-family: 'Arial', sans-serif;
+    position: relative; 
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Modal Header */
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Modal Text */
+p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
     color: #555;
-    text-align: left; /* Align text in lists */
 }
 
-.tab-content {
-    margin-bottom: 50px; /* Add spacing below the tab content */
-}
-
-.welcome-footer {
-    text-align: center;
-    padding: 20px 0;
-    position: relative;
-    bottom: 0;
-}
-
+/* Buttons */
 .btn {
-    margin-top: 20px; /* Add margin above the button */
-    padding: 10px 20px;
-    background: #28a745;
+    padding: 12px 30px;
+    background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.btn.agree {
+    background-color: #4caf50;
+}
+
+.btn.agree:hover {
+    background-color: #388e3c;
+}
+
+
+
+
+
+
+
+
+/* Ensure the body and html take the full height */
+html, body {
+    height: 100%; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Modal styles */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%; /* Full width */
+    max-width: 600px; /* Max width */
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); 
+    transition: transform 0.3s ease-in-out;
+    font-family: Arial, sans-serif;
+    position: relative; 
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Modal Header */
+h2 {
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Modal Text */
+p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px 30px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    border-radius: 5px;
+    margin: 10px;
     transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background: #218838;
+    background-color: #0056b3;
 }
 
-
-/* Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.btn.agree {
+    background-color: #4caf50;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .welcome-container {
-        width: 100%;
-        height: 100%;
-    }
-
-    .tab-content h3 {
-        font-size: 18px;
-    }
-
-    .btn {
-        font-size: 16px;
-    }
+.btn.agree:hover {
+    background-color: #388e3c;
 }
+

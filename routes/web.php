@@ -66,4 +66,21 @@ Route::get('/email/verify', [VerificationController::class, 'show'])->middleware
 Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/resend', [VerificationController::class, 'resend'])->middleware(['auth', 'throttle:6,1'])->name('verification.resend');
 
+//  DASHBOARD MODAL
+Route::get('/appointment/birth/{id}', [DashboardController::class, 'showBirthForm']);
+Route::put('/appointment/birth/{id}', [DashboardController::class, 'updateBirthCertificate'])->name('updateBirthCertificate');
+
+Route::get('/appointment/marriage/{id}', [DashboardController::class, 'showMarriageForm']);
+Route::put('/appointment/marriage/{id}', [DashboardController::class, 'updateMarriageCertificate'])->name('updateMarriageCertificate');
+
+Route::get('/appointment/MLicense/{id}', [DashboardController::class, 'showMarriageLicenseForm']);
+Route::put('/appointment/MLicense/{id}', [DashboardController::class, 'updateMarriageLicense'])->name('updateMarriageLicense');
+Route::post('/appointment/MLicense/{id}', [DashboardController::class, 'storeMarriageLicense'])->name('storeMarriageLicense');
+
+Route::get('/appointment/death/{id}', [DashboardController::class, 'showDeathCertificateForm']);
+Route::put('/appointment/death/{id}', [DashboardController::class, 'updateDeathCertificate'])->name('updateDeathCertificate');
+
+Route::get('/appointment/cenomar/{id}', [DashboardController::class, 'showCenomarForm']);
+Route::put('/appointment/cenomar/{id}', [DashboardController::class, 'updateCenomar'])->name('updateCenomar');
+
 require __DIR__.'/auth.php';
