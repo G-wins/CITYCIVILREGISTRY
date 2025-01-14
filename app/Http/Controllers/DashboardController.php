@@ -93,6 +93,7 @@ public function showBirthForm($id)
         'mother_first_name' => $appointment -> mother_first_name,
         'mother_middle_name' => $appointment -> mother_middle_name,
         'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
         'delayed' => $appointment->delayed,
         'delayed_date' => $appointment->delayed_date,
         'appointment_date' => $appointment->appointment_date,
@@ -101,8 +102,7 @@ public function showBirthForm($id)
     ]);
 }
 
-public function updateBirthCertificate(Request $request, $id)
-{
+public function updateBirthCertificate(Request $request, $id){
     // Fetch the appointment data using findOrFail to ensure the ID exists
     $appointment = AppointmentBirthCertificate::findOrFail($id);
 
@@ -136,10 +136,11 @@ public function updateBirthCertificate(Request $request, $id)
         'mother_first_name' => $request->input('mother_first_name'),
         'mother_middle_name' => $request->input('mother_middle_name'),
         'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
         'delayed' => $request->input('delayed', 0), // Defaults to 0 if not selected
         'delayed_date' => $request->input('delayed_date'),
         'appointment_date' => $request->input('appointment_date'),
-        'reference_number' => $appointment->reference_number, // Preserve the reference number
+        'reference_number' => $appointment->reference_number,
     ]);
 
     // Return a response indicating the update was successful
@@ -178,6 +179,7 @@ public function showMarriageForm($id)
         'requesting_party' => $appointment->requesting_party,
         'relationship_to_owner' => $appointment->relationship_to_owner,
         'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
         'delayed' => $appointment->delayed,
         'delayed_date' => $appointment->delayed_date,
         'appointment_date' => $appointment->appointment_date,
@@ -217,6 +219,7 @@ public function updateMarriageCertificate(Request $request, $id)
         'requesting_party' => $request->input('requesting_party'),
         'relationship_to_owner' => $request->input('relationship_to_owner'),
         'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
         'delayed' => $request->input('delayed', 0),
         'delayed_date' => $request->input('delayed_date'),
         'appointment_date' => $request->input('appointment_date'),
@@ -257,6 +260,7 @@ public function showMarriageLicenseForm($id)
         'requesting_party' => $appointment->requesting_party,
         'relationship_to_owner' => $appointment->relationship_to_owner,
         'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
         'delayed' => $appointment->delayed,
         'delayed_date' => $appointment->delayed_date,
         'appointment_date' => $appointment->appointment_date,
@@ -294,6 +298,7 @@ public function updateMarriageLicense(Request $request, $id)
         'requesting_party' => $request->input('requesting_party'),
         'relationship_to_owner' => $request->input('relationship_to_owner'),
         'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
         'delayed' => $request->input('delayed'),
         'delayed_date' => $request->input('delayed_date'),
         'appointment_date' => $request->input('appointment_date'),
@@ -335,6 +340,7 @@ public function showDeathCertificateForm($id)
         'requesting_party' => $appointment->requesting_party,
         'relationship_to_owner' => $appointment->relationship_to_owner,
         'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
         'delayed' => $appointment->delayed,
         'delayed_date' => $appointment->delayed_date,
         'appointment_date' => $appointment->appointment_date,
@@ -372,6 +378,7 @@ public function updateDeathCertificate(Request $request, $id)
         'requesting_party' => $request->input('requesting_party'),
         'relationship_to_owner' => $request->input('relationship_to_owner'),
         'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
         'delayed' => $request->input('delayed', 0),
         'delayed_date' => $request->input('delayed_date'),
         'appointment_date' => $request->input('appointment_date'),
@@ -421,6 +428,7 @@ public function showCenomarForm($id)
         'requesting_party' => $appointment->requesting_party,
         'relationship_to_owner' => $appointment->relationship_to_owner,
         'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
         'delayed' => $appointment->delayed,
         'delayed_date' => $appointment->delayed_date,
         'appointment_date' => $appointment->appointment_date,
@@ -466,6 +474,7 @@ public function updateCenomar(Request $request, $id)
         'requesting_party' => $request->input('requesting_party'),
         'relationship_to_owner' => $request->input('relationship_to_owner'),
         'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
         'delayed' => $request->input('delayed', 0),
         'delayed_date' => $request->input('delayed_date'),
         'appointment_date' => $request->input('appointment_date'),
@@ -479,6 +488,146 @@ public function updateCenomar(Request $request, $id)
         'updated_appointment' => $appointment
     ]);
 }
+public function showOtherForm($id){
+    $appointment = AppointmentOtherDocument::findOrFail($id);
+
+    return response()->json([
+        'requester_last_name' => $appointment->requester_last_name,
+        'requester_first_name' => $appointment->requester_first_name,
+        'requester_middle_name' => $appointment->requester_middle_name,
+        'requester_mailing_address' => $appointment->requester_mailing_address,
+        'requester_city_municipality' => $appointment->requester_city_municipality,
+        'requester_province' => $appointment->requester_province,
+        'contact_no' => $appointment->contact_no,
+        'requester_sex' => $appointment->requester_sex,
+        'requester_age' => $appointment->requester_age,
+        'other_document' =>  $appointment->other_document,
+        'document_details' => $appointment->document_details,
+        'requesting_party' => $appointment->requesting_party,
+        'relationship_to_owner' => $appointment->relationship_to_owner,
+        'purpose' => $appointment->purpose,
+        'other_purposes' => $appointment->other_purposes,
+        'delayed' => $appointment->delayed,
+        'delayed_date' => $appointment->delayed_date,
+        'appointment_date' => $appointment->appointment_date,
+        'reference_number' => $appointment->reference_number,
+
+    ]);
+}
+public function updateOther(Request $request,  $id){
+    // Fetch the appointment data using findOrFail to ensure the ID exists
+    $appointment = AppointmentOtherDocument::findOrFail($id);
+        
+
+    // Update the appointment with the new data from the request
+    $appointment->update([
+        'requester_last_name' => $request->input('requester_last_name'),
+        'requester_first_name' => $request->input('requester_first_name'),
+        'requester_middle_name' => $request->input('requester_middle_name'),
+        'requester_mailing_address' => $request->input('requester_mailing_address'),
+        'requester_city_municipality' => $request->input('requester_city_municipality'),
+        'requester_province' => $request->input('requester_province'),
+        'contact_no' => $request->input('contact_no'),
+        'requester_sex' => $request->input('requester_sex'),
+        'requester_age' => $request->input('requester_age'),
+        'other_document' => $request->input('other_document'),
+        'document_details' => $request->input('document_details'),
+        'requesting_party' => $request->input('requesting_party'),
+        'relationship_to_owner' => $request->input('relationship_to_owner'),
+        'purpose' => $request->input('purpose'),
+        'other_purposes' => $request->input('purpose_other'),
+        'delayed' => $request->input('delayed', 0),
+        'delayed_date' => $request->input('delayed_date'),
+        'appointment_date' => $request->input('appointment_date'),
+        'reference_number' => $request->input('reference_number'),
+
+    ]);
+
+    // Return a response indicating the update was successful
+    return response()->json([
+        'message' => 'Appointment details updated successfully',
+        'updated_appointment' => $appointment
+    ]);
+}
+
+    public function getUnavailableDates()
+    {
+        $models = [
+            AppointmentBirthCertificate::class,
+            AppointmentMarriageCertificate::class,
+            AppointmentMarriageLicense::class,
+            AppointmentDeathCertificate::class,
+            AppointmentCenomar::class,
+            AppointmentOtherDocument::class,
+        ];
+
+        $maxAppointments = 2;
+        $unavailableDates = collect();
+
+        foreach ($models as $model) {
+            $dates = $model::selectRaw('appointment_date, COUNT(*) as total')
+                ->where('appointment_date', '>=', now()->toDateString()) // Avoid past dates
+                ->groupBy('appointment_date')
+                ->having('total', '>=', $maxAppointments)
+                ->pluck('appointment_date');
+
+            $unavailableDates = $unavailableDates->merge($dates);
+        }
+
+        $start = now(); // Start from today
+        $end = now()->addMonths(2); // Adjust range as needed
+        for ($date = $start; $date <= $end; $date->addDay()) {
+            if ($date->isWeekend()) {
+                $unavailableDates->push($date->toDateString());
+            }
+        }
+
+        return response()->json($unavailableDates->unique()->values());
+    }
+    public function getDateSlots()
+    {
+        $models = [
+            AppointmentBirthCertificate::class,
+            AppointmentMarriageCertificate::class,
+            AppointmentMarriageLicense::class,
+            AppointmentDeathCertificate::class,
+            AppointmentCenomar::class,
+            AppointmentOtherDocument::class,
+        ];
+
+        $maxAppointments = 5; // Maximum allowed appointments per day
+        $dateSlots = [];
+
+        // Get all dates from today to 2 months ahead
+        $start = now();
+        $end = now()->addMonths(2);
+        for ($date = $start; $date <= $end; $date->addDay()) {
+            // Skip weekends
+            if ($date->isWeekend()) {
+                $dateSlots[$date->toDateString()] = [
+                    'slots_left' => 0,
+                    'status' => 'Unavailable',
+                ];
+                continue;
+            }
+
+            // Count total appointments for the current date
+            $totalAppointments = 0;
+            foreach ($models as $model) {
+                $totalAppointments += $model::where('appointment_date', $date->toDateString())->count();
+            }
+
+            // Calculate remaining slots
+            $slotsLeft = $maxAppointments - $totalAppointments;
+            $dateSlots[$date->toDateString()] = [
+                'slots_left' => max($slotsLeft, 0),
+                'status' => $slotsLeft > 0 ? 'Available' : 'Full',
+            ];
+        }
+
+        return response()->json($dateSlots);
+    }
+
 
 
 }

@@ -43,6 +43,7 @@ class AppointmentDeathCertificate extends Model
         'requesting_party',
         'relationship_to_owner',
         'purpose',
+        'other_purposes',
         'delayed',
         'delayed_date',
         'appointment_date',

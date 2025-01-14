@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User; 
 use App\Notifications\NewAppointmentNotification;
+use Illuminate\Support\Facades\DB;
+
 
 
 class AppointmentController extends Controller
@@ -34,6 +36,7 @@ class AppointmentController extends Controller
             'requesting_party' => 'required|string|max:255',
             'relationship_to_owner' => 'required|string|max:255',
             'purpose' => 'required|string|max:255',
+            'other_purposes' => 'nullable|string|max:255',
             'delayed' => 'required|in:Yes,No',
             'delayed_date' => 'nullable|date|after_or_equal:today',
         ]);
@@ -60,6 +63,7 @@ class AppointmentController extends Controller
             'requesting_party',
             'relationship_to_owner',
             'purpose',
+            'other_purposes',
             'delayed',
             'delayed_date',
         ]));

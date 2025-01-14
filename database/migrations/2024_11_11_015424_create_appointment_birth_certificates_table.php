@@ -50,6 +50,7 @@ class CreateAppointmentBirthCertificatesTable extends Migration
         $table->string('requesting_party');
         $table->string('relationship_to_owner');
         $table->string('purpose');
+        $table->string('other_purposes', 255)->nullable();
         $table->boolean('delayed');
         $table->date('delayed_date')->nullable();
         $table->date('appointment_date');

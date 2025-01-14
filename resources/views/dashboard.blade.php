@@ -4,12 +4,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <style>
+    /* Match calendar width to input field */
+    .flatpickr-calendar {
+        width: 100% !important; /* Ensure the calendar width matches the input field width */
+        max-width: none; /* Prevent any maximum width restriction */
+    }
+
+    /* Adjust individual day size for more space */
+    .flatpickr-day {
+        width: 60px; /* Increase width */
+        height: 60px; /* Increase height */
+        line-height: 60px; /* Center the day number */
+        position: relative; /* Allow slot text to be positioned below */
+    }
+
+    /* Style the slots left text */
+    .flatpickr-day div {
+        position: absolute;
+        bottom: 5px; /* Position text at the bottom of each day */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px; /* Adjust font size for better readability */
+        color: green; /* Default color for available slots */
+        font-weight: bold;
+    }
+
+    /* Style for disabled days */
+    .flatpickr-day.flatpickr-disabled div {
+        color: red; /* Change slot text color for full days */
+    }
+
+    /* Responsive adjustments for smaller screens */
+    @media (max-width: 768px) {
+        .flatpickr-day {
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+        }
+
+        .flatpickr-day div {
+            font-size: 10px;
+        }
+    }
+
     .wrap{
         overflow-y: auto;
     }
 
     /* Modal backdrop - covers the entire page with a slight blur */
-    #marriageCertificateModal, #birthCertificateModal, #marriageLicenseModal, #deathCertificateModal, #cenomarModal{
+    #marriageCertificateModal, #birthCertificateModal, #marriageLicenseModal, #deathCertificateModal, #cenomarModal, #otherModal{
         position: fixed;
         top: 0;
         left: 0;
@@ -22,7 +65,7 @@
         overflow: auto;
     }
 
-    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper{
+    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper, #otherModal .contentSemiWrapper{
         background: rgba(255, 255, 255, 0.9); /* White with slight transparency */
         width: 80%;
         max-width: 900px;
@@ -145,7 +188,7 @@
     }
 
     /* Scrollable content area */
-    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper{
+    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper, #otherModal .contentSemiWrapper{
         overflow-y: auto;
         max-height: 90vh;
     }
@@ -170,6 +213,10 @@
     }
 
 </style>
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 <body>
     
@@ -599,6 +646,7 @@
                             } else {
                                 countryContainerBc.style.display = 'none';
                                 countryBcInputField.removeAttribute('required');
+                                countryBcInputField.value = '';
                             }
                         }
                     </script>
@@ -675,21 +723,23 @@
                             <input type="text" name="purpose_other" id="bc_purpose_other" placeholder="Specify if other" style=" margin-top: 25px;">
                         </div>
                         <script>
+                            const otherPurposeInput = document.getElementById('bc_purpose_other');
+
                             // toggle purpose input field
                             function bcToggleOtherPurpose() {
                                 const purposeSelect = document.getElementById('bc_purpose');
                                 const otherPurposeInput = document.getElementById('bc_purpose_other');
 
-                                // Check if "Other" is selected
                                 if (purposeSelect.value === "Other") {
                                     otherPurposeInput.style.display = "block";
                                     otherPurposeInput.setAttribute('required', 'required');
                                 } else {
                                     otherPurposeInput.style.display = "none";
-                                    otherPurposeInput.value = ""; 
                                     otherPurposeInput.removeAttribute('required');
+                                    otherPurposeInput.value = ""; 
                                 }
                             }
+
                         </script>
                         
                         <label>Delayed Registration:</label>
@@ -724,7 +774,7 @@
                         <div class="form-group">
                             <div class="input-with-icon">
                                 <label for="appointment_date">Appointment Date:</label>
-                                <input type="text" name="appointment_date" id="bc_appointment_date" required>
+                                <input type="text" name="appointment_date" id="bc_appointment_date" style="width: 300px; height: 50px;" required>
                                 <input type="hidden" id="bc_appointment_time" name="appointment_time">
                                 <i class="fas fa-calendar-alt calendar-icon"></i> <!-- Icon -->
                             </div>
@@ -749,32 +799,32 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="requester_last_name">Last Name:</label>
-                        <input id="mc_requester_last_name" type="text" name="requester_last_name" value="{{ $appointment->requester_last_name }}" required>
+                        <input id="mc_requester_last_name" type="text" name="requester_last_name" required>
                     </div>
                     <div class="form-group">
                         <label for="requester_first_name">First Name:</label>
-                        <input id="mc_requester_first_name" type="text" name="requester_first_name" value="{{ $appointment->requester_first_name }}" required>
+                        <input id="mc_requester_first_name" type="text" name="requester_first_name" required>
                     </div>
                     <div class="form-group">
                         <label for="requester_middle_name">Middle Name:</label>
-                        <input id="mc_requester_middle_name" type="text" name="requester_middle_name" value="{{ $appointment->requester_middle_name }}">
+                        <input id="mc_requester_middle_name" type="text" name="requester_middle_name">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="requester_mailing_address">Mailing Address:</label>
-                    <input type="text" id="mc_requester_mailing_address" name="requester_mailing_address" value="{{ $appointment->requester_mailing_address }}" placeholder="House No., Street Name / Barangay" required>
+                    <input type="text" id="mc_requester_mailing_address" name="requester_mailing_address" placeholder="House No., Street Name / Barangay" required>
                     <small class="hint">House No., Street Name / Barangay</small>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="requester_city_municipality">City/Municipality:</label>
-                        <input type="text" id="mc_requester_city_municipality" name="requester_city_municipality" value="{{ $appointment->requester_city_municipality }}" required>
+                        <input type="text" id="mc_requester_city_municipality" name="requester_city_municipality" required>
                     </div>
                     <div class="form-group">
                         <label for="requester_province">Province:</label>
-                        <input type="text" id="mc_requester_province" name="requester_province" value="{{ $appointment->requester_province }}" required>
+                        <input type="text" id="mc_requester_province" name="requester_province" required>
                     </div>
                 </div>
 
@@ -782,7 +832,7 @@
                     <label for="contact_no">Contact Number:</label>
                     <div class="contact-container">
                         <span class="country-code">+63</span>
-                        <input type="tel" name="contact_no" id="mc_contact_no" maxlength="10" value="{{ $appointment->contact_no }}" placeholder="9123456789" required oninput="checkContactNumber()">
+                        <input type="tel" name="contact_no" id="mc_contact_no" maxlength="10" placeholder="9123456789" required oninput="checkContactNumber()">
                     </div>
                 </div>
 
@@ -790,14 +840,14 @@
                     <label for="requester_sex">Sex:</label>
                     <select id="mc_requester_sex" name="requester_sex" required>
                         <option value="" selected disabled>Select</option>
-                        <option value="male" {{ $appointment->requester_sex == 'male' ? 'selected' : '' }}>Male</option>
-                        <option value="female" {{ $appointment->requester_sex == 'female' ? 'selected' : '' }}>Female</option>
+                        <option value="male" >Male</option>
+                        <option value="female">Female</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="requester_age">Age:</label>
-                    <input type="number" name="requester_age" id="mc_requester_age" value="{{ $appointment->requester_age }}" min="1" max="120" required oninput="checkAgeLimit()">
+                    <input type="number" name="requester_age" id="mc_requester_age" min="1" max="120" required oninput="checkAgeLimit()">
                 </div>
 
                 <!-- Request Information -->
@@ -910,14 +960,14 @@
                     <label for="purpose">Purpose:</label>
                     <select name="purpose" id="mc_purpose" onchange="mcToggleOtherPurpose()" required>
                         <option value="" selected disabled>Select Purpose</option>
-                        <option value="Claim Benefits/Loan" {{ $appointment->purpose == 'Claim Benefits/Loan' ? 'selected' : '' }}>Claim Benefits/Loan</option>
-                        <option value="Employment (Local)" {{ $appointment->purpose == 'Employment (Local)' ? 'selected' : '' }}>Employment (Local)</option>
-                        <option value="School Requirements" {{ $appointment->purpose == 'School Requirements' ? 'selected' : '' }}>School Requirements</option>
-                        <option value="Passport/Travel" {{ $appointment->purpose == 'Passport/Travel' ? 'selected' : '' }}>Passport/Travel</option>
-                        <option value="Employment (Abroad)" {{ $appointment->purpose == 'Employment (Abroad)' ? 'selected' : '' }}>Employment (Abroad)</option>
-                        <option value="Other" {{ $appointment->purpose == 'Other' ? 'selected' : '' }}>Other (Specify)</option>
+                        <option value="Claim Benefits/Loan" >Claim Benefits/Loan</option>
+                        <option value="Employment (Local)" >Employment (Local)</option>
+                        <option value="School Requirements" >School Requirements</option>
+                        <option value="Passport/Travel" >Passport/Travel</option>
+                        <option value="Employment (Abroad)" >Employment (Abroad)</option>
+                        <option value="Other" >Other (Specify)</option>
                     </select>
-                    <input type="text" name="purpose_other" id="mc_purpose_other" value="{{ $appointment->purpose_other }}" placeholder="Specify if other" style="display:none; margin-top: 25px;">
+                    <input type="text" name="purpose_other" id="mc_purpose_other" placeholder="Specify if other" style="display:none; margin-top: 25px;">
                 </div>
                 <script>
                     // toggle purpose input field
@@ -969,8 +1019,9 @@
 
                 <div class="form-group">
                     <label for="appointment_date">Appointment Date:</label>
-                    <input type="text" name="appointment_date" id="mc_appointment_date" value="{{ $appointment->appointment_date }}" required>
-                    <input type="hidden" id="mc_appointment_time" name="appointment_time" value="{{ $appointment->appointment_time }}">
+                    <input type="text" name="appointment_date" id="mc_appointment_date" required>
+                    <input type="hidden" id="mc_appointment_time" name="appointment_time">
+                    <i class="fas fa-calendar-alt calendar-icon"></i> <!-- Icon -->
                 </div>
 
                 <input type="submit" class="btn btn-primary w-100 py-2 mt-2">
@@ -1120,7 +1171,7 @@
                         <option value="Employment (Abroad)">Employment (Abroad)</option>
                         <option value="Other">Other (Specify)</option>
                     </select>
-                    <input type="text" name="purpose_other" id="ml_purpose_other" value="{{ $appointment->purpose_other }}" placeholder="Specify if other" style="display:none; margin-top: 25px;">
+                    <input type="text" name="purpose_other" id="ml_purpose_other" placeholder="Specify if other" style="display:none; margin-top: 25px;">
                 </div>
                 <script>
                         // toggle purpose input field
@@ -1678,6 +1729,165 @@
         </div>
     </div>
 
+    <div id="otherModal" class="hidden closeModal">
+        <div class="contentSemiWrapper">
+            <h3 class="section-header">Requester's Details</h3>
+            <form id="otherAppointmentForm" action="{{ route('updateOther', ['id' => ':id']) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="section-header">Requester's Details</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="requester_last_name">Last Name:</label>
+                        <input type="text" id="ot_requester_last_name" name="requester_last_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requester_first_name">First Name:</label>
+                        <input type="text" id="ot_requester_first_name" name="requester_first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requester_middle_name">Middle Name:</label>
+                        <input type="text" id="ot_requester_middle_name" name="requester_middle_name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="requester_mailing_address">Mailing Address:</label>
+                    <input type="text" id="ot_requester_mailing_address" name="requester_mailing_address" placeholder="House No., Street Name / Barangay" required>
+                    <small class="hint">House No., Street Name / Barangay</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="requester_city_municipality">City/Municipality:</label>
+                        <input type="text" id="ot_requester_city_municipality" name="requester_city_municipality" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="requester_province">Province:</label>
+                        <input type="text" id="ot_requester_province" name="requester_province" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contact_no">Contact Number:</label>
+                        <div class="contact-container">
+                            <span class="country-code">+63</span>
+                            <input type="tel" name="contact_no" id="ot_contact_no" maxlength="10" placeholder="9123456789" required oninput="checkContactNumber()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="requester_sex">Sex:</label>
+                        <select name="requester_sex" id="ot_requester_sex" required>
+                            <option value="" selected disabled>Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="requester_age">Age:</label>
+                        <input type="number" name="requester_age" id="ot_requester_age" min="1" max="120" required oninput="checkAgeLimit()">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="other_document">Specify Document:</label>
+                    <input type="text" id="ot_other_document" name="other_document" placeholder="e.g., Barangay Clearance" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="document_details">Document Details:</label>
+                    <textarea id="ot_document_details" name="document_details" rows="4" placeholder="Provide additional details about the document" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="requesting_party">Requesting Party:</label>
+                    <input type="text" id="ot_requesting_party" name="requesting_party" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="relationship_to_owner">Relationship to Owner:</label>
+                    <input type="text" id="ot_relationship_to_owner" name="relationship_to_owner" required>
+                </div>
+
+                <div class="section-header">Purpose of Request</div>
+                <div class="form-group">
+                    <label for="purpose">Purpose:</label>
+                    <select name="purpose" id="ot_purpose" onchange="otToggleOtherPurpose()" required>
+                        <option value="" selected disabled>Select Purpose</option>
+                        <option value="Claim Benefits/Loan">Claim Benefits/Loan</option>
+                        <option value="Employment (Local)">Employment (Local)</option>
+                        <option value="School Requirements">School Requirements</option>
+                        <option value="Passport/Travel">Passport/Travel</option>
+                        <option value="Employment (Abroad)">Employment (Abroad)</option>
+                        <option value="Other">Other (Specify)</option>
+                    </select>
+                    <input type="text" name="purpose_other" id="ot_purpose_other" placeholder="Specify if other" style="display:none; margin-top: 25px;">
+                </div>
+                <script>
+                    // toggle purpose input field
+                    function otToggleOtherPurpose() {
+                        const otPurposeSelect = document.getElementById('ot_purpose');
+                        const otOtherPurposeInput = document.getElementById('ot_purpose_other');
+
+                        // Check if "Other" is selected
+                        if (otPurposeSelect.value === "Other") {
+                            otOtherPurposeInput.style.display = "block";
+                            otOtherPurposeInput.setAttribute('required', 'required');
+                        } else {
+                            otOtherPurposeInput.style.display = "none";
+                            otOtherPurposeInput.value = ""; 
+                            otOtherPurposeInput.removeAttribute('required');
+                        }
+                    }
+                </script>
+                <label>Delayed Registration:</label>
+                <div class="radio-group">
+                    <input type="radio" id="ot_delayed_yes" name="delayed" value="Yes" onclick="otToggleDelayedDate()" required>
+                    <label for="delayed_yes">Yes</label>
+                    <input type="radio" id="ot_delayed_no" name="delayed" value="No" onclick="otToggleDelayedDate()" required>
+                    <label for="delayed_no">No</label>
+                </div>
+
+                <div class="form-group" id="ot_delayed_date_container" style="display:none;">
+                    <label for="delayed_date">Delayed Date:</label>
+                    <input type="date" id="ot_delayed_date" name="delayed_date">
+                </div>
+                <script>
+                    function otToggleDelayedDate() {
+                        const ot_delayedYes = document.getElementById("ot_delayed_yes").checked; // Check if "Yes" is selected
+                        const ot_delayedDateContainer = document.getElementById("ot_delayed_date_container"); // The container to show/hide
+                        const ot_delayedDate = document.getElementById("ot_delayed_date"); // The date input field
+
+                        if (ot_delayedYes) {
+                            ot_delayedDateContainer.style.display = "block"; // Show the container
+                            ot_delayedDate.setAttribute("required", "required"); // Make the date field required
+                        } else {
+                            ot_delayedDateContainer.style.display = "none"; // Hide the container
+                            ot_delayedDate.removeAttribute("required"); // Remove the required attribute
+                            ot_delayedDate.value = ""; // Clear the value of the date field
+                        }
+                    }
+                </script>
+
+                <div class="form-group">
+                    <label for="appointment_date">Appointment Date:</label>
+                    <div class="input-with-icon">
+                        <input type="text" name="appointment_date" id="ot_appointment_date" required>
+                        <i class="fas fa-calendar-alt calendar-icon"></i>
+                    </div>
+                </div>
+
+                <div id="slot-container"></div>
+
+                <input type="submit" id="submit_btn" class="btn btn-primary w-100 py-2 mt-2">
+            </form>
+        </div>
+    </div>
+
+
 </x-app-layout>
     
 
@@ -1685,101 +1895,6 @@
 </html>
 
 <script>
-
-    // CENOMAR
-    function viewCenomarDetails(appointmentId){
-        fetch(`/appointment/cenomar/${appointmentId}`)
-        .then(response => response.json())
-            .then(data => {
-                console.log(data);
-            // Populate the modal with the fetched data
-            document.getElementById('ce_requester_last_name').value = data.requester_last_name;
-            document.getElementById('ce_requester_first_name').value = data.requester_first_name;
-            document.getElementById('ce_requester_middle_name').value = data.requester_middle_name;
-            document.getElementById('ce_requester_mailing_address').value = data.requester_mailing_address;
-            document.getElementById('ce_requester_city_municipality').value = data.requester_city_municipality;
-            document.getElementById('ce_requester_province').value = data.requester_province;
-            document.getElementById('ce_contact_no').value = data.contact_no;
-            document.getElementById('ce_requester_sex').value = data.requester_sex;
-            document.getElementById('ce_requester_age').value = data.requester_age;
-            document.getElementById('ce_request_type').value = data.request_type;
-            document.getElementById('ce_brn').value = data.brn;
-            document.getElementById('ce_person_last_name').value = data.person_last_name;
-            document.getElementById('ce_person_first_name').value = data.person_first_name;
-            document.getElementById('ce_person_middle_name').value = data.person_middle_name;
-            document.getElementById('ce_person_sex').value = data.person_sex;
-            document.getElementById('ce_date_of_birth').value = data.date_of_birth;
-            document.getElementById('ce_born_abroad').value = data.born_abroad;
-
-            const ce_checkBoxBornAbroad = document.getElementById('ce_born_abroad');
-            const ce_countryContainer = document.getElementById('ce_country_container');
-            const ce_countryInputField = document.getElementById('ce_country');
-            if(data.born_abroad === true || data.born_abroad === '1' || data.born_abroad === 1){
-                ce_checkBoxBornAbroad.checked = true;
-                ce_countryContainer.style.display = 'block';
-                ce_countryInputField.setAttribute('required', 'required');
-            }else{
-                ce_checkBoxBornAbroad.checked = false
-                ce_countryContainer.style.display = 'none';
-                ce_countryInputField.removeAttribute('required');
-            }
-
-            document.getElementById('ce_country').value = data.country;
-            document.getElementById('ce_person_city_municipality').value = data.person_city_municipality;
-            document.getElementById('ce_person_province').value = data.person_province;
-            document.getElementById('ce_father_last_name').value = data.father_last_name;
-            document.getElementById('ce_father_first_name').value = data.father_first_name;
-            document.getElementById('ce_father_middle_name').value = data.father_middle_name;
-            document.getElementById('ce_mother_last_name').value = data.mother_last_name;
-            document.getElementById('ce_mother_first_name').value = data.mother_first_name;
-            document.getElementById('ce_mother_middle_name').value = data.mother_middle_name;
-            document.getElementById('ce_requesting_party').value = data.requesting_party;
-            document.getElementById('ce_relationship_to_owner').value = data.relationship_to_owner;
-            document.getElementById('ce_purpose').value = data.purpose;
-            
-            document.getElementById('ce_delayed_date').value = data.delayed_date ? data.delayed_date : "";;
-            
-            
-            // Populate the appointment date and time fields
-            document.getElementById('ce_appointment_date').value = data.appointment_date;
-            
-            
-            document.getElementById('ce_date_of_birth').value = data.date_of_birth;
-
-
-            ceToggleOtherPurpose(data.purpose, data.purpose_other);
-
-            const ce_delayedYes = document.getElementById('ce_delayed_yes');
-            const ce_delayedNo = document.getElementById('ce_delayed_no');
-            const ce_delayedDateContainer = document.getElementById('ce_delayed_date_container');
-            const ce_delayedDate = document.getElementById('ce_delayed_date');
-
-            if (data.delayed === true) {
-                ce_delayedYes.checked = true;
-                ce_delayedDateContainer.style.display = "block";
-                ce_delayedDate.value = data.delayed_date || "";
-                ce_delayedDate.setAttribute("required", "required");
-            } else if (data.delayed === false) {
-                ce_delayedNo.checked = true;
-                ce_delayedDate.value = "";
-                ce_delayedDateContainer.style.display = "none";
-                ce_delayedDate.removeAttribute("required");
-            }
-            
-            // Update the form action URL with the current appointment ID
-            document.getElementById('cenomarAppointmentForm').action = document.getElementById('cenomarAppointmentForm').action.replace(':id', appointmentId);
-            // Show the modal after populating the data
-            document.getElementById('cenomarModal').classList.remove('hidden');
-            document.getElementById('birthCertificateModal').classList.add('hidden');
-            document.getElementById('marriageCertificateModal').classList.add('hidden');
-            document.getElementById('marriageLicenseModal').classList.add('hidden');
-            
-        })
-        .catch(error => {
-            console.error("Error fetching appointment details:", error);
-        });
-    }
-    // END OF CENOMAR
     
 
     // BIRTH CERTIFICATE
@@ -1840,6 +1955,17 @@
 
             bcToggleOtherPurpose(data.purpose, data.purpose_other);
 
+            const purposeSelect = document.getElementById('bc_purpose');
+            const otherPurposeInput = document.getElementById('bc_purpose_other');
+
+            if (data.purpose === "Other") {
+                otherPurposeInput.style.display = "block";
+            } else {
+                otherPurposeInput.style.display = "none";
+            }
+            
+            document.getElementById('bc_purpose_other').value = data.other_purposes;
+
             const bc_delayedYes = document.getElementById('bc_delayed_yes');
             const bc_delayedNo = document.getElementById('bc_delayed_no');
             const bc_delayedDateContainer = document.getElementById('bc_delayed_date_container');
@@ -1854,7 +1980,7 @@
                 bc_delayedDate.value = "";
                 bc_delayedDateContainer.style.display = "none";
             }
-            document.getElementById('bc_delayed_date').value = data.delayed_date ? data.delayed_date : "";;
+            document.getElementById('bc_delayed_date').value = data.delayed_date ? data.delayed_date : "";
             
             
             // Populate the appointment date and time fields
@@ -1875,9 +2001,7 @@
     // END OF BIRTH CERTIFICATE
     
 
-    // MARRIAGE CERTIFICATE
-    // populate the input field of modal. from database
-    
+    // MARRIAGE CERTIFICATE    
     function viewMarriageCertDetails(appointmentId) {
         fetch(`/appointment/marriage/${appointmentId}`)
         .then(response => response.json())
@@ -1934,7 +2058,18 @@
                 mc_delayedDate.value = '';
                 mc_delayedDate.removeAttribute('required');
             }
-            
+
+            const mc_purposeSelect = document.getElementById('mc_purpose');
+            const mc_otherPurposeInput = document.getElementById('mc_purpose_other');
+
+            // Check if "Other" is selected
+            if (mc_purposeSelect.value === "Other") {
+                mc_otherPurposeInput.style.display = "block";
+            } else {
+                mc_otherPurposeInput.style.display = "none";
+            }
+            document.getElementById('mc_purpose_other').value = data.other_purposes;
+
             
             // Populate the appointment date and time fields
             document.getElementById('mc_appointment_date').value = data.appointment_date;
@@ -1986,8 +2121,16 @@
             
             document.getElementById('ml_purpose').value = data.purpose;
 
-            mlToggleOtherPurpose(data.purpose, data.purpose_other);
+            const mlPurposeSelect = document.getElementById('ml_purpose');
+            const mlOtherPurposeInput = document.getElementById('ml_purpose_other');
 
+            // Check if "Other" is selected
+            if (mlPurposeSelect.value === "Other") {
+                mlOtherPurposeInput.style.display = "block";
+            } else {
+                mlOtherPurposeInput.style.display = "none";
+            }
+            document.getElementById('ml_purpose_other').value = data.other_purposes;
 
             // Handle Delayed Registration
             const ml_delayedYes = document.getElementById('ml_delayed_yes');
@@ -2076,7 +2219,17 @@
                 document.getElementById('dc_requesting_party').value = data.requesting_party;
                 document.getElementById('dc_relationship_to_owner').value = data.relationship_to_owner;
 
-                dcToggleOtherPurpose(data.purpose, data.purpose_other);
+                const dcPurposeSelect = document.getElementById('dc_purpose');
+                const dcOtherPurposeInput = document.getElementById('dc_purpose_other');
+
+                // Check if "Other" is selected
+                if (dcPurposeSelect.value === "Other") {
+                    dcOtherPurposeInput.style.display = "block";
+                } else {
+                    dcOtherPurposeInput.style.display = "none";
+                }
+                document.getElementById('dc_purpose_other').value = data.other_purposes;
+
 
                 // Handle Delayed Registration
                 const dc_delayedYes = document.getElementById('dc_delayed_yes');
@@ -2117,6 +2270,177 @@
     }
     // END OF DEATH CERTIFICATE
 
+    // CENOMAR
+    function viewCenomarDetails(appointmentId){
+        fetch(`/appointment/cenomar/${appointmentId}`)
+        .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            // Populate the modal with the fetched data
+            document.getElementById('ce_requester_last_name').value = data.requester_last_name;
+            document.getElementById('ce_requester_first_name').value = data.requester_first_name;
+            document.getElementById('ce_requester_middle_name').value = data.requester_middle_name;
+            document.getElementById('ce_requester_mailing_address').value = data.requester_mailing_address;
+            document.getElementById('ce_requester_city_municipality').value = data.requester_city_municipality;
+            document.getElementById('ce_requester_province').value = data.requester_province;
+            document.getElementById('ce_contact_no').value = data.contact_no;
+            document.getElementById('ce_requester_sex').value = data.requester_sex;
+            document.getElementById('ce_requester_age').value = data.requester_age;
+            document.getElementById('ce_request_type').value = data.request_type;
+            document.getElementById('ce_brn').value = data.brn;
+            document.getElementById('ce_person_last_name').value = data.person_last_name;
+            document.getElementById('ce_person_first_name').value = data.person_first_name;
+            document.getElementById('ce_person_middle_name').value = data.person_middle_name;
+            document.getElementById('ce_person_sex').value = data.person_sex;
+            document.getElementById('ce_date_of_birth').value = data.date_of_birth;
+            document.getElementById('ce_born_abroad').value = data.born_abroad;
+
+            const ce_checkBoxBornAbroad = document.getElementById('ce_born_abroad');
+            const ce_countryContainer = document.getElementById('ce_country_container');
+            const ce_countryInputField = document.getElementById('ce_country');
+            if(data.born_abroad === true || data.born_abroad === '1' || data.born_abroad === 1){
+                ce_checkBoxBornAbroad.checked = true;
+                ce_countryContainer.style.display = 'block';
+                ce_countryInputField.setAttribute('required', 'required');
+            }else{
+                ce_checkBoxBornAbroad.checked = false
+                ce_countryContainer.style.display = 'none';
+                ce_countryInputField.removeAttribute('required');
+            }
+
+            document.getElementById('ce_country').value = data.country;
+            document.getElementById('ce_person_city_municipality').value = data.person_city_municipality;
+            document.getElementById('ce_person_province').value = data.person_province;
+            document.getElementById('ce_father_last_name').value = data.father_last_name;
+            document.getElementById('ce_father_first_name').value = data.father_first_name;
+            document.getElementById('ce_father_middle_name').value = data.father_middle_name;
+            document.getElementById('ce_mother_last_name').value = data.mother_last_name;
+            document.getElementById('ce_mother_first_name').value = data.mother_first_name;
+            document.getElementById('ce_mother_middle_name').value = data.mother_middle_name;
+            document.getElementById('ce_requesting_party').value = data.requesting_party;
+            document.getElementById('ce_relationship_to_owner').value = data.relationship_to_owner;
+            document.getElementById('ce_purpose').value = data.purpose;
+            
+            document.getElementById('ce_delayed_date').value = data.delayed_date ? data.delayed_date : "";;
+            
+            
+            // Populate the appointment date and time fields
+            document.getElementById('ce_appointment_date').value = data.appointment_date;
+            
+            
+            document.getElementById('ce_date_of_birth').value = data.date_of_birth;
+
+
+            // Check if "Other" is selected
+            const cePurposeSelect = document.getElementById('ce_purpose');
+            const ceOtherPurposeInput = document.getElementById('ce_purpose_other');
+            if (cePurposeSelect.value === "Other") {
+                ceOtherPurposeInput.style.display = "block";
+            } else {
+                ceOtherPurposeInput.style.display = "none";
+            }
+            document.getElementById('ce_purpose_other').value = data.other_purposes;
+
+            const ce_delayedYes = document.getElementById('ce_delayed_yes');
+            const ce_delayedNo = document.getElementById('ce_delayed_no');
+            const ce_delayedDateContainer = document.getElementById('ce_delayed_date_container');
+            const ce_delayedDate = document.getElementById('ce_delayed_date');
+
+            if (data.delayed === true) {
+                ce_delayedYes.checked = true;
+                ce_delayedDateContainer.style.display = "block";
+                ce_delayedDate.value = data.delayed_date || "";
+                ce_delayedDate.setAttribute("required", "required");
+            } else if (data.delayed === false) {
+                ce_delayedNo.checked = true;
+                ce_delayedDate.value = "";
+                ce_delayedDateContainer.style.display = "none";
+                ce_delayedDate.removeAttribute("required");
+            }
+            
+            // Update the form action URL with the current appointment ID
+            document.getElementById('cenomarAppointmentForm').action = document.getElementById('cenomarAppointmentForm').action.replace(':id', appointmentId);
+            // Show the modal after populating the data
+            document.getElementById('cenomarModal').classList.remove('hidden');
+            document.getElementById('birthCertificateModal').classList.add('hidden');
+            document.getElementById('marriageCertificateModal').classList.add('hidden');
+            document.getElementById('marriageLicenseModal').classList.add('hidden');
+            
+        })
+        .catch(error => {
+            console.error("Error fetching appointment details:", error);
+        });
+    }
+    // END OF CENOMAR
+
+    // OTHER DOCUMENT
+    function viewOtherDetails(appointmentId){
+        fetch(`/appointment/other/${appointmentId}`)
+        .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            // Populate the modal with the fetched data
+            document.getElementById('ot_requester_last_name').value = data.requester_last_name;
+            document.getElementById('ot_requester_first_name').value = data.requester_first_name;
+            document.getElementById('ot_requester_middle_name').value = data.requester_middle_name;
+            document.getElementById('ot_requester_mailing_address').value = data.requester_mailing_address;
+            document.getElementById('ot_requester_city_municipality').value = data.requester_city_municipality;
+            document.getElementById('ot_requester_province').value = data.requester_province;
+            document.getElementById('ot_contact_no').value = data.contact_no;
+            document.getElementById('ot_requester_sex').value = data.requester_sex;
+            document.getElementById('ot_requester_age').value = data.requester_age;
+            document.getElementById('ot_other_document').value = data.other_document;
+            document.getElementById('ot_document_details').value = data.document_details;
+            document.getElementById('ot_requesting_party').value = data.requesting_party;
+            document.getElementById('ot_relationship_to_owner').value = data.relationship_to_owner;
+            document.getElementById('ot_purpose').value = data.purpose;
+            document.getElementById('ot_purpose_other').value = data.purpose_other;
+            
+            // Check if "Other" is selected
+            const otPurposeSelect = document.getElementById('ot_purpose');
+            const otOtherPurposeInput = document.getElementById('ot_purpose_other');
+            if (otPurposeSelect.value === "Other") {
+                otOtherPurposeInput.style.display = "block";
+            } else {
+                otOtherPurposeInput.style.display = "none";
+            }
+            document.getElementById('ot_purpose_other').value = data.other_purposes;
+
+            const ot_delayedYes = document.getElementById('ot_delayed_yes');
+            const ot_delayedNo = document.getElementById('ot_delayed_no');
+            const ot_delayedDateContainer = document.getElementById('ot_delayed_date_container');
+            const ot_delayedDate = document.getElementById('ot_delayed_date');
+
+            if (data.delayed === true) {
+                ot_delayedYes.checked = true;
+                ot_delayedDateContainer.style.display = "block";
+                ot_delayedDate.value = data.delayed_date || "";
+            } else if (data.delayed === false) {
+                ot_delayedNo.checked = true;
+                ot_delayedDate.value = "";
+                ot_delayedDateContainer.style.display = "none";
+            }
+            document.getElementById('ot_delayed_date').value = data.delayed_date ? data.delayed_date : "";
+            
+            
+            // Populate the appointment date and time fields
+            document.getElementById('ot_appointment_date').value = data.appointment_date;
+
+            // Update the form action URL with the current appointment ID
+            document.getElementById('otherAppointmentForm').action = document.getElementById('otherAppointmentForm').action.replace(':id', appointmentId);
+            // Show the modal after populating the data
+            document.getElementById('otherModal').classList.remove('hidden');
+            document.getElementById('birthCertificateModal').classList.add('hidden');
+            document.getElementById('marriageCertificateModal').classList.add('hidden');
+            document.getElementById('marriageLicenseModal').classList.add('hidden');
+        })
+        .catch(error => {
+            console.error("Error fetching appointment details:", error);
+        });
+
+    }
+    // END OF OTHER DOCUMENT
+
     // Function to close the modal
     function closeModal(event) {
         // Close the modal if the clicked element is the modal itself (not the content wrapper)
@@ -2129,7 +2453,7 @@
     document.getElementById("marriageLicenseModal").addEventListener("click", closeModal);
     document.getElementById("deathCertificateModal").addEventListener("click", closeModal);
     document.getElementById("cenomarModal").addEventListener("click", closeModal);
-    // document.getElementById("otherModal").addEventListener("click", closeModal);
+    document.getElementById("otherModal").addEventListener("click", closeModal);
 
 </script>
 
@@ -2200,3 +2524,52 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const appointmentDateInput = document.getElementById('mc_appointment_date');
+
+        // Fetch slot information from the backend
+        fetch('/api/date-slots')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(dateSlots => {
+                flatpickr(appointmentDateInput, {
+                    dateFormat: 'Y-m-d',
+                    disable: [
+                        ...Object.keys(dateSlots).filter(date => dateSlots[date].status === 'Full'), // Disable full dates
+                        function (date) {
+                            return date < new Date(); // Disable past dates
+                        },
+                    ],
+                    onDayCreate: function (dObj, dStr, fp, dayElem) {
+                        const date = dayElem.dateObj.toISOString().split('T')[0];
+
+                        if (dateSlots[date]) {
+                            const slotsLeft = dateSlots[date].slots_left;
+
+                            // Add the "slots left" text dynamically
+                            const slotInfo = document.createElement('div');
+                            slotInfo.textContent = `Slots: ${slotsLeft}`;
+                            slotInfo.style.color = slotsLeft > 0 ? 'green' : 'red';
+                            dayElem.appendChild(slotInfo);
+
+                            // Optional: Style full dates
+                            if (slotsLeft === 0) {
+                                dayElem.classList.add('flatpickr-disabled');
+                            }
+                        }
+                    },
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching date slots:', error);
+            });
+    });
+
+
+</script>
+

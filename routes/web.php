@@ -11,8 +11,19 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
 
 
+// Route::get('/appointment-welcome', [WelcomeController::class, 'index'])->name('appointment.welcome');
+// Route::get('/appointment-form', [AppointmentController::class, 'showForm'])->name('appointment.form');
+// Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
+
+// Route for displaying the welcome page
 Route::get('/appointment-welcome', [WelcomeController::class, 'index'])->name('appointment.welcome');
-Route::get('/appointment-form', [AppointmentController::class, 'showForm'])->name('appointment.form');
+
+// Route for showing the appointment form
+Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.form');
+
+// Route for handling form submission
+Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
+
 
 
 
@@ -37,8 +48,6 @@ Route::get('/appointments/available-slots', [AppointmentController::class, 'avai
 
 
 
-Route::get('/appointment', [AppointmentController::class, 'create'])->name('appointment.form');
-Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');
 
 Route::get('/client/form', function () {
     return view('client.form');
@@ -82,5 +91,12 @@ Route::put('/appointment/death/{id}', [DashboardController::class, 'updateDeathC
 
 Route::get('/appointment/cenomar/{id}', [DashboardController::class, 'showCenomarForm']);
 Route::put('/appointment/cenomar/{id}', [DashboardController::class, 'updateCenomar'])->name('updateCenomar');
+
+Route::get('/appointment/other/{id}', [DashboardController::class, 'showOtherForm']);
+Route::put('/appointment/other/{id}', [DashboardController::class, 'updateOther'])->name('updateOther');
+
+Route::get('/api/unavailable-dates', [DashboardController::class, 'getUnavailableDates']);
+Route::get('/api/date-slots', [DashboardController::class, 'getDateSlots']);
+
 
 require __DIR__.'/auth.php';

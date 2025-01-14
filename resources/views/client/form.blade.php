@@ -191,16 +191,15 @@
                             <option value="Employment (Abroad)">Employment (Abroad)</option>
                             <option value="Other">Other (Specify)</option>
                         </select>
-                        <input type="text" name="purpose_other" id="purpose_other" placeholder="Specify if other" style="display:none; margin-top: 25px;">
-                    </div>
+                        <input  type="text" name="other_purposes" id="purpose_other" placeholder="Specify if other" style="display: none; margin-top: 10px;">  </div>
            
-        <label>Delayed Registration:</label>
-        <div class="radio-group">
-            <input type="radio" id="delayed_yes" name="delayed" value="Yes" onclick="toggleDelayedDate()" required>
-            <label for="delayed_yes">Yes</label>
-            <input type="radio" id="delayed_no" name="delayed" value="No" onclick="toggleDelayedDate()" required>
-            <label for="delayed_no">No</label>
-        </div> 
+                        <label>Delayed Registration:</label>
+                        <div class="radio-group">
+                            <input type="radio" id="delayed_yes" name="delayed" value="Yes" onclick="toggleDelayedDate()" required>
+                            <label for="delayed_yes">Yes</label>
+                            <input type="radio" id="delayed_no" name="delayed" value="No" onclick="toggleDelayedDate()" required>
+                            <label for="delayed_no">No</label>
+                        </div> 
                 <div class="form-group" id="delayed_date_container" style="display:none;">
                     <label for="delayed_date">Delayed Date:</label>
                     <input type="date" id="delayed_date" name="delayed_date">
@@ -983,20 +982,20 @@ function toggleCountryField() {
     }
 }
 
-//PURPOSE DYNAMIC FORM(BIRTH CERTIFICATE)
+//PURPOSE DYNAMIC FORM
 function toggleOtherPurpose() {
-    const purposeSelect = document.getElementById("purpose");
-    const otherInput = document.getElementById("purpose_other");
+    const purpose = document.getElementById('purpose').value;
+    const purposeOther = document.getElementById('purpose_other');
 
-    if (purposeSelect.value === "Other") {
-        otherInput.style.display = "block"; 
-        otherInput.required = true;         
+    if (purpose === 'Other') {
+        purposeOther.style.display = 'block';
+        purposeOther.setAttribute('required', 'required');
     } else {
-        otherInput.style.display = "none";  
-        otherInput.required = false;        
-        otherInput.value = "";              
+        purposeOther.style.display = 'none';
+        purposeOther.removeAttribute('required');
     }
 }
+
 //DEATH CERTIFICATE (DIED ABROAD)
 function toggleCountryFieldForDeath() {
     var diedAbroadCheckbox = document.getElementById("died_abroad");
