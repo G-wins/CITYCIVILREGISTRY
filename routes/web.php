@@ -11,6 +11,31 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
 
 
+
+//WELCOME PAGE TAB
+Route::get('/', function () {
+    return view('appointment_welcome'); 
+})->name('appointment.welcome');
+
+Route::get('/contact-us', function () {
+    return view('contact_us'); 
+})->name('contact.us');
+
+Route::get('/requirements', function () {
+    return view('requirements'); 
+})->name('requirements');
+
+Route::get('/services', function () {
+    return view('services'); 
+})->name('services');
+
+Route::get('/about-us', function () {
+    return view('about_us'); 
+})->name('about.us');
+
+
+
+
 // Route::get('/appointment-welcome', [WelcomeController::class, 'index'])->name('appointment.welcome');
 // Route::get('/appointment-form', [AppointmentController::class, 'showForm'])->name('appointment.form');
 // Route::post('/appointment', [AppointmentController::class, 'store'])->name('appointment.store');

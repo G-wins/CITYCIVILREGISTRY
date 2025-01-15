@@ -10,8 +10,6 @@ body {
     height: 100vh;
 }
 
-
-/* Hero Section */
 .hero {
     background: linear-gradient(90deg, #ff914d, #e84d8a);
     color: white;
@@ -36,66 +34,259 @@ body {
     margin: 10px 0;
 }
 
+.logo-left {
+    position: absolute; 
+    top: 15px; 
+    left: 50px; 
+    width: 100px; 
+    height: auto;
+}
 
 
+.logo-right {
+    position: absolute; 
+    top: 15px; 
+    right: 50px; 
+    width: 100px; 
+    height: auto;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Modal (for Chat Support) */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
+.tabs-container {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    margin: 80px auto 0;
+    max-width: 100%;
+    display: flex;
     justify-content: center;
-    align-items: center;
-    z-index: 10000;
+    gap: 20px;
 }
 
-/* Modal content */
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    width: 80%;
-    max-width: 400px;
+.tabs a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: transparent;
+    transition: color 0.3s ease;
 }
 
-/* Button styles inside modal */
-button {
-    margin: 10px;
-    padding: 10px;
-    background-color: #FFA500;
-    border: none;
+.tabs a:hover {
+    color: #eb366c; /* Pink color on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(90deg, #ff914d, #e84d8a);
     color: white;
-    cursor: pointer;
+    text-align: center;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.hero-content {
+    display: flex;
+    justify-content: space-between; /* Para sa mga logo sa gilid */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto; /* Center alignment */
+    padding: 0 20px; /* Para sa spacing */
+}
+
+.logo-left,
+.logo-right {
+    width: 120px;
+    height: auto;
+}
+
+.hero-title {
+    flex-grow: 1; /* Pahabain ang text space */
+    text-align: center;
+}
+
+.hero-title h1 {
+    font-size: 1.8rem;
+    margin: 5px 0;
+    font-weight: bold;
+}
+
+.hero-title h2 {
+    font-size: 1.5rem;
+    margin: 5px 0;
+    font-weight: normal;
+}
+
+.hero-title h3 {
+    font-size: 1.2rem;
+    margin: 5px 0;
+    font-style: italic;
+}
+
+.hero-title p {
+    font-size: 1rem;
+    margin: 5px 0;
+    font-weight: bold;
+    color: #e84d8a; /* Highlight for ARYa San Joseño */
+}
+
+
+/* Tabs req,services,contact */
+.tabs-container {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0;
+    position: relative; 
+    z-index: 1000;
+    height: 590px;
+
+}
+.tabs a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: transparent;
+    transition: color 0.3s ease;
+}
+.tabs a:hover {
+    color: #eb366c; /* Pink color on hover */
+    transition: color 0.3s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Footer Styling */
+footer {
+    position: fixed; 
+    bottom: 0;
+    left: 0;
+    width: 100%; 
+    text-align: center; 
+    padding: 10px 0; 
+    color: #333; 
+    font-size: 14px; 
+    z-index: 999;
+}
+
+
+
+
+
+
+/* Tabs Container */
+.tabs-container {
+    width: 100vw; 
+    margin: 0 auto;
+    max-width: 100%; 
+    padding: 0; 
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: space-evenly;
+    background-color: transparent; 
+    border-bottom: 2px solid #ddd;
+    margin: 0;
+    padding: 0;
     width: 100%;
 }
 
-button:hover {
-    background-color: #ff8c00;
+.tab {
+    flex: 1; 
+    text-align: center;
+    padding: 15px 0;
+    background-color: transparent; 
+    border: none;
+    cursor: pointer;
+    outline: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Close button style */
-#closeModalBtn {
-    background-color: #ff4d4d;
+.tab:hover {
+    background-color: #e9ecef;
 }
+
+.tab.active {
+    background-color: #ee4f7f;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+/* Tab Content Container */
+.tab-content-container {
+    padding: 20px;
+    height: calc(45vh - 200px); 
+    margin-top: -2px; 
+    overflow-y: auto; 
+    display: flex;
+    align-items: flex-start; 
+    background-color: transparent; 
+    width: 100%; 
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+    width: 100%; /
+}
+
+
+/* General Layout Styling */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -288,3 +479,53 @@ p {
     background-color: #388e3c;
 }
 
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 1024px) { /* Tablet */
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    .logo-left, .logo-right {
+        width: 80px;
+    }
+
+    .tabs a {
+        font-size: 18px;
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 768px) { /* Mobile */
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+    }
+
+    .logo-left, .logo-right {
+        width: 60px;
+    }
+
+    .tabs-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .tabs a {
+        font-size: 16px;
+        padding: 5px 10px;
+    }
+}

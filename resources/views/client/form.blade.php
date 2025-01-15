@@ -45,7 +45,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="{{ asset('js/your_custom_script.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
 </head>
@@ -338,7 +337,6 @@
             <li>₱200.00 – Acknowledgement of Paternity</li>
             <li>₱300.00 – Authority to Use Surname of Father</li>
         </ul>
-        <p><strong>Note:</strong> All documents are subject for evaluation.</p>
     
     
     
@@ -376,7 +374,6 @@
     <li>Affidavit for Out-of-Town Delayed Registration</li>
     <li>Joint Affidavit of 2 Disinterested Persons</li>
 </ul>
-<p><strong>Note:</strong> Don’t submit <strong>“FAKE DOCUMENTS”</strong> to avoid penalty. All supporting documents are subject for <strong>VERIFICATION</strong> and <strong>FURTHER EVALUATION</strong>. Complete the needed requirements before submission.</p>
 
 
 
@@ -422,7 +419,6 @@
     <li>₱500.00 – Migrant Fee</li>
     <li>Other expenses: Courier & Notary</li>
 </ul>
-<p><strong>Note:</strong> All documents are subject for evaluation.</p>
 
 `,
 
@@ -536,7 +532,6 @@
     <li>₱500.00 – Migrant Fee</li>
     <li>Other expenses: Courier & Notary</li>
 </ul>
-<p><strong>Note:</strong> A
     `,
 
 
@@ -675,7 +670,6 @@
 <ul>
     <li>₱150.00 – Delayed Registration of Death</li>
 </ul>
-<p><strong>Note:</strong> All documents are subject for evaluation.</p>
 
 
 
@@ -719,7 +713,6 @@
     <li>₱500.00 – Migrant Fee</li>
     <li>Other expenses: Courier & Notary</li>
 </ul>
-<p><strong>Note:</strong> A
     `,
 
 
@@ -861,8 +854,8 @@ function formatFieldName(fieldName) {
 
 
 
-    //APPOINTMENT CALENDAR
-    $(document).ready(function () {
+ //APPOINTMENT CALENDAR
+ $(document).ready(function () {
         // Inject Custom CSS for Datepicker
         const style = document.createElement('style');
         style.innerHTML = `
@@ -964,6 +957,8 @@ function formatFieldName(fieldName) {
             });
         }
     });
+
+
 
 
 

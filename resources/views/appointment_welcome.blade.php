@@ -11,36 +11,45 @@
     <div class="welcome-container">
         <!-- Hero Section -->
         <header class="hero">
-            <h1>Welcome to the Appointment System</h1>
-            <p>Your gateway to efficient document processing and scheduling</p>
+            <div class="hero-content">
+                <img src="{{ asset('logo/ccro.png') }}" alt="Logo Left" class="logo-left">
+                <div class="hero-title">
+                    <h1>Republic of the Philippines</h1>
+                    <h2>City of San Jose Del Monte</h2>
+                    <h3>Registrar’s Office (CCRO)</h3>
+                    <p>ARYa San Joseño!</p>
+                </div>
+                <img src="{{ asset('logo/Csjdm Logo.png') }}" alt="Logo Right" class="logo-right">
+            </div>
         </header>
 
-        <!-- Tabs Section -->
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <a href="{{ route('contact.us') }}" class="tab {{ request()->routeIs('contact.us') ? 'active' : '' }}">Contact Us</a>
+            <a href="{{ route('requirements') }}" class="tab {{ request()->routeIs('requirements') ? 'active' : '' }}">Requirements</a>
+            <a href="{{ route('services') }}" class="tab {{ request()->routeIs('services') ? 'active' : '' }}">Services</a>
+            <a href="{{ route('about.us') }}" class="tab {{ request()->routeIs('about.us') ? 'active' : '' }}">About Us</a>
+        </div>
+
+        <!-- Main Content Section -->
         <div class="tabs-container">
-            <div class="tabs">
-                <button class="tab" data-target="contact-info">Contact Information</button>
-                <button class="tab" data-target="requirements">Requirements</button>
-                <button class="tab" data-target="services">Services</button>
-                <button class="tab active" data-target="about-us">About Us</button>
-            </div>
-            <div class="tab-content-container">
-              <button id="proceed-button" class="btn">Proceed</button>
-             </div>
-             <div id="contact-info" class="tab-content">
+            <div id="contact-info" class="tab-content {{ request()->routeIs('contact.us') ? 'active' : '' }}">
                 <h3>Contact Information</h3>
                 <p>Email: support@example.com</p>
                 <p>Phone: (123) 456-7890</p>
                 <p>Address: City Civil Registry Office, San Jose Del Monte</p>
-             </div>
-        <div id="requirements" class="tab-content">
-              <h3>Requirements</h3>
+            </div>
+
+            <div id="requirements" class="tab-content {{ request()->routeIs('requirements') ? 'active' : '' }}">
+                <h3>Requirements</h3>
                 <ul>
                     <li><b>Birth Certificate:</b> Valid ID, Application Form, Payment Fee</li>
                     <li><b>Marriage License:</b> Birth Certificates of Both Parties, CENOMAR</li>
                     <li><b>Death Certificate:</b> Medical Certificate, Valid ID</li>
                 </ul>
-           </div>
-           <div id="services" class="tab-content">
+            </div>
+
+            <div id="services" class="tab-content {{ request()->routeIs('services') ? 'active' : '' }}">
                 <h3>Services</h3>
                 <ul>
                     <li>Birth Certificate Registration</li>
@@ -48,18 +57,21 @@
                     <li>Death Certificate Issuance</li>
                 </ul>
             </div>
-           <div class="tab-content-container">
-            <div id="about-us" class="tab-content active">
+
+            <div id="about-us" class="tab-content {{ request()->routeIs('about.us') ? 'active' : '' }}">
                 <h3>About Us</h3>
                 <p>Welcome to the City Civil Registry System. We aim to provide efficient and reliable services for document processing.</p>
             </div>
-                </div>
-            </div>
+        </div>
 
+        <!-- Proceed Button -->
+        <div class="proceed-container">
+            <button id="proceed-button" class="btn">Proceed</button>
+        </div>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>&copy; 2025 City Civil Registry System</p>
+            <p>&copy; 2025 CITY CIVIL REGISTRY</p>
         </footer>
     </div>
 
@@ -73,11 +85,7 @@
         </div>
     </div>
 
-
-
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
 
     <script>
         const proceedButton = document.getElementById("proceed-button");
@@ -103,42 +111,20 @@
             if (event.target === modal) {
                 modal.style.display = "none"; 
             }
-            if (event.target === document.getElementById("chatSupportModal")) {
-                document.getElementById("chatSupportModal").style.display = "none";
-            }
-        }
+        };
+    </script>
 
-
-
-        document.addEventListener("DOMContentLoaded", () => {
-        const tabs = document.querySelectorAll(".tab");
-        const contents = document.querySelectorAll(".tab-content");
-
-        tabs.forEach(tab => {
-            tab.addEventListener("click", () => {
-                tabs.forEach(t => t.classList.remove("active"));
-                contents.forEach(c => c.classList.remove("active"));
-
-                tab.classList.add("active");
-                document.getElementById(tab.dataset.target).classList.add("active");
-            });
-        });
-        });
-
-
-            </script>
-
-            <!--Start of Tawk.to Script-->
-            <script type="text/javascript">
-                var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-                (function(){
-                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                s1.async=true;
-                s1.src='https://embed.tawk.to/677e2c3149e2fd8dfe0420bd/1ih2dp8mb';
-                s1.charset='UTF-8';
-                s1.setAttribute('crossorigin','*');
-                s0.parentNode.insertBefore(s1,s0);
-                })();
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/677e2c3149e2fd8dfe0420bd/1ih2dp8mb';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+        })();
     </script>
     <!--End of Tawk.to Script-->
 </body>
