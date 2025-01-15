@@ -6,112 +6,61 @@
     <title>Requirements</title>
     <style>
         /* Reset */
-        body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #f9f9f9, #f5c8d1); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50vh;
-}
-
-
-
-
-/* Hero Section */
-.hero {
-    background: linear-gradient(90deg, #ff914d, #e84d8a);
-    color: white;
-    text-align: center;
-    padding: 20px;  
-    width: 100vw; 
-    margin: 0;
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    z-index: 1000;
-    box-sizing: border-box; 
-}
-
-.hero h1 {
-    font-size: 2.5rem;  
-    margin: 0;
-}
-
-.hero p {
-    font-size: 1.2rem;  
-    margin: 10px 0;
-}
-
-
-/* LOGO */
-.logo-left {
-    position: absolute; 
-    top: 15px; 
-    left:600px; 
-    width: 100px; 
-    height: auto;
-}
-
-.logo-right {
-    position: absolute; 
-    top: 15px; 
-    right: 600px; 
-    width: 100px; 
-    height: auto;
-}
-
-
-
-
-
-
-
-
-
-
-        /* Container */
-        .requirements-container {
-            max-width: 1200px;
-            margin: 50px auto;
-            background-color: #fff;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+         /* Reset */
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Header */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #fdfcfb, #f5c8d1);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .requirements-container {
+            max-width: 1200px;
+            width: 90%;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 30px;
         }
 
         .header h1 {
-            font-size: 28px;
-            color: #007bff;
+            font-size: 2.5rem;
+            color: #333;
         }
 
         .header p {
-            font-size: 14px;
+            font-size: 1rem;
             color: #555;
         }
 
-        /* Main Cards */
         .main-cards {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             flex-wrap: wrap;
             gap: 20px;
-            margin-bottom: 30px;
         }
 
         .card {
+            background-color: #f9f9f9;
             flex: 1;
             max-width: 300px;
+            min-width: 200px;
             border-radius: 15px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
             text-align: center;
             cursor: pointer;
@@ -120,16 +69,33 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
         .card h3 {
-            font-size: 18px;
+            font-size: 1.2rem;
             color: #007bff;
             margin-bottom: 10px;
         }
 
-        /* Sub-Cards */
+        .card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .content-section {
+            display: none;
+            background-color: #f7f7f7;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
         .sub-card {
             margin: 10px 0;
             padding: 15px;
@@ -150,35 +116,33 @@
             color: #007bff;
         }
 
-        /* Content Section */
-        .content-section {
-            display: none;
-            background-color: #f7f7f7;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        .content-section.active {
-            display: block;
-        }
-
-        /* Back Button */
         .back-btn {
-            background-color: #28a745;
-            color: #fff;
+            display: inline-block;
+            margin-top: 30px;
             text-decoration: none;
+            background-color: #007bff;
+            color: #fff;
             padding: 10px 20px;
             border-radius: 8px;
-            font-size: 16px;
-            display: inline-block;
-            margin-top: 20px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease;
             text-align: center;
         }
 
         .back-btn:hover {
-            background-color: #218838;
+            background-color: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            .main-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 400px;
+            }
         }
     </style>
 </head>
@@ -339,24 +303,38 @@
     <!-- JavaScript -->
     <script>
         const cards = document.querySelectorAll('.card');
-        const sections = document.querySelectorAll('.content-section');
-        const subCards = document.querySelectorAll('.sub-card');
+            const sections = document.querySelectorAll('.content-section');
+            const subCards = document.querySelectorAll('.sub-card');
 
         cards.forEach(card => {
             card.addEventListener('click', () => {
-                sections.forEach(section => section.classList.remove('active'));
                 const target = card.dataset.target;
-                document.getElementById(target).classList.add('active');
+                const targetSection = document.getElementById(target);
+
+                if (targetSection) {
+                    sections.forEach(section => section.classList.remove('active'));
+                    targetSection.classList.add('active');
+                } else {
+                    console.error(`Section with id "${target}" not found.`);
+                }
             });
         });
 
         subCards.forEach(subCard => {
             subCard.addEventListener('click', () => {
-                sections.forEach(section => section.classList.remove('active'));
                 const subTarget = subCard.dataset.subtarget;
-                document.getElementById(subTarget).classList.add('active');
+                const subTargetSection = document.getElementById(subTarget);
+
+                if (subTargetSection) {
+                    sections.forEach(section => section.classList.remove('active'));
+                    subTargetSection.classList.add('active');
+                } else {
+                    console.error(`Section with id "${subTarget}" not found.`);
+                }
             });
         });
+
+
     </script>
 </body>
 </html>

@@ -253,10 +253,9 @@
 
     const privacyNotices = {
         "Birth Certificate": `
-        <h2>Timely Registration of Live Birth</h2>
-        <h3>From Married & Solo Parent</h3>
+        <h2>TIMELY REGISTRATION OF LIVE BIRTH FROM MARRIED AND SOLO PARENT</h2>
         <p>
-            Registration of live birth shall be made in the Local Civil Registry Office of the city/municipality where the birth occurred. 
+            <Strong>Registration of live birth</Strong> shall be made in the Local Civil Registry Office of the city/municipality where the birth occurred. 
             It shall be registered within thirty (30) days from the time of occurrence.
         </p>
         <h4>Requirements:</h4>
@@ -264,9 +263,9 @@
             <li>Four (4) copies of Form 102 duly accomplished and signed by the proper parties.</li>
         </ul>
 
-        <h3>Timely Registration of Live Birth of Illegitimate Children</h3>
+        <h2>TIMELY REGISTRATION OF LIVE BIRTH OF ILLEGITIMATE CHILDREN</h2>
         <p>
-            Registration of live birth shall be made in the Local Civil Registry Office of the city/municipality where the birth occurred. 
+            <Strong>Registration of live birth</Strong> shall be made in the Local Civil Registry Office of the city/municipality where the birth occurred. 
             It shall be registered within thirty (30) days from the time of occurrence.
         </p>
         <h4>Requirements:</h4>
@@ -287,22 +286,22 @@
 
 
 
-        <h2>Delayed Registration of Birth</h2>
+        <h2>DELAYED REGISTRATION OF BIRTH</h2>
         <p>
-            A report of vital event made beyond the reglementary period is considered delayed. A notice to the public on the pending application for delayed registration shall be posted in the bulletin board of the city/municipality for a period of not less than ten (10) days. If after ten (10) days, no one opposes the registration, the civil registrar shall evaluate the veracity of the statements made in the required documents submitted. When the civil registrar is convinced that the event really occurred within the jurisdiction of the civil registry office and finding out that the said event was not registered, he shall register the delayed report thereof.
+            A report of vital event made beyond the reglementary period is considered delayed. A notice to the public on the pending application for DELAYED REGISTRATION shall be posted in the bulletin board of the city/municipality for a period of not less than ten (10) days. If after ten (10) days, no one opposes the registration, the civil registrar shall evaluate the veracity of the statements made in the required documents submitted. When the civil registrar is convinced that the event really occurred within the jurisdiction of the civil registry office and finding out that the said event was not registered, he shall register the delayed report thereof.
         </p>
         <h4>Requirements:</h4>
         <ul>
-            <li>No record of Birth from PSA (NSO) and CCR of City of San Jose del Monte.</li>
-            <li>Submit original copy of any two (2) of the following both showing date and place of birth of the registrant:
+            <li>No record of Birth from PSA and CCR of City of San Jose del Monte.</li>
+            <li><Strong>Submit original copy of any two (2) of the following both showing date and place of birth of the registrant:</Strong>
                 <ul>
                     <li>Medical Certificate and Birth Certificate if born in hospital, lying-in, or clinic.</li>
                     <li>Baptismal Certificate.</li>
                     <li>White Card.</li>
                     <li>Form 137 (either Elementary or High School) or school certification or Transcript of Records.</li>
-                    <li>Voter’s Registration Record.</li>
-                    <li>Employment Records (GSIS/SSS E-1 or E-Form).</li>
-                    <li>Other documents the OFFICE MAY CONSIDER relevant and necessary for the approval of the application (Philhealth-MDR, Service Record, Personal Data Sheet, Medical Record, OSCA Certification, etc.).</li>
+                    <li>Voter’s Registration</li>
+                    <li>Brgy. Certification</li>
+                    <li>Affidavit, Employment Records (GSIS/SSS E-1 OR E-Form), Other documents the OFFICE MAY CONSIDER relevant and necessary for the approval of the application (Philhealth-MD, Service, Record, Personal Data Sheet, Medical Record, OSCA Certification, etc. </li>
                 </ul>
             </li>
             <li>Photocopy of ID/cedula of parents & registrant.</li>
@@ -312,21 +311,24 @@
             <li>Pre-Natal Record of mother regardless of birth order (For Minor Children) or if the mother is more than 40 years old at the time of the birth of the child.</li>
         </ul>
 
-        <h4>Illegitimate Children:</h4>
+        <h2>ILLEGITIMATE CHILDREN:</h2>
         <p>
-            Born before August 3, 1988, the father must sign the Affidavit of Acknowledgment at the back of COLB. 
-            If the father is deceased, submit documents that will prove the filiation of the child or documents showing that the father has acknowledged the child, i.e., ITR, public document, and private handwritten instrument.
+            <Strong>Born before August 3, 1988,</Strong> the FATHER must sign the Affidavit of Acknowledgment at the back of COLB. 
+            <Strong>IF FATHER IS DECEASED,</Strong> submit documents that will <Strong>prove the filiation</Strong> of the child or documents showing that the father has acknowledged the child, i.e., ITR, public document, and private handwritten instrument.
         </p>
-        <h4>A.O. 1 s. 2016 Revised IRR of RA 9255 based on Supreme Court Ruling on GRANDA vs. ANTONIO</h4>
+        <h4>A.O. 1 s. 2016 <Strong>Revised IRR of RA 9255 based on Supreme Court Ruling on GRANDA vs. ANTONIO</Strong></h4>
         <p>
-            Born from AUGUST 3, 1988 – MARCH 18, 2004, with or without Admission of Paternity at the back of the COLB, the child shall use the SURNAME OF THE MOTHER.
+            <Strong>Born from AUGUST 3, 1988 – MARCH 18, 2004,</Strong> with or without Admission of Paternity at the back of the COLB, the child shall use the SURNAME OF THE MOTHER.
         </p>
         <p>
-            Born from MARCH 19, 2004 – PRESENT:
+            <Strong>Born from MARCH 19, 2004 – PRESENT:</Strong>
+             <li> With Admission of Paternity but no AUSF, the child shall use the SURNAME OF THE MOTHER</li>
+             <li>With Admission of Paternity and with AUSF, the child shall use the SURNAME OF THE FATHER</li>
+
             <ul>
-                <li>0 - 6 yrs. old – AUSF to be executed by the mother or the guardian, in the absence of the mother.</li>
-                <li>7 - 17 yrs. old – AUSF to be executed by the child & sworn attestation executed by the mother or the guardian.</li>
-                <li>18 yrs. and above – AUSF to be executed by the child without need of attestation.</li>
+                <li><Strong>0 - 6 yrs. old</Strong> – AUSF to be executed by the mother or the guardian, in the absence of the mother.</li>
+                <li><Strong>7 - 17 yrs. old</Strong> – AUSF to be executed by the child & sworn attestation executed by the mother or the guardian.</li>
+                <li><Strong>18 yrs. and above</Strong> – AUSF to be executed by the child without need of attestation.</li>
             </ul>
         </p>
 
@@ -337,50 +339,109 @@
             <li>₱200.00 – Acknowledgement of Paternity</li>
             <li>₱300.00 – Authority to Use Surname of Father</li>
         </ul>
-    
-    
-    
-    
-    
-    
-    
-    
-    <h2>Requirements for Out-of-Town Delayed Registration of Birth</h2>
-<p><strong>City of San Jose del Monte, Bulacan</strong></p>
-<ul>
-    <li>No record of Birth from PSA</li>
-    <li>
-        Submit original copy of any two (2) of the following both showing <strong>date and place of birth</strong> of the registrant:
+
+
+
+
+
+
+
+
+
+
+          <h2>LATE REGISTRATION OF BIRTH</h2>
         <ul>
-            <li>Baptismal Certificate</li>
-            <li>White Card</li>
-            <li>Form 137 (either Elementary or High School) or school certification or Transcript of Records</li>
-            <li>Voter’s Registration Record</li>
-            <li>Employment Records (GSIS/SSS E-1 or E-Form)</li>
-            <li>
-                Other documents the OFFICE MAY CONSIDER relevant and necessary for the approval of the application (Philhealth-MDR, Service Record, Personal Data Sheet, Medical Record, OSCA Certification, etc.)
-            </li>
-        </ul>
-    </li>
-    <li>Medical Certificate/Birth Certificate if born in hospital, lying-in, or clinic</li>
-    <li>Photocopy of ID of registrant</li>
-    <li>Marriage Contract of registrant, if married</li>
-    <li>Barangay Certification</li>
-    <li>National ID</li>
-    <li>
-        Any (2) documentary evidence showing the identity of the parents such as but not limited to his/her certificate of live birth, government-issued ID, certificate of marriage, or certificate of death if deceased
-    </li>
-    <li>2 pcs. unedited front-facing photo of the registrant (2x2 size, white background, taken within 3 mos. from the date of registration)</li>
-    <li>Affidavit for Out-of-Town Delayed Registration</li>
-    <li>Joint Affidavit of 2 Disinterested Persons</li>
-</ul>
+            <p><Strong>1.</Strong> No record of Birth from PSA and CCR of City of San Jose del Monte.</p>
+            <p><Strong>2. Submit original copy of any two (2) of the following both showing date and place of birth of the registrant:</Strong>
+                <ul>
+                    <li>Baptismal Certificate.</li>
+                    <li>White Card.</li>
+                    <li>Form 137 (either Elementary or High School) or school certification or Transcript of Records.</li>
+                    <li>Voter’s Registration</li>
+                    <li>Employment Records (GSIS/SSS E-1 or E-Form</li>
+                    <li>Other Documents the OFFICE MAY CONSIDER relevant and necessary for the approval of the application (Philhealth-MDR, Service Record, Personal Data Sheet, Medical Record, OSCA Certification)</li>
+                </ul>
+                   <p><Strong>3.</Strong> Medical Certificate and Birth Certificate if born in hospital, lying-in, or clinic.</p>
+                    <p><Strong>4.</Strong> Government-issued ID of registrant</p>
+                    <p><Strong>5.</Strong> Marriage Contract of registrant, if married</p>
+                    <p><Strong>6.</Strong> Barangay Certification as proof of residency</p>
+                    <p><Strong>7.</Strong> National ID</p>
+                    <p><Strong>8.</Strong> Any (2) documentary evidence showing the identity of the parents such as but not limited to his/her certificate of live birth, government issued ID, certificate of marriage or certificate of death if deceased </p>
+                    <p><Strong>9.</Strong> 2pcs. Unedited front-facing photo of the registrant (2x2 size. white backgrund, taken within 3 mos. from the date of registration</p>
+                    <p><Strong>10.</Strong>Joint Affidavit of two disinterested persons.</p>
+                    <p><Strong>11.</Strong>Affidavit of Midwife/Hilot stating the reason of delay</p>
+                    <p><Strong>12.</Strong>Pre-Natal Record of mother regardless of birth order (For Minor Children) or if the mother is more than 40 years old at the time of the birth of the child.</p>
+                </ul>
+
+          <p><Strong>CHILDREN FROM NON-MARITAL PARENTS</Strong>the<Strong>FATHER</Strong> must sign the affidavit of acknowledgement at the back of COLB</p>
+
+        <p>
+            <Strong>IF FATHER IS DECEASED,</Strong> submit documents that will prove the filiation of the child or documents showing that the father has acknowledged the child, i.e., ITR, public document and private handwritten instrument.
+        </p>      
+        <p>    
+             <li> With Admission of Paternity but no AUSF, the child shall use the SURNAME OF THE MOTHER</li>
+             <li>With Admission of Paternity and with AUSF, the child shall use the SURNAME OF THE FATHER</li>
+
+            <ul>
+                <li><Strong>0 - 6 yrs. old</Strong> – AUSF to be executed by the mother or the guardian, in the absence of the mother.</li>
+                <li><Strong>7 - 17 yrs. old</Strong> – AUSF to be executed by the child & sworn attestation executed by the mother or the guardian.</li>
+                <li><Strong>18 yrs. and above</Strong> – AUSF to be executed by the child without need of attestation.</li>
+            </ul>
+        </p>
+        
+     
 
 
 
 
 
 
-<h2>Correction of Clerical Error</h2>
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    <h2>REQUIREMENTS FOR OUT OF TOWN DELAYED REGISTRATION OF BIRTH CERTIFICATE</h2>
+    <ul>
+        <P><Strong>1.</Strong> No record of Birth from PSA</P>
+        <p><Strong>2.</Strong> Submit original copy of any two (2) of the following both showing date and place of birth of the registrant:</p>
+            <ul>
+                <li>Baptismal Certificate</li>
+                <li>White Card</li>
+                <li>Form 137 (either Elementary or High School) or school certification or Transcript of Records</li>
+                <li>Voter’s Registration Record</li>
+                <li>Employment Records (GSIS/SSS E-1 or E-Form)</li>
+                <li>
+                    Other documents the OFFICE MAY CONSIDER relevant and necessary for the approval of the application (Philhealth-MDR, Service Record, Personal Data Sheet, Medical Record, OSCA Certification, etc.)
+                </li>
+            </ul>
+        
+        <p><Strong>3.</Strong> Medical Certificate/Birth Certificate if born in hospital, lying-in, or clinic</p>
+        <p><Strong>4.</Strong> Photocopy of ID of registrant</p>
+        <p><Strong>5.</Strong> Marriage Contract of registrant, if married</p>
+        <p><Strong>6.</Strong> Barangay Certification</p>
+        <p><Strong>7.</Strong> National ID</p>
+        <p><Strong>8.</Strong> Any (2) documentary evidence showing the identity of the parents such as but not limited to his/her certificate of live birth, government-issued ID, certificate of marriage, or certificate of death if deceased </p>
+        <p><Strong>9.</Strong> 2 pcs. unedited front-facing photo of the registrant (2x2 size, white background, taken within 3 mos. from the date of registration)</p>
+        <p><Strong>10.</Strong> Affidavit for Out-of-Town Delayed Registration</p>
+        <p><Strong>11.</Strong> Joint Affidavit of 2 Disinterested Persons</p>
+    </ul>
+
+
+
+
+
+
+<h2>CORRECTION OF CLERICAL ERROR</h2>
 <p>
     <strong>Republic Act No. 9048</strong> is an act further authorizing the City or Municipal Civil Registrar or the Consul General to correct clerical or typographical error in an entry and/or change of name or nickname in the civil register except corrections involving the change in sex, age, nationality and status of a person without a need of a judicial order. A petition shall be filed with the Local Civil Registry Office (LCRO) where the record containing the clerical error to be corrected is kept. However, in case the present residence is different from where his civil registry record is registered, he may file the petition in the nearest LCRO in his area. His petition will be treated as a migrant petition.
 </p>
@@ -420,6 +481,14 @@
     <li>Other expenses: Courier & Notary</li>
 </ul>
 
+
+
+<p>
+  <li>Don't submit<Strong> FAKE DOCUMENTS</Strong> to avoid penalty. All supporting documents are subject for<Strong> VERIFICATION and FURTHER EVALUATION</Strong></li>
+  <li>Complete the needed requirements before submission</li>
+  <li>Ten (10) days mandatory posting period will commence on the day requirements are submitted</li>
+</p>
+
 `,
 
 
@@ -431,7 +500,7 @@
 
 
         "Marriage Certificate": `
-<h2>Timely Registration of Marriage</h2>
+<h2>TIMELY REGISTRATION OF MARRIAGE</h2>
 <p>
     The time for submission of the <strong>CERTIFICATE OF MARRIAGE</strong> is within fifteen (15) days following the solemnization of marriage while in marriage exempt from license requirement, the prescribed period is thirty (30) days at the place where the marriage was solemnized.
 </p>
@@ -443,38 +512,20 @@
 
 
 
-       <h2>Requirements for Late Registration of Marriage Certificate</h2>
+       <h2>REQUIREMENTS FOR LATE REGISTRATION OF MARRIAGE CERTIFICATE</h2>
 <ul>
-    <li>Latest copy of Certificate of No Record from PSA and City of San Jose Del Monte, Bulacan</li>
-    <li>Latest copy of Certificate of No Marriage (CENOMAR) from PSA (for both parties)</li>
-    <li>Original or Duplicate Copy of Old Marriage Certificate with Signatures</li>
-    <li>
-        If not available, certification from the church or Solemnizing Officer indicating date of said marriage based on their record or logbook
-    </li>
-    <li>
-        Affidavit of delayed registration which shall be executed by the solemnizing officer stating therein the exact place and date of marriage, the facts and circumstances surrounding the marriage, and the reason or cause of delay
-    </li>
-    <li>
-        If the solemnizing officer is deceased and no longer available, certification from PSA re: Authority to solemnize Marriage (CRASM)
-    </li>
-    <li>
-        Affidavit of Contracting Parties indicating the reason or cause of delay with VALID ID
-    </li>
-    <li>
-        Affidavit of delayed registration executed by 2 witnesses stating therein the exact place and date of marriage, the facts and circumstances surrounding the marriage, and the reason or cause of delay WITH VALID ID
-    </li>
-    <li>
-        Certified copy of Application for Marriage License bearing the date when the marriage license was issued, if applicable
-    </li>
-    <li>
-        Certified Copy of Birth Certificate of children with date and place of marriage of parents
-    </li>
-    <li>
-        If marriage occurred outside of Church, letter of request to solemnize Marriage outside of Church (notarized)
-    </li>
-    <li>
-        Follow the information indicated in the old copy of marriage certificate in accomplishing the new form
-    </li>
+    <p><Strong>1.</Strong> Latest copy of Certificate of No Record from PSA and City of San Jose Del Monte, Bulacan</p>
+    <p><Strong>2.</Strong> Latest copy of Certificate of No Marriage (CENOMAR) from PSA (for both parties)</p>
+    <p><Strong>3.</Strong> Original or Duplicate Copy of Old Marriage Certificate with Signatures</p>
+    <p><Strong>4.</Strong> If not available, certification from the church or Solemnizing Officer indicating date of said marriage based on their record or logbook </p>
+    <p><Strong>5.</Strong> Affidavit of delayed registration which shall be executed by the solemnizing officer stating therein the exact place and date of marriage, the facts and circumstances surrounding the marriage, and the reason or cause of delay</p>
+    <p><Strong>6.</Strong> If the solemnizing officer is deceased and no longer available, certification from PSA re: Authority to solemnize Marriage (CRASM) </p>
+    <p><Strong>7.</Strong> Affidavit of Contracting Parties indicating the reason or cause of delay with VALID ID</p>
+    <p><Strong>8.</Strong> Affidavit of delayed registration executed by 2 witnesses stating therein the exact place and date of marriage, the facts and circumstances surrounding the marriage, and the reason or cause of delay WITH VALID ID</p>
+    <p><Strong>9.</Strong> Certified copy of Application for Marriage License bearing the date when the marriage license was issued, if applicable </p>
+    <p><Strong>10.</Strong> Certified Copy of Birth Certificate of children with date and place of marriage of parents</p>
+    <p><Strong>11.</Strong> If marriage outside of Church, letter of request to solemnize Marriage outside of Church (notarized)</p>
+    <p><Strong>12.</Strong> Follow the information indicated in the old copy of marriage certificate in accomplishing the new form</p>
 </ul>
 
 <h4>Reminders:</h4>
@@ -494,6 +545,7 @@
 
 
 
+<h2>CORRECTION OF CLERICAL ERROR</h2>
 <p>
     <strong>Republic Act No. 9048</strong> is an act further authorizing the City or Municipal Civil Registrar or the Consul General to correct clerical or typographical error in an entry and/or change of name or nickname in the civil register except corrections involving the change in sex, age, nationality and status of a person without a need of a judicial order. A petition shall be filed with the Local Civil Registry Office (LCRO) where the record containing the clerical error to be corrected is kept. However, in case the present residence is different from where his civil registry record is registered, he may file the petition in the nearest LCRO in his area. His petition will be treated as a migrant petition.
 </p>
@@ -532,31 +584,43 @@
     <li>₱500.00 – Migrant Fee</li>
     <li>Other expenses: Courier & Notary</li>
 </ul>
-    `,
+
+
+
+<p>
+  <li>Don't submit<Strong> FAKE DOCUMENTS</Strong> to avoid penalty. All supporting documents are subject for<Strong> VERIFICATION and FURTHER EVALUATION</Strong></li>
+  <li>Complete the needed requirements before submission</li>
+  <li>Ten (10) days mandatory posting period will commence on the day requirements are submitted</li>
+</p>
+
+`,
+    
+
+
+
 
 
 
     "Marriage License": `
-       <h2>Requirements for Application of Marriage License</h2>
+       <h2>REQUIREMENTS FOR APPLICATION OF MARRIAGE LICENSE</h2>
 <p><strong>(Personal Appearance of the contracting parties / should be 18 years old and above)</strong></p>
 <h4>Requirements:</h4>
 <ul>
-    <li>PSA Copy of Certificate of Live Birth
+    <li>PSA original Copy of Certificate of Live Birth
         <ul>
-            <li>*If No Record of Birth - Latest Original Copy of Baptismal</li>
+            <li>*If No Record of Birth - Latest Original Copy of Baptismal/MDR (Philhealth)/MDF(Pag-ibig)/E1 Form (SSS)</li>
         </ul>
     </li>
-    <li>PSA Copy of Certificate of No Marriage (CENOMAR) – 6 Months Validity</li>
-    <li>Valid ID’s with Address in City of San Jose del Monte, Bulacan (present the Original & 2 photocopies with 3 affixed signature)</li>
-    <li>Certificate of Pre-Marriage Orientation (PMO) & Marriage Counselling (City Population Office)</li>
-    <li>Latest ID Picture (Passport size)</li>
+    <li>PSA Original Copy of Certificate of No Marriage (6 months validity/CENOMAR)</li>
+    <li>Valid ID’s with Address in City of San Jose del Monte, Bulacan  – (<Strong>at least one of the applicant</Strong>- present the original & 2 photocopies with 3 affixed signature) </li>
+    <li>Certificate of Pre-Marriage Orientation (PMO) & Marriage Counselling <Strong>(City Population Office - located at 2nd floor, New Government Center)</Strong></li>
+    <li>Latest ID Picture (Passport size- white backgound)</li>
 </ul>
-
 <h4>Applicants between 18 and below 21 years old:</h4>
 <ul>
     <li>
         <strong>Parental Consent</strong> – Parents (Father and Mother or Guardian in the order mentioned) need to come personally with valid ID. If mother or father is already dead, please provide a copy of Death Certificate. (PSA Copy and 2 pcs Photocopy)
-    </li>
+    </li> 
     <li>*Parental consent provided for under Art. 14 of the Family Code of the Philippines</li>
 </ul>
 
@@ -572,7 +636,7 @@
 
 <h4>Foreigner or Former Filipino Citizen but now is Naturalized Citizen of other country:</h4>
 <ul>
-    <li>Certificate of Legal Capacity to Marry issued by their respective Embassy here in the Philippines (translate if in non-English content)</li>
+    <li>Certificate of Legal Capacity to Marry <Strong>issued by their respective Embassy here in the Philippines</Strong> (translate if in non-English content)</li>
     <li>Passport ID – Original & 2 photocopies with 3 affixed signature (showing data and date of arrival)</li>
     <li>PSA Copy of Certificate of No Marriage (CENOMAR)</li>
     <li>Certificate of Pre-Marriage Orientation -PMO (City Population Office)</li>
@@ -580,33 +644,40 @@
 </ul>
 
 <h4>Additional Document Needed:</h4>
-<p><strong>For Widow/Widower:</strong></p>
+<p><strong>FOR WIDOW/WIDOWER:</strong></p>
 <ul>
     <li>PSA Copy of Death Certificate of deceased spouse</li>
     <li>PSA Copy of Marriage Certificate</li>
-    <li>PSA Copy of CENOMAR and Having Advisory of Marriage</li>
+    <li>PSA Copy of CENOMAR / Having Advisory of Marriage</li>
 </ul>
 
-<p><strong>For Annulled:</strong></p>
+<p><strong>FOR ANNULLED:</strong></p>
 <ul>
     <li>Decree of Annulment / Decree of Nullity of Marriage certified by the court</li>
     <li>Court Decision and Annotated COM PSA Copy</li>
 </ul>
 
-<p><strong>For Judicial Declaration of Presumptive Death:</strong></p>
+<p><strong>FOR JUDICIAL DECLARATION PRESSUMPTIVE DEATH:</strong></p>
 <ul>
     <li>Court Decision</li>
-    <li>Annotated COM PSA Copy</li>
+    <li>Annotated COM -PSA Copy</li>
 </ul>
 
-<p><strong>For Divorce (Foreigner / Non-Filipino Citizen):</strong></p>
+<p><strong>FOR DIVORCED/DIVORCEE (Foreigner / Non-Filipino Citizen):</strong></p>
 <ul>
     <li>Divorce decree (translate if in non-English content)</li>
     <li>Court Decision (translate in non-English content)</li>
     <li>Annotated COM PSA Copy</li>
 </ul>
 
-<p><strong>For Divorce Granted to Muslim Filipino:</strong></p>
+<p><strong>FOR DIVORCE granted by Foreign Courts to Filipino abroad ( marriage took place here in the Phil.)</strong></p>
+<ul>
+    <li>Divorce decree issued by a foreign court </li>
+    <li>Judicial Recognition of Divorce obtained from the Philippine Court</li>
+    <li>Annotated COM-PSA Copy</li>
+</ul>
+
+<p><strong>FOR DIVORCE Granted to MUSLIM Filipino:</strong></p>
 <ul>
     <li>Sharia’h Court (PD 1083)</li>
     <li>Divorce decree 3 copies</li>
@@ -616,24 +687,21 @@
 <h4>Notes:</h4>
 <ul>
     <li>At least one of the applicant must be a resident of the place where they will apply for marriage license.</li>
-    <li>All requirements must be submitted upon application. Present all original copy, after assessment/evaluation submit 2 photo copies of each requirement.</li>
-    <li>The marriage license will be issued on the 11th day after the 10-day posting period upon submission of the application for marriage license. License expires 120 days from the date licensed was issued.</li>
+    <li>All requirements must be submitted upon application. Present all original copy, after assessment/evaluation <Strong>submit 2 photocopies of each requirement.</Strong></li>
+    <li>The marriage license will be issue on the <Strong>11th day</Strong> after the <Strong>10-day posting period</Strong> upon submission of the application for marriage license. <Strong>License expires 120 days</Strong> from the date licensed was issued.</li>
 </ul>
 
-<h4>Steps for Additional Guidance:</h4>
+<h4>For added guidance & information please follow the following steps:</h4>
 <ul>
     <li>Comply all applicable requirements as stated above and proper fill out Application for Marriage License Form.</li>
     <li>Attend Pre-Marriage Orientation at City Population Office.</li>
     <li>Submit personally the complete requirement to the City Civil Registry Office and pay the corresponding fee (₱250.00 at the City Treasurer’s Office).</li>
     <li>Wait for 10-days posting period (Notice of Application).</li>
-    <li>Claim the Marriage License presenting the issued Claim Stub after the completion of 10-day posting period and payment of License Fee (₱2,000).</li>
+    <li>Claim the Marriage License presenting the issued Claim Stub after the completion of 10-day posting period and payment of License Fee (₱2.00).</li>
     <li>Please check/review all entries to avoid errors and bring the Marriage License to your Solemnizing Officer for the scheduled wedding ceremony.</li>
 </ul>
 
-<p>
-    For more information and queries, please visit our Facebook Page (Contact CCR Office): 
-    <strong>City of San Jose del Monte – City Registrar’s Office / 0999-544-9677</strong>
-</p>
+
 
     `,
 
@@ -641,7 +709,7 @@
 
 
     "Death Certificate": `
-       <h2>Timely Registration of Death</h2>
+       <h2>TIMELY REGISTRATION OF DEATH</h2>
 <p>
     <strong>REGISTRATION OF DEATH CERTIFICATE</strong> shall be made in the Office of the Civil Registrar of the city/municipality where it occurred within thirty (30) days from the time of death.
 </p>
@@ -671,10 +739,21 @@
     <li>₱150.00 – Delayed Registration of Death</li>
 </ul>
 
+<p>
+  <li>Don't submit<Strong> FAKE DOCUMENTS</Strong> to avoid penalty. All supporting documents are subject for<Strong> VERIFICATION</Strong></li>
+  <li>All supporting documents submitted must be original copy</li>
+  <li>Please avoid erasures and alterations in the preparation of the Death Certificate</li>
+  <li>Please Complete all the needed requirements before submission</li>
+  <li>Ten (10) days posting period. Will commence on the day when requirements was submitted</li>
+</p>
 
 
 
 
+
+
+
+<h2>CORRECTION OF CLERICAL ERROR</h2>
 <p>
     <strong>Republic Act No. 9048</strong> is an act further authorizing the City or Municipal Civil Registrar or the Consul General to correct clerical or typographical error in an entry and/or change of name or nickname in the civil register except corrections involving the change in sex, age, nationality and status of a person without a need of a judicial order. A petition shall be filed with the Local Civil Registry Office (LCRO) where the record containing the clerical error to be corrected is kept. However, in case the present residence is different from where his civil registry record is registered, he may file the petition in the nearest LCRO in his area. His petition will be treated as a migrant petition.
 </p>
@@ -713,6 +792,7 @@
     <li>₱500.00 – Migrant Fee</li>
     <li>Other expenses: Courier & Notary</li>
 </ul>
+
     `,
 
 
@@ -780,17 +860,25 @@ function proceedToPrivacyNotice() {
                     margin: 20px;
                     line-height: 1.6;
                 }
-                h2 {
-                    text-align: center;
-                    color: #007BFF;
-                    font-size: 28px;
-                    border-bottom: 2px solid #007BFF;
-                    padding-bottom: 10px;
-                    margin-bottom: 20px;
+                 h2 {
+                        text-align: center;
+                        color: #E91E63;
+                        font-size: 25px;
+                        border-bottom: 2px solid #E91E63;
+                        padding-bottom: 10px;
+                        margin-bottom: 20px;
+                    }
+                h3 {
+                    color:rgb(10, 9, 9);
+                    font-size: 20px;
+                    margin-bottom: 15px;
+                    text-transform: capitalize;
                 }
                 p {
                     margin-bottom: 20px;
                     text-align: justify;
+                    font-size: 16px;
+                    color: #333;
                 }
                 ul, ol {
                     padding-left: 40px;
