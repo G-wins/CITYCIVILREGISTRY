@@ -55,4 +55,4 @@ databases:
     region: oregon # Recommended region, can be changed to your nearest location
     databaseName: citycivilregistry
     user: root
-    password: # No password specified
+    password: gen14344
