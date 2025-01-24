@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: laravel-app
+    env: php
+    plan: free
+    branch: backup-branch
+    buildCommand: |
+      composer install --optimize-autoloader --no-dev
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    envVars:
+      - key: APP_ENV
+        value: development
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        value: 127.0.0.1
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: citycivilregistry
+      - key: DB_USERNAME
+        value: root
+      - key: DB_PASSWORD
+        value: # No password specified
+      - key: APP_KEY
+        value: base64:8LX7YPRLrNpowcrLDjb5ItLks+Y4B0pmuVCL7YYLgu0=
+      - key: APP_URL
+        value: http://localhost
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: 465
+      - key: MAIL_USERNAME
+        value: laogenesislene@gmail.com
+      - key: MAIL_PASSWORD
+        value: ysrvhhsxrxjiaymo
+      - key: MAIL_ENCRYPTION
+        value: ssl
+      - key: MAIL_FROM_ADDRESS
+        value: laogenesislene@gmail.com
+      - key: MAIL_FROM_NAME
+        value: City Civil Registry
+    disk:
+      name: laravel-disk
+      sizeGB: 1
+
+databases:
+  - name: citycivilregistry
+    plan: free
+    region: oregon # Recommended region, can be changed to your nearest location
+    databaseName: citycivilregistry
+    user: root
+    password: # No password specified
