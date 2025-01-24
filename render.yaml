@@ -1,18 +1,22 @@
 services:
   - type: web
     name: laravel-app
-    env: php
+    env: php # Ensure this specifies "php"
     plan: free
     branch: backup-branch
     buildCommand: |
-      composer install --optimize-autoloader --no-dev
-      php artisan config:cache
-      php artisan route:cache
+      composer install --optimize-autoloader --no-dev &&
+      php artisan config:cache &&
+      php artisan route:cache &&
       php artisan view:cache
     startCommand: php artisan serve --host 0.0.0.0 --port 10000
     envVars:
       - key: APP_ENV
-        value: development
+        value: production
+      - key: APP_KEY
+        value: base64:8LX7YPRLrNpowcrLDjb5ItLks+Y4B0pmuVCL7YYLgu0=
+      - key: APP_URL
+        value: http://your-app-url.com
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
@@ -24,7 +28,7 @@ services:
       - key: DB_USERNAME
         value: root
       - key: DB_PASSWORD
-        value: # No password specified
+        value: ""
       - key: APP_KEY
         value: base64:8LX7YPRLrNpowcrLDjb5ItLks+Y4B0pmuVCL7YYLgu0=
       - key: APP_URL
