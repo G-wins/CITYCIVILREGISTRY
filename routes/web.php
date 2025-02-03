@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ImageRequirementsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
 
@@ -120,8 +121,21 @@ Route::put('/appointment/cenomar/{id}', [DashboardController::class, 'updateCeno
 Route::get('/appointment/other/{id}', [DashboardController::class, 'showOtherForm']);
 Route::put('/appointment/other/{id}', [DashboardController::class, 'updateOther'])->name('updateOther');
 
+Route::get('/dashboard/search', [DashboardController::class, 'search'])->name('dashboard.search');
+
 Route::get('/api/unavailable-dates', [DashboardController::class, 'getUnavailableDates']);
 Route::get('/api/date-slots', [DashboardController::class, 'getDateSlots']);
 
+Route::get('/appointments-by-date', [DashboardController::class, 'getAppointmentsByDate']);
+
+// Mark all notifications as read
+Route::post('/mark-notifications-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+
+Route::match(['get', 'post'], '/image_requirements', [ImageRequirementsController::class, 'showReference'])->name('image.requirements');
+Route::post('/image-requirements', [ImageRequirementsController::class, 'store'])->name('image.requirements.store');
+Route::get('/images/{reference_number}', [ImageRequirementsController::class, 'showImages'])->name('images.show');
+Route::post('/update-image-status/{id}', [ImageRequirementsController::class, 'updateStatus'])->name('image.update.status');
+
+Route::post('/update-status', [AppointmentController::class, 'updateStatus'])->name('update.status');
 
 require __DIR__.'/auth.php';

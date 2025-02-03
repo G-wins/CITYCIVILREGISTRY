@@ -97,11 +97,11 @@ body {
 
 .hero-content {
     display: flex;
-    justify-content: space-between; /* Para sa mga logo sa gilid */
+    justify-content: space-between; 
     align-items: center;
     max-width: 1200px;
-    margin: 0 auto; /* Center alignment */
-    padding: 0 20px; /* Para sa spacing */
+    margin: 0 auto; 
+    padding: 0 20px; 
 }
 
 .logo-left,
@@ -111,7 +111,7 @@ body {
 }
 
 .hero-title {
-    flex-grow: 1; /* Pahabain ang text space */
+    flex-grow: 1; 
     text-align: center;
 }
 
@@ -137,8 +137,11 @@ body {
     font-size: 1rem;
     margin: 5px 0;
     font-weight: bold;
-    color: #e84d8a; /* Highlight for ARYa San Joseño */
+    color: #e84d8a; 
 }
+
+
+
 
 
 /* Tabs req,services,contact */
@@ -149,7 +152,7 @@ body {
     padding: 0;
     position: relative; 
     z-index: 1000;
-    height: 590px;
+    height: 490px;
 
 }
 .tabs a {
@@ -163,7 +166,7 @@ body {
     transition: color 0.3s ease;
 }
 .tabs a:hover {
-    color: #eb366c; /* Pink color on hover */
+    color: #eb366c; 
     transition: color 0.3s ease;
 }
 

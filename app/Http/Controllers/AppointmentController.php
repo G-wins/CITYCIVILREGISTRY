@@ -9,8 +9,6 @@ use App\Models\User;
 use App\Notifications\NewAppointmentNotification;
 use Illuminate\Support\Facades\DB;
 
-
-
 class AppointmentController extends Controller
 {
    
@@ -308,54 +306,59 @@ class AppointmentController extends Controller
 
     
 
-  // Fetch unavailable dates dynamically
-  public function unavailableDates()
-  {
-      $models = [
-          \App\Models\AppointmentBirthCertificate::class,
-          \App\Models\AppointmentMarriageCertificate::class,
-          \App\Models\AppointmentDeathCertificate::class,
-          \App\Models\AppointmentCenomar::class,
-      ];
+    // Fetch unavailable dates dynamically
+    public function unavailableDates()
+{
+    $models = [
+        \App\Models\AppointmentBirthCertificate::class,
+        \App\Models\AppointmentMarriageCertificate::class,
+        \App\Models\AppointmentDeathCertificate::class,
+        \App\Models\AppointmentCenomar::class,
+    ];
 
-      $unavailableDates = collect();
+    $maxAppointments = 100; // Maximum appointments per date
+    $unavailableDates = collect();
 
-      foreach ($models as $model) {
-          $dates = $model::where('status', '!=', 'Cancelled')
-              ->pluck('appointment_date');
-          $unavailableDates = $unavailableDates->merge($dates);
-      }
+    foreach ($models as $model) {
+        $dates = $model::select('appointment_date')
+            ->groupBy('appointment_date')
+            ->havingRaw('COUNT(*) >= ?', [$maxAppointments])
+            ->pluck('appointment_date');
+        $unavailableDates = $unavailableDates->merge($dates);
+    }
 
-      return response()->json($unavailableDates->unique()->values());
-  }
+    return response()->json($unavailableDates->unique()->values());
+}
 
-  // Fetch available slots dynamically
-  public function availableSlots(Request $request)
-  {
-      $selectedDate = $request->input('date');
 
-      $models = [
-          \App\Models\AppointmentBirthCertificate::class,
-          \App\Models\AppointmentMarriageCertificate::class,
-          \App\Models\AppointmentDeathCertificate::class,
-          \App\Models\AppointmentCenomar::class,
-          \App\Models\AppointmentOtherDocument::class,
+    // Fetch available slots dynamically
+    public function availableSlots(Request $request)
+    {
+        $selectedDate = $request->input('date');
 
-      ];
+        $models = [
+            \App\Models\AppointmentBirthCertificate::class,
+            \App\Models\AppointmentMarriageCertificate::class,
+            \App\Models\AppointmentMarriageLicense::class,
+            \App\Models\AppointmentDeathCertificate::class,
+            \App\Models\AppointmentCenomar::class,
+            \App\Models\AppointmentOtherDocument::class,
 
-      $amSlots = 100;
-      $pmSlots = 100;
+        ];
 
-      foreach ($models as $model) {
-          $amSlots -= $model::where('appointment_date', $selectedDate)->where('appointment_time', 'AM')->count();
-          $pmSlots -= $model::where('appointment_date', $selectedDate)->where('appointment_time', 'PM')->count();
-      }
+        $amSlots = 100;
+        $pmSlots = 100;
 
-      return response()->json([
-          'AM' => $amSlots > 0 ? $amSlots : 'Full',
-          'PM' => $pmSlots > 0 ? $pmSlots : 'Full',
-      ]);
-  }
+        foreach ($models as $model) {
+            $amSlots -= $model::where('appointment_date', $selectedDate)->where('appointment_time', 'AM')->count();
+            $pmSlots -= $model::where('appointment_date', $selectedDate)->where('appointment_time', 'PM')->count();
+        }
+
+        return response()->json([
+            'AM' => $amSlots > 0 ? $amSlots : 'Full',
+            'PM' => $pmSlots > 0 ? $pmSlots : 'Full',
+        ]);
+    }
 // Determine model based on appointment_type
 private function getModelClass($appointmentType)
 {
@@ -375,5 +378,32 @@ private function getModelClass($appointmentType)
         default:
             return null;
     }
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $referenceNumber = $request->input('reference_number');
+        $status = $request->input('status');
+
+        // List of tables to check
+        $tables = [
+            \App\Models\AppointmentBirthCertificate::class,
+            \App\Models\AppointmentMarriageCertificate::class,
+            \App\Models\AppointmentMarriageLicense::class,
+            \App\Models\AppointmentDeathCertificate::class,
+            \App\Models\AppointmentCenomar::class,
+            \App\Models\AppointmentOtherDocument::class,
+        ];
+
+        foreach ($tables as $model) {
+            $record = $model::where('reference_number', $referenceNumber)->first();
+            if ($record) {
+                $record->status = $status;
+                $record->save();
+                return response()->json(['success' => true]);
+            }
+        }
+
+        return response()->json(['success' => false, 'message' => 'Record not found'], 404);
     }
 }

@@ -10,15 +10,17 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background: linear-gradient(to bottom, #f9f9f9, #f5c8d1); 
             color: #333;
+            line-height: 1.9;
         }
+        
 
         /* Header Section */
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #f9c46b;
+            background: linear-gradient(90deg, #ff914d, #e84d8a);
             color: #000;
         }
 
@@ -31,7 +33,7 @@
         .divider {
             border: 0;
             height: 2px;
-            background: #e84d8a;
+            background:rgb(0, 0, 0);
             width: 60%;
             margin: 0 auto;
         }
@@ -59,17 +61,7 @@
             border-bottom: 1px solid #ddd;
         }
 
-        /* Footer Section */
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            font-size: 0.9rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+       
     </style>
 </head>
 <body>
@@ -97,9 +89,7 @@
         </ul>
     </main>
 
-    <footer class="footer">
-        <p>&copy; {{ date('Y') }} City Civil Registry</p>
-    </footer>
+    
 
     <div class="navigation">
             <a href="{{ route('appointment.welcome') }}" class="btn">Back to Home</a>

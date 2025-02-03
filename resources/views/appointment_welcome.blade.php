@@ -1,6 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .modal-body .mb-3 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body .form-label {
+            margin-bottom: -10px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        #refNumber {
+            border: 2px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            flex-grow: 1;
+        }
+
+        #refNumber:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+            outline: none;
+        }
+
+        .btn {
+            padding: 0px;
+            font-size: 16px;
+        }
+
+        .input-button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .hint {
+            margin-top: -10px;
+            font-size: 14px;
+            color: #6c757d;
+            text-align: left;
+        }
+
+        .modal-header .btn-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
@@ -66,7 +117,8 @@
 
         <!-- Proceed Button -->
         <div class="proceed-container">
-            <button id="proceed-button" class="btn">Proceed</button>
+            <button id="proceed-button" class="btn">Step 1</button>
+            <button id="imgButton"  class="btn btn-primary">Go to Image Requirements</button>    
         </div>
 
         <!-- Footer -->
@@ -81,38 +133,134 @@
             <span class="close">&times;</span>
             <h2>Data Privacy Notice</h2>
             <p>By proceeding with your appointment request, you agree to the collection and processing of your personal data according to our data privacy policy.</p>
-            <button id="confirm-proceed" class="btn">Agree and Proceed</button>
+            <button id="confirm-proceed" class="btn" data-url="{{ route('appointment.form') }}">Proceed</button>
         </div>
+    </div>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header position-relative">
+                    <h3 class="modal-title" id="imageModalLabel">Enter Reference Number</h3>
+                    <span class="close" id="closeButton">&times;</span>
+                </div>
+                <div class="modal-body">
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <form action="{{ route('image.requirements') }}" method="POST" autocomplete="off">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="refNumber" class="form-label">Reference Number:</label>
+                            <div class="input-button-container">
+                                <input type="text" id="refNumber" name="refNumber" class="form-control @error('refNumber') is-invalid @enderror" placeholder="Enter your reference number" required>
+                                <button type="submit" id="confirm_reference" class="btn btn-primary">Confirm</button>
+                            </div>
+                            @error('refNumber')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                            <small class="hint">Your reference number from step 1.</small>
+                        </div>
+                    </form>
+                </div>
+            </div>
     </div>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script>
+        // Modal and Button Elements
         const proceedButton = document.getElementById("proceed-button");
         const modal = document.getElementById("modal");
         const closeModal = document.querySelector(".close");
         const confirmProceed = document.getElementById("confirm-proceed");
+        const confirmRef = document.getElementById('confirm_reference');
+        const imageButton = document.getElementById("imgButton");
+        const imgModal = document.getElementById('imageModal');
+        const refNumberForm = document.getElementById('refNumberForm');
 
-        modal.style.display = "none";
+        // Ensure modals are hidden initially
+        if (modal) modal.style.display = "none";
+        if (imgModal) imgModal.style.display = "none";
 
-        proceedButton.onclick = function () {
-            modal.style.display = "flex"; 
-        };
+        // Proceed Modal Logic
+        if (proceedButton) {
+            proceedButton.onclick = function () {
+                if (modal) modal.style.display = "flex";
+            };
+        }
 
-        closeModal.onclick = function () {
-            modal.style.display = "none"; 
-        };
+        if (closeModal) {
+            closeModal.onclick = function () {
+                if (modal) modal.style.display = "none";
+            };
+        }
 
-        confirmProceed.onclick = function () {
-            window.location.href = "{{ route('appointment.form') }}";  
-        };
+        if (confirmProceed) {
+            confirmProceed.onclick = function () {
+                const url = confirmProceed.getAttribute('data-url') || "{{ route('appointment.form') }}";
+                window.location.href = url;
+            };
+        }
 
+        // Click outside modal to close
         window.onclick = function (event) {
             if (event.target === modal) {
-                modal.style.display = "none"; 
+                modal.style.display = "none";
+            }
+            if (event.target === imgModal) {
+                imgModal.style.display = "none";
             }
         };
+
+        // Image Modal Logic
+        if (imageButton) {
+            imageButton.onclick = function () {
+                if (imgModal) imgModal.style.display = "flex";
+            };
+        }
+
+        if (document.getElementById('closeButton')) {
+            document.getElementById('closeButton').addEventListener('click', function () {
+                console.log('Modal close button clicked.');
+                if (imgModal) imgModal.style.display = "none";
+            });
+        }
+
+        // Prevent form submission if input is empty
+        if (refNumberForm) {
+            refNumberForm.addEventListener('submit', function (event) {
+                const refNumberInput = document.getElementById('refNumber');
+                if (refNumberInput && refNumberInput.value.trim() === '') {
+                    event.preventDefault();
+                    alert('Please enter your reference number.');
+                }
+            });
+
+            // Prevent Enter keypress if input is empty
+            const refNumberInput = document.getElementById('refNumber');
+            if (refNumberInput) {
+                refNumberInput.addEventListener('keydown', function (event) {
+                    if (event.key === 'Enter' && this.value.trim() === '') {
+                        event.preventDefault();
+                        alert('Please enter your reference number.');
+                    }
+                });
+            }
+        }
     </script>
+
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">

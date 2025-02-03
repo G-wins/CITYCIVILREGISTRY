@@ -10,16 +10,17 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background: linear-gradient(to bottom, #f9f9f9, #f5c8d1); 
             color: #333;
-            line-height: 1.6;
+            line-height: 1.9;
         }
+        
 
         /* Header Section */
         .header {
             text-align: center;
             padding: 20px;
-            background-color: #f9c46b;
+            background: linear-gradient(90deg, #ff914d, #e84d8a);
             color: #000;
         }
 
@@ -32,8 +33,8 @@
         .divider {
             border: 0;
             height: 2px;
-            background: #e84d8a;
-            width: 60%;
+            background:rgb(0, 0, 0);
+            width: 80%;
             margin: 0 auto;
         }
 
@@ -52,7 +53,7 @@
             font-weight: bold;
             margin-top: 20px;
             margin-bottom: 10px;
-            color: #e84d8a;
+            color:rgb(0, 0, 0);
             text-align: center;
         }
 
@@ -70,7 +71,7 @@
         }
 
         .social-link {
-            color: #e84d8a;
+            color:rgb(0, 0, 0);
             text-decoration: none;
             font-weight: bold;
         }
@@ -79,17 +80,7 @@
             text-decoration: underline;
         }
 
-        /* Footer Section */
-        .footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #333;
-            color: white;
-            font-size: 0.9rem;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
+       
     </style>
 </head>
 <body>
@@ -100,7 +91,7 @@
 
     <main class="contact-container">
         <section>
-            <h2 class="contact-title">City Civil Registrar’s Office</h2>
+            <h2 class="contact-title">City Civil Registry Office</h2>
             <div class="contact-details">
                 <p><span class="icon">📍</span>Upper Ground Floor, New Government Center, Barangay Dulong Bayan, City of San Jose del Monte, Bulacan</p>
                 <p><span class="icon">📞</span>09995449677</p>
@@ -116,9 +107,7 @@
         </section>
     </main>
 
-    <footer class="footer">
-        <p>&copy; {{ date('Y') }} City Civil Registry</p>
-    </footer>
+   
 
     <div class="navigation">
             <a href="{{ route('appointment.welcome') }}" class="btn">Back to Home</a>
