@@ -7,18 +7,22 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\User; 
 use App\Notifications\NewAppointmentNotification;
+use App\Models\AppointmentBirthCertificate;
+use App\Models\AppointmentMarriageCertificate;
+use App\Models\AppointmentMarriageLicense;
+use App\Models\AppointmentDeathCertificate;
+use App\Models\AppointmentCenomar;
+use App\Models\AppointmentOtherDocument;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
-   
     public function create()
     {
         return view('client.form'); 
     }
 
-    public function store(Request $request)
-    {
+    public function store(Request $request){
         $request->validate([
             'requester_last_name' => 'required|string|max:255',
             'requester_first_name' => 'required|string|max:255',
@@ -36,7 +40,7 @@ class AppointmentController extends Controller
             'purpose' => 'required|string|max:255',
             'other_purposes' => 'nullable|string|max:255',
             'delayed' => 'required|in:Yes,No',
-            'delayed_date' => 'nullable|date|after_or_equal:today',
+            'delayed_date' => 'nullable|date',
         ]);
 
         // Determine the table dynamically based on appointment_type
@@ -80,7 +84,7 @@ class AppointmentController extends Controller
                     'date_of_birth' => 'required|date',
                     'place_of_birth_city_municipality' => 'required|string|max:255',
                     'place_of_birth_province' => 'required|string|max:255',
-                    'born_abroad' => 'nullable|boolean',
+                    'born_abroad' => 'nullable|in:Yes,No',
                     'country' => 'nullable|string|max:255',
                     'father_last_name' => 'required|string|max:255',
                     'father_first_name' => 'required|string|max:255',
@@ -89,7 +93,7 @@ class AppointmentController extends Controller
                     'mother_first_name' => 'required|string|max:255',
                     'mother_middle_name' => 'nullable|string|max:255',
                 ]);
-
+            
                 $appointment->fill($request->only([
                     'request_type',
                     'certificate_of_conversion',
@@ -109,7 +113,6 @@ class AppointmentController extends Controller
                     'mother_last_name',
                     'mother_first_name',
                     'mother_middle_name',
-
                 ]));
                 break;
 
@@ -125,7 +128,7 @@ class AppointmentController extends Controller
                     'wife_first_name' => 'required|string|max:255',
                     'wife_middle_name' => 'nullable|string|max:255',
                     'date_of_marriage' => 'required|date',
-                    'married_abroad' => 'nullable|boolean',
+                    'married_abroad' => 'nullable|in:1,0',
                     'country' => 'nullable|string|max:255',
                     'marriage_city_municipality' => 'required|string|max:255',
                     'marriage_province' => 'required|string|max:255',
@@ -207,45 +210,45 @@ class AppointmentController extends Controller
 
                 
 
-                case 'Cenomar':
-                    $request->validate([
-                    'request_type' => 'required|string|max:255',
-                    'brn' => 'nullable|string|max:14',
-                    'person_last_name' => 'required|string|max:255',
-                    'person_first_name' => 'required|string|max:255',
-                    'person_middle_name' => 'nullable|string|max:255',
-                    'person_sex' => 'required|string',
-                    'date_of_birth' => 'required|date',
-                    'born_abroad' => 'nullable|boolean',
-                    'country' => 'nullable|string|max:255',
-                    'person_city_municipality' => 'required|string|max:255',
-                    'person_province' => 'required|string|max:255',
-                    'father_last_name' => 'required|string|max:255',
-                    'father_first_name' => 'required|string|max:255',
-                    'father_middle_name' => 'nullable|string|max:255',
-                    'mother_last_name' => 'required|string|max:255',
-                    'mother_first_name' => 'required|string|max:255',
-                    'mother_middle_name' => 'nullable|string|max:255',
+            case 'Cenomar':
+                $request->validate([
+                'request_type' => 'required|string|max:255',
+                'brn' => 'nullable|string|max:14',
+                'person_last_name' => 'required|string|max:255',
+                'person_first_name' => 'required|string|max:255',
+                'person_middle_name' => 'nullable|string|max:255',
+                'person_sex' => 'required|string',
+                'date_of_birth' => 'required|date',
+                'born_abroad' => 'nullable|boolean',
+                'country' => 'nullable|string|max:255',
+                'person_city_municipality' => 'required|string|max:255',
+                'person_province' => 'required|string|max:255',
+                'father_last_name' => 'required|string|max:255',
+                'father_first_name' => 'required|string|max:255',
+                'father_middle_name' => 'nullable|string|max:255',
+                'mother_last_name' => 'required|string|max:255',
+                'mother_first_name' => 'required|string|max:255',
+                'mother_middle_name' => 'nullable|string|max:255',
                 ]);
-                    
+                
                 $appointment->fill($request->only([
-                    'request_type', 
-                    'brn', 
-                    'person_last_name', 
-                    'person_first_name', 
-                    'person_middle_name', 
-                    'person_sex', 
-                    'date_of_birth', 
-                    'born_abroad', 
-                    'country',
-                    'person_city_municipality', 
-                    'person_province',
-                    'father_last_name', 
-                    'father_first_name', 
-                    'father_middle_name', 
-                    'mother_last_name', 
-                    'mother_first_name', 
-                    'mother_middle_name'
+                'request_type', 
+                'brn', 
+                'person_last_name', 
+                'person_first_name', 
+                'person_middle_name', 
+                'person_sex', 
+                'date_of_birth', 
+                'born_abroad', 
+                'country',
+                'person_city_municipality', 
+                'person_province',
+                'father_last_name', 
+                'father_first_name', 
+                'father_middle_name', 
+                'mother_last_name', 
+                'mother_first_name', 
+                'mother_middle_name'
                 ]));
                 break;
 
@@ -257,52 +260,70 @@ class AppointmentController extends Controller
                     'other_document' => 'required|string|max:255',
                     'document_details' => 'required|string|max:5000',
                 
-            ]);
+                ]);
 
-            $appointment->fill($request->only([
-                'other_document',
-                'document_details',
-               
-            ]));
-            break;
-
-
-           
+                $appointment->fill($request->only([
+                    'other_document',
+                    'document_details',
                 
+                ]));
+                break;
 
         }
+            $appointment->requesting_party = $request->input('requesting_party');
+            $appointment->relationship_to_owner = $request->input('relationship_to_owner');
+            $appointment->purpose = $request->input('purpose');
+            if ($request->input('appointment_type') === 'Birth Certificate' || $request->input('appointment_type') === 'Cenomar') {
+                $appointment->born_abroad = $request->input('born_abroad') == 1 ? 1 : 0;
+            }                
+            if ($request->input('appointment_type') === 'Marriage Certificate') {
+                $appointment->married_abroad = $request->input('married_abroad') === 'Yes' ? 1 : 0;
+            }            
+            if ($request->input('appointment_type') === 'Cenomar') {
+                $appointment->date_of_birth = $request->input('date_of_birth');
+            }                    
+            $appointment->delayed = $request->input('delayed') === 'Yes' ? 1 : 0;
+            if ($appointment->delayed) {
+                $appointment->delayed_date = $request->input('delayed_date');
+            }
+
+            // generate reference number base on the appointment Type 
+            $selectedService = $request->input('appointment_type');
+            $prefix = $this->getReferencePrefix($selectedService);
+            $appointment->reference_number = $prefix . strtoupper(uniqid());
+
+            $now = Carbon::now('Asia/Manila');
+            $appointment->created_at = $now->format('Y-m-d h:i:s A');
+            $appointment->updated_at = $now->format('Y-m-d h:i:s A');
 
 
 
-        $appointment->requesting_party = $request->input('requesting_party');
-        $appointment->relationship_to_owner = $request->input('relationship_to_owner');
-        $appointment->purpose = $request->input('purpose');
-        $appointment->delayed = $request->input('delayed') === 'Yes' ? 1 : 0;
-        if ($appointment->delayed) {
-            $appointment->delayed_date = $request->input('delayed_date');
-        }
+            $appointment->save();
 
-        $now = Carbon::now('Asia/Manila');
-        $appointment->created_at = $now->format('Y-m-d h:i:s A');
-        $appointment->updated_at = $now->format('Y-m-d h:i:s A');
+            // **Send Notification to Admin**
+            $admin = User::where('is_admin', true)->first(); // Kunin ang admin user
+            if ($admin) {
+                $admin->notify(new NewAppointmentNotification([
+                    'name' => $appointment->requester_last_name . ', ' . $appointment->requester_first_name,
+                    'document_type' => $request->input('appointment_type'),
+                    'submitted_at' => $now->format('Y-m-d h:i:s A'),
+                ]));
+            }
 
-        $appointment->reference_number = 'REF-' . strtoupper(uniqid());
+            return redirect()->route('reference_page', ['reference_number' => $appointment->reference_number]);
+    }
+    private function getReferencePrefix($documentService){
+        $prefixes = [
+            'Birth Certificate' => 'BC-',
+            'Marriage Certificate' => 'MC-',
+            'Marriage License' => 'ML-',
+            'Death Certificate' => 'DC-',
+            'Cenomar' => 'CN-',
+            'Other Document' => 'OD-',
+        ];
 
-
-        $appointment->save();
-
-         // **Send Notification to Admin**
-         $admin = User::where('is_admin', true)->first(); // Kunin ang admin user
-         if ($admin) {
-             $admin->notify(new NewAppointmentNotification([
-                 'name' => $appointment->requester_last_name . ', ' . $appointment->requester_first_name,
-                 'document_type' => $request->input('appointment_type'),
-                 'submitted_at' => $now->format('Y-m-d h:i:s A'),
-             ]));
-         }
-
-         return redirect('/appointment')->with('success', 'Appointment created successfully!');
-        }
+        return $prefixes[$documentService] ?? 'GEN-';
+    }
 
     
 
@@ -312,8 +333,10 @@ class AppointmentController extends Controller
     $models = [
         \App\Models\AppointmentBirthCertificate::class,
         \App\Models\AppointmentMarriageCertificate::class,
+        \App\Models\AppointmentMarriageLicense::class,
         \App\Models\AppointmentDeathCertificate::class,
         \App\Models\AppointmentCenomar::class,
+        \App\Models\AppointmentOtherDocument::class,
     ];
 
     $maxAppointments = 100; // Maximum appointments per date
@@ -378,10 +401,9 @@ private function getModelClass($appointmentType)
         default:
             return null;
     }
-    }
+}
 
-    public function updateStatus(Request $request)
-    {
+    public function updateStatus(Request $request){
         $referenceNumber = $request->input('reference_number');
         $status = $request->input('status');
 
@@ -405,5 +427,27 @@ private function getModelClass($appointmentType)
         }
 
         return response()->json(['success' => false, 'message' => 'Record not found'], 404);
+    }
+    
+    public function checkReference(Request $request)
+    {
+        $refNumber = $request->refNumber;
+
+        // Check all models for the reference_number
+        $exists = AppointmentBirthCertificate::where('reference_number', $refNumber)->exists() ||
+                AppointmentMarriageCertificate::where('reference_number', $refNumber)->exists() ||
+                AppointmentMarriageLicense::where('reference_number', $refNumber)->exists() ||
+                AppointmentDeathCertificate::where('reference_number', $refNumber)->exists() ||
+                AppointmentCenomar::where('reference_number', $refNumber)->exists() ||
+                AppointmentOtherDocument::where('reference_number', $refNumber)->exists();
+
+        if ($exists) {
+            return response()->json([
+                'valid' => true, 
+                'redirect' => route('image.requirements')
+            ]);
+        } else {
+            return response()->json(['valid' => false]);
+        }
     }
 }

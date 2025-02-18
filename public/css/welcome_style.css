@@ -1,534 +1,390 @@
-/* Body Background */
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Background Image with Overlay */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #f9f9f9, #f5c8d1); 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.hero {
-    background: linear-gradient(90deg, #ff914d, #e84d8a);
-    color: white;
+    background: url("/system-image/cthall.jpg") no-repeat center center fixed;
+    background-size: cover;
     text-align: center;
-    padding: 20px;  
-    width: 100vw; 
-    margin: 0;
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    z-index: 1000;
-    box-sizing: border-box; 
+    color: white; /* Ensures text remains readable */
+    position: relative;
 }
 
-.hero h1 {
-    font-size: 2.5rem;  
-    margin: 0;
-}
-
-.hero p {
-    font-size: 1.2rem;  
-    margin: 10px 0;
-}
-
-.logo-left {
-    position: absolute; 
-    top: 15px; 
-    left: 50px; 
-    width: 100px; 
-    height: auto;
-}
-
-
-.logo-right {
-    position: absolute; 
-    top: 15px; 
-    right: 50px; 
-    width: 100px; 
-    height: auto;
-}
-
-.tabs-container {
-    width: 100%;
-    margin: 80px auto 0;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.tabs a {
-    text-decoration: none;
-    color: #000000;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: transparent;
-    transition: color 0.3s ease;
-}
-
-.tabs a:hover {
-    color: #eb366c; /* Pink color on hover */
-}
-
-
-
-
-
-
-
-
-
-
-
-
-/* Hero Section */
-.hero {
-    background: linear-gradient(90deg, #ff914d, #e84d8a);
-    color: white;
-    text-align: center;
-    padding: 20px 0;
-    margin: 0;
-}
-
-.hero-content {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto; 
-    padding: 0 20px; 
-}
-
-.logo-left,
-.logo-right {
-    width: 120px;
-    height: auto;
-}
-
-.hero-title {
-    flex-grow: 1; 
-    text-align: center;
-}
-
-.hero-title h1 {
-    font-size: 1.8rem;
-    margin: 5px 0;
-    font-weight: bold;
-}
-
-.hero-title h2 {
-    font-size: 1.5rem;
-    margin: 5px 0;
-    font-weight: normal;
-}
-
-.hero-title h3 {
-    font-size: 1.2rem;
-    margin: 5px 0;
-    font-style: italic;
-}
-
-.hero-title p {
-    font-size: 1rem;
-    margin: 5px 0;
-    font-weight: bold;
-    color: #e84d8a; 
-}
-
-
-
-
-
-/* Tabs req,services,contact */
-.tabs-container {
-    width: 100%;
-    margin: 0 auto;
-    max-width: 100%;
-    padding: 0;
-    position: relative; 
-    z-index: 1000;
-    height: 490px;
-
-}
-.tabs a {
-    text-decoration: none;
-    color: #000000;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: transparent;
-    transition: color 0.3s ease;
-}
-.tabs a:hover {
-    color: #eb366c; 
-    transition: color 0.3s ease;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Footer Styling */
-footer {
-    position: fixed; 
-    bottom: 0;
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
     left: 0;
-    width: 100%; 
-    text-align: center; 
-    padding: 10px 0; 
-    color: #333; 
-    font-size: 14px; 
-    z-index: 999;
-}
-
-
-
-
-
-
-/* Tabs Container */
-.tabs-container {
-    width: 100vw; 
-    margin: 0 auto;
-    max-width: 100%; 
-    padding: 0; 
-}
-
-/* Tabs */
-.tabs {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: transparent; 
-    border-bottom: 2px solid #ddd;
-    margin: 0;
-    padding: 0;
     width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 0;
 }
 
-.tab {
-    flex: 1; 
-    text-align: center;
-    padding: 15px 0;
-    background-color: transparent; 
-    border: none;
-    cursor: pointer;
-    outline: none;
-    font-size: 18px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
 
-.tab:hover {
-    background-color: #e9ecef;
-}
-
-.tab.active {
-    background-color: #ee4f7f;
-    color: white;
-    border-bottom: 2px solid white;
-}
-
-/* Tab Content Container */
-.tab-content-container {
+/* MAIN CONTENT */
+.mainContent {
+    position: absolute;
+    top: 85vh;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
     padding: 20px;
-    height: calc(45vh - 200px); 
-    margin-top: -2px; 
-    overflow-y: auto; 
-    display: flex;
-    align-items: flex-start; 
-    background-color: transparent; 
-    width: 100%; 
-}
-
-/* Tab Content */
-.tab-content {
-    display: none;
-    width: 100%; /
-}
-
-
-/* General Layout Styling */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* Modal styles */
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); 
-    overflow: auto;
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    padding: 20px; 
-}
-
-/* Modal Content */
-.modal-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%; /* Full width */
-    max-width: 600px; /* Max width */
     text-align: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);  
-    transition: transform 0.3s ease-in-out;
-    font-family: 'Arial', sans-serif;
-    position: relative; 
+    border-top: 5px solid #ff7f50;
+    border-top-left-radius: 50% 30px;
+    border-top-right-radius: 50% 30px;
 }
 
-/* Close button */
-.close {
-    color: #aaa;
-    font-size: 30px;
-    font-weight: bold;
+/* SCROLL INDICATOR */
+.scroll-indicator {
     position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-}
-
-/* Modal Header */
-h2 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Modal Text */
-p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    color: #555;
-}
-
-/* Buttons */
-.btn {
-    padding: 12px 30px;
-    background-color: #007bff;
+    top: 81vh;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 18px;
     color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    border-radius: 5px;
-    margin: 10px;
-    transition: background-color 0.3s ease;
+    animation: bounce 1.5s infinite;
 }
 
-
-
-.btn.agree {
-    background-color: #4caf50;
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    50% {
+        transform: translateY(10px) translateX(-50%);
+    }
 }
 
-.btn.agree:hover {
-    background-color: #388e3c;
-}
-
-
-
-
-
-
-
-
-/* Ensure the body and html take the full height */
-html, body {
-    height: 100%; 
-    margin: 0;
-    padding: 0;
-}
-
-/* Modal styles */
-.modal {
-    display: none; 
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8); 
+/* BUTTONS */
+.proceed-container {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
 }
 
-/* Modal Content */
-.modal-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%; /* Full width */
-    max-width: 600px; /* Max width */
-    text-align: center;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); 
-    transition: transform 0.3s ease-in-out;
-    font-family: Arial, sans-serif;
-    position: relative; 
-}
-
-/* Close button */
-.close {
-    color: #aaa;
-    font-size: 30px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-}
-
-/* Modal Header */
-h2 {
-    font-size: 1.8em;
-    margin-bottom: 15px;
-    color: #333;
-    font-weight: bold;
-}
-
-/* Modal Text */
-p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-    color: #555;
-}
-
-/* Buttons */
 .btn {
-    padding: 12px 30px;
-    background-color: #007bff;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
     color: white;
+    background-color: #ff5085;
     border: none;
-    cursor: pointer;
-    font-size: 1.1em;
     border-radius: 5px;
-    margin: 10px;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #ff6347;
 }
 
-.btn.agree {
-    background-color: #4caf50;
+/* FOOTER */
+.footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
 }
 
-.btn.agree:hover {
-    background-color: #388e3c;
+/* MODAL BACKDROP (Ensures a proper overlay background) */
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1001;
+    color: black;
+}
+
+/* MODAL CONTENT (Fixes transparency issue) */
+.modal-content {
+    background: #fff; /* Ensures a solid white background */
+    padding: 25px;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow for contrast */
+    position: relative;
+}
+
+/* MODAL HEADER */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* CLOSE BUTTON (Inside Modal) */
+.close {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    font-size: 24px;
+    cursor: pointer;
+    color: black;
+    font-weight: bold;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.close:hover {
+    color: red;
+}
+
+/* INPUT AND BUTTON CONTAINER */
+.input-button-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Adjust input width */
+.input-button-container input {
+    flex-grow: 1;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    min-width: 0;
+}
+
+/* FIX BUTTON WIDTH */
+.input-button-container button {
+    flex-shrink: 0;
+    width: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #ff7f50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* ENSURE MODAL DOESN'T INHERIT OPACITY */
+.modal * {
+    opacity: 1 !important; /* Forces all modal elements to be fully visible */
+}
+.modal-title{
+    color: black;
 }
 
 
+/* HINT TEXT */
+.hint {
+    font-size: 12px;
+    color: gray;
+    display: block;
+    margin-top: 5px;
+}
 
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+    }
+}
 
+/* Welcome Container */
+.welcome-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
+/* Header Styling */
+.hero {
+    background: linear-gradient(to left, #ff64a5, #fc6731);
+    color: white;
+    padding: 20px;
+    text-align: left;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    z-index: 1000;
+}
 
+/* Hero Content */
+.hero-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    position: relative;
+}
 
-/* Responsive Design */
-@media (max-width: 1024px) { /* Tablet */
-    .hero h1 {
-        font-size: 2rem;
+/* Left Side Header - Always Aligned Left */
+.leftSideHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-direction: row;
+    left: 0;
+}
+
+/* Logo Styling */
+.logo-left, .logo-right {
+    width: 80px; /* Default size */
+    height: auto;
+}
+
+/* Title Styling */
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    left: 0;
+}
+
+.hero-title h2 {
+    font-size: 26px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.hero-title h3 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Navigation Tabs */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.tab {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.tab:hover, .tab.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Hide Hamburger Menu on Wide Screens */
+.menu-icon {
+    display: none;
+}
+
+/* Responsive Design - When width is 1100px */
+@media screen and (max-width: 1100px) {
+    .menu-icon {
+        display: block; /* Show hamburger menu */
+        font-size: 24px;
+        cursor: pointer;
+        position: absolute;
+        right: 20px;
+        top: 20px;
     }
 
-    .hero p {
-        font-size: 1rem;
+    .hero-content {
+        justify-content: space-between;
+    }
+
+    .leftSideHeader {
+        flex-direction: row;
     }
 
     .logo-left, .logo-right {
-        width: 80px;
+        width: 70px; /* Shrink logos */
     }
 
-    .tabs a {
-        font-size: 18px;
-        padding: 8px 15px;
-    }
-}
-
-@media (max-width: 768px) { /* Mobile */
-    .hero h1 {
-        font-size: 1.5rem;
+    .hero-title h2 {
+        font-size: 22px;
     }
 
-    .hero p {
-        font-size: 0.9rem;
-    }
-
-    .logo-left, .logo-right {
-        width: 60px;
-    }
-
-    .tabs-container {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
-
-    .tabs a {
+    .hero-title h3 {
         font-size: 16px;
-        padding: 5px 10px;
+    }
+    .tabs {
+        display: flex; /* Maintain structure */
+        flex-direction: column;
+        align-items: center;
+        background: linear-gradient(to left, #ff64a5, #fc6731);
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 80px;
+        padding: 10px 0;
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        transition: max-height 0.5s ease-in-out, visibility 0s linear 0.5s;
+    }
+    
+    .tabs.show {
+        max-height: 500px; /* Adjust based on content height */
+        visibility: visible;
+        transition: max-height 0.5s ease-in-out, visibility 0s;
+    }
+    
+    
+}
+
+/* Responsive Design - When width is 780px */
+@media screen and (max-width: 780px) {
+    .logo-left, .logo-right {
+        width: 60px; /* Shrink logos again */
+    }
+
+    .hero-title h2 {
+        font-size: 15px;
+    }
+
+    .hero-title h3 {
+        font-size: 11px;
+    }
+    .leftSideHeader{
+        margin-left: -20px;
+    }
+    .menu-icon{
+        right: 5px;
+        top: 10px;
     }
 }

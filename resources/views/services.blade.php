@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Services</title>
     <style>
+        /* Navigation */
+        .navigation {
+            text-align: center;
+            margin: 30px 0;
+        }
         /* General Styles */
         body {
             font-family: 'Arial', sans-serif;
@@ -16,61 +21,138 @@
         }
         
 
-        /* Header Section */
-        .header {
+        
+        /* Main Container */
+        .services-container {
+            padding: 40px;
+            max-width: 800px;
+            margin: 140px auto 40px; 
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 20px;
-            background: linear-gradient(90deg, #ff914d, #e84d8a);
-            color: #000;
+            animation: fadeIn 1s ease-in-out; 
         }
 
-        .header h1 {
+        /* Services Title */
+        .services-title {
             font-size: 2.5rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
         }
 
+        .services-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, rgb(255, 46, 133), rgb(255, 114, 49));
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Divider */
         .divider {
             border: 0;
             height: 2px;
-            background:rgb(0, 0, 0);
+            background: linear-gradient(to right, rgb(255, 46, 133), rgb(255, 114, 49));
             width: 60%;
-            margin: 0 auto;
-        }
-
-        /* Services List Section */
-        .services-container {
-            padding: 30px;
-            max-width: 800px;
             margin: 20px auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
+        /* Services List */
         .services-list {
             list-style-type: none;
             padding: 0;
             margin: 0;
+            text-align: left;
         }
 
         .services-list li {
             font-size: 1.2rem;
-            margin: 10px 0;
-            padding: 5px 0;
-            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
+        .services-list li::before {
+            content: '•';
+            color: rgb(255, 46, 133);
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .services-list li:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to right, rgba(255, 46, 133, 0.1), rgba(255, 114, 49, 0.1));
+        }
+
+        /* Fade-in Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+         /* Button */
+         .navigation {
+            display: flex;
+            justify-content: center; 
+            margin-top: 20px; 
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ff6b6b; 
+            color: white; 
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none; 
+            border-radius: 8px;
+            transition: background 0.3s ease, transform 0.2s ease; 
+            margin: 20px;
+        }
+
+        .btn:hover {
+            background-color: #d64545; 
+            transform: scale(1.05); 
+        }
        
     </style>
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
 </head>
 <body>
-    <header class="header">
-        <h1>SERVICES</h1>
-        <hr class="divider">
-    </header>
-
+        <header class="hero">
+            <div class="hero-content">
+                <img src="{{ asset('logo/ccro.png') }}" alt="Logo Left" class="logo-left">
+                <img src="{{ asset('logo/Csjdm Logo.png') }}" alt="Logo Right" class="logo-right">
+                <div class="hero-title">
+                    <h2>City of San Jose Del Monte</h2>
+                    <h3>Registry Office (CCRO)</h3>
+                </div>
+            </div>
+        </header>
+        
     <main class="services-container">
+        <div class="pageTtitle">
+            <h1>SERVICES</h1>
+        </div>
         <ul class="services-list">
             <li>Birth Certificate Registration</li>
             <li>Marriage Certificate Registration</li>

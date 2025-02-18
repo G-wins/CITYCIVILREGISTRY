@@ -1,334 +1,340 @@
-.modal-overlay {
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9; 
+    margin: 0;
+    padding: 0;
+    color: #333; 
+    box-sizing: border-box;
+}
+
+/* Form Container Styles */
+.form-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.form-container h2 {
+    text-align: center;
+    color: #e91e63; 
+    margin-bottom: 20px;
+}
+
+/* Form Section Styles */
+.section-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #ff5722;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ff5722; 
+    padding-bottom: 5px;
+    
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #e91e63;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea, #appointment_date {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; 
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #ff5722; 
+    outline: none;
+}
+.country-code {
+    font-size: 1em;
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-right: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;
+}
+
+/* Form Row Styles (for inline fields) */
+.form-row {
+    display: flex;
+    gap: 15px; 
+}
+
+.form-group {
+    flex: 1; 
+    min-width: 150px; 
+}
+
+/* Label for the Section */
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #e91e63; 
+    margin-bottom: 5px;
+}
+
+/* Radio Group Styling */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    align-items: center; 
+}
+
+/* Hide Default Radio Button */
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+/* Custom Radio Button */
+.radio-group label {
+    position: relative;
+    padding-left: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+/* Custom Circle */
+.radio-group label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%); 
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ff6b6b;
+    background: #fff;
+    transition: 0.3s;
+}
+
+/* Fill Custom Circle When Selected */
+.radio-group input[type="radio"]:checked + label::before {
+    background: #ff6b6b;
+    border-color: #ff6b6b;
+}
+
+/* Inner Dot Effect */
+.radio-group input[type="radio"]:checked + label::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+/* Hover Effect */
+.radio-group label:hover::before {
+    border-color: #d64545;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .radio-group {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .radio-group label {
+        font-size: 0.9rem;
+    }
+}
+
+
+/* Button Styles */
+button {
+    background-color: #ff5722; 
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e64a19; 
+}
+
+/* MODAL BACKDROP */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
 }
 
+/* MODAL CONTAINER */
 .modal-content {
-    background-color: white;
+    background-color: #fff;
     padding: 20px;
     border-radius: 10px;
-    max-width: 600px;
-    width: 90%;
+    width: 90%; 
+    max-width: 600px; 
+    max-height: 80vh; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
+    overflow-y: auto;
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* FORCE CENTERING */
+@media (min-width: 768px) {
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); 
+    }
+}
+
+/* HEADER */
+.modal-content h3 {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 10px;
+    z-index: 2;
+}
+
+/* MODAL BODY */
+#modal_content {
+    flex-grow: 1; 
+    padding-right: 10px; 
+    max-height: 60vh; 
     overflow-y: auto;
 }
 
-.modal-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    cursor: pointer;
-    background: none;
-    border: none;
-}
-
-.modal-title {
-    font-size: 24px;
+/* INPUT FIELDS */
+.field {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
-    text-align: center;
+}
+
+.field label {
     font-weight: bold;
-}
-
-.modal-description {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 16px;
-    color: #666;
-}
-
-.modal-data {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* Two columns */
-    gap: 15px;
-}
-
-.modal-data .form-group {
-    margin-bottom: 15px;
-}
-
-.modal-data .form-group label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.modal-data .form-group p {
-    font-size: 16px;
-    padding: 8px;
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
-
-
-#submit_button {
-    transition: margin-top 0.3s ease;
-}
-
-.form-container {
-    transition: padding-bottom 0.3s ease;
-    max-width: 100%;
-    width: 800px; 
-    margin: 0 auto;
-    padding: 20px;
-    padding-bottom: 20px; /* Default padding */
-    background-color: #f5f5f5;
-    border-radius: 8px;
-}
-
-
-
-/* Container para sa input at icon */
-.input-with-icon {
-    position: relative;
-    width: 100%;
-}
-
-/* Input field styling */
-.input-with-icon input[type="text"] {
-    width: 100%;
-    padding-right: 30px;
-    padding-left: 10px;
-    box-sizing: border-box;
-}
-
-/* Icon styling */
-.input-with-icon .calendar-icon {
-    position: absolute;
-    right: 10px;
-    top: 65%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #333; 
-}
-
-
-/* General Styling */
-.form-container {
-    max-width: 100%;
-    width: 800px; 
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-}
-
-/* General styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
-.form-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
-}
-
-h2 {
-    text-align: center;
-}
-
-.section-header {
-    margin-top: 50px;
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 14px;
     color: #333;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-    
-}
-
-.form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.form-row .form-group {
-    flex: 1 1 200px;
-}
-
-label {
-    display: block;
     margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="date"],
-input[type="number"],
-select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-}
-
-.radio-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-button[type="submit"] {
-    background-color: #007BFF;
-    color: white;
-    padding: 12px 20px;
-    border: none;
+.field input {
+    background: #f8f9fa;
+    border: 1px solid #ccc;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 20px;
-    display: block;
-    width: 100%;
-}
-
-button[type="submit"]:hover {
-    background-color: #0056b3;
-
-}
-
-
-/*CONTACT NUMBER */
-.form-group input,
-.form-group select {
-    width: 100%;
     padding: 8px;
+    font-size: 14px;
+    width: 100%; 
     box-sizing: border-box;
+    cursor: not-allowed;
 }
 
-.contact-container {
-    display: flex;
-    align-items: center;
+/* BUTTON CONTAINER */
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    margin-top: 10px;
 }
 
-.country-code {
-    background-color: #f0f0f0;
-    border: 1px solid #000;
-    padding: 8px;
-    border-right: none;
+.modal-content button:first-of-type {
+    background-color: #28a745;
+    color: white;
 }
 
-input[type="tel"] {
-    border: 1px solid #000;
-    padding: 8px;
-    flex: 1;
+.modal-content button:first-of-type:hover {
+    background-color: #218838;
 }
 
-    
-    /*adjust Delayed Yes or No*/
-    .radio-group {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px; 
+.modal-content button:last-of-type {
+    background-color: #dc3545; 
+    color: white;
 }
 
-.radio-group input[type="radio"] {
-    margin-right: 5px; 
+.modal-content button:last-of-type:hover {
+    background-color: #c82333;
 }
 
-.radio-group label {
-    margin-right: 15px;
-}
-
-@media (max-width: 600px) {
-    .form-row {
-        flex-direction: column;
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
+}
 
 
-   /* Mobile View */
-@media (max-width: 600px) {
-    h2 {
-        font-size: 20px; 
-    }
+.hidden{
+    display: none;
+}
 
-    .form-container {
-        width: 95%; 
-        padding: 15px; 
-    }
 
+
+/* Responsive Styles */
+@media (max-width: 768px) {
     .form-row {
         flex-direction: column; 
     }
 
-    .form-row .form-group {
-        flex: 1 1 100%;
-    }
-
-    input[type="text"], input[type="tel"], select, input[type="number"], input[type="date"] {
-        font-size: 16px; 
-    }
-    .country-code {
-        background-color: #f0f0f0;
-        border: 1px solid #000;
-        padding: 8px;
-        border-right: none;
-    }
-
-}
-
-/* Tablet View */
-@media (min-width: 601px) and (max-width: 1024px) {
-    h2 {
-        font-size: 22px; 
-    }
-
     .form-container {
-        width: 90%; 
-        padding: 20px;
+        padding: 15px;
     }
 
-    .form-row .form-group {
-        flex: 1 1 calc(50% - 20px);
+    .modal-content {
+        padding: 15px;
     }
 }
 
-/* Larger Screens */
-@media (min-width: 1025px) {
-    .form-container {
-        width: 800px; 
-    }
-
-    .form-row .form-group {
-        flex: 1 1 calc(33.33% - 20px); 
-    }
-} 
-    
-        }
+.requestInfoWrapper{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}

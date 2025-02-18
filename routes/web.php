@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ImageRequirementsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
+use Illuminate\Http\Request;
 
 
 
@@ -137,5 +138,15 @@ Route::get('/images/{reference_number}', [ImageRequirementsController::class, 's
 Route::post('/update-image-status/{id}', [ImageRequirementsController::class, 'updateStatus'])->name('image.update.status');
 
 Route::post('/update-status', [AppointmentController::class, 'updateStatus'])->name('update.status');
+
+Route::get('/reference', function (Request $request) {
+    return view('reference_page', [
+        'reference_number' => $request->query('reference_number'),
+    ]);
+})->name('reference_page');
+
+
+Route::post('/check-reference', [AppointmentController::class, 'checkReference'])->name('check.reference');
+
 
 require __DIR__.'/auth.php';

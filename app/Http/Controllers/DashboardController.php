@@ -10,6 +10,7 @@ use App\Models\AppointmentCenomar;
 use App\Models\AppointmentOtherDocument;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class DashboardController extends Controller{
@@ -181,12 +182,8 @@ class DashboardController extends Controller{
             'appointment_date' => $request->input('appointment_date'),
             'reference_number' => $appointment->reference_number,
         ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
 
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
     }
     // Show and update for  MARRIAGE CERTIFICATE
     public function showMarriageForm($id)
@@ -264,12 +261,7 @@ class DashboardController extends Controller{
             'appointment_date' => $request->input('appointment_date'),
             'reference_number' => $request->input('reference_number'),
         ]);
-
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
     }
     // Show and update for  MARRIAGE LICENSE
     public function showMarriageLicenseForm($id)
@@ -308,8 +300,7 @@ class DashboardController extends Controller{
         ]);
     }
 
-    public function updateMarriageLicense(Request $request, $id)
-    {
+    public function updateMarriageLicense(Request $request, $id){
         // Fetch the appointment data using findOrFail to ensure the ID exists
         $appointment = AppointmentMarriageLicense::findOrFail($id);
 
@@ -344,12 +335,7 @@ class DashboardController extends Controller{
             'reference_number' => $request->input('reference_number'),
 
         ]);
-
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
     }
     // Show and update for  DEATH CERTIFICATE
     public function showDeathCertificateForm($id)
@@ -423,14 +409,8 @@ class DashboardController extends Controller{
             'appointment_date' => $request->input('appointment_date'),
             'reference_number' => $request->input('reference_number'),
 
-
         ]);
-
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
     }
     // Show and update for  CENOMAR
     public function showCenomarForm($id)
@@ -520,12 +500,7 @@ class DashboardController extends Controller{
             'reference_number' => $request->input('reference_number'),
 
         ]);
-
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
     }
     // Show and update for  OTHER DOCUMENTS
     public function showOtherForm($id){
@@ -582,12 +557,7 @@ class DashboardController extends Controller{
             'reference_number' => $request->input('reference_number'),
 
         ]);
-
-        // Return a response indicating the update was successful
-        return response()->json([
-            'message' => 'Appointment details updated successfully',
-            'updated_appointment' => $appointment
-        ]);
+        return response()->json(['success' => true, 'message' => 'Appointment updated successfully.']);
     }
 
     public function getUnavailableDates()
@@ -708,5 +678,33 @@ class DashboardController extends Controller{
 
         return response()->json($results);
     }
+
+
+    public function updateStatus(Request $request)
+    {
+        $request->validate([
+            'reference_number' => 'required|string',
+            'status' => 'required|string'
+        ]);
+
+        // Find the correct appointment model based on the reference number
+        $appointment = AppointmentBirthCertificate::where('reference_number', $request->reference_number)->first()
+            ?? AppointmentMarriageCertificate::where('reference_number', $request->reference_number)->first()
+            ?? AppointmentMarriageLicense::where('reference_number', $request->reference_number)->first()
+            ?? AppointmentDeathCertificate::where('reference_number', $request->reference_number)->first()
+            ?? AppointmentCenomar::where('reference_number', $request->reference_number)->first()
+            ?? AppointmentOtherDocument::where('reference_number', $request->reference_number)->first();
+
+        if (!$appointment) {
+            return response()->json(['message' => 'Appointment not found'], 404);
+        }
+
+        // Update status in the database
+        $appointment->status = $request->status;
+        $appointment->save();
+
+        return response()->json(['success' => true, 'message' => 'Status updated successfully']);
+    }
+
 }
 

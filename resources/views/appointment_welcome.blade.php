@@ -1,57 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        .modal-body .mb-3 {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-body .form-label {
-            margin-bottom: -10px;
-            font-size: 16px;
-            font-weight: 500;
-            text-align: left;
-        }
-
-        #refNumber {
-            border: 2px solid #ced4da;
-            border-radius: 5px;
-            padding: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            flex-grow: 1;
-        }
-
-        #refNumber:focus {
-            border-color: #0d6efd;
-            box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
-            outline: none;
-        }
-
-        .btn {
-            padding: 0px;
-            font-size: 16px;
-        }
-
-        .input-button-container {
-            display: flex;
-            align-items: center;
-        }
-
-        .hint {
-            margin-top: -10px;
-            font-size: 14px;
-            color: #6c757d;
-            text-align: left;
-        }
-
-        .modal-header .btn-close {
-            position: absolute;
-            right: 15px;
-            top: 15px;
-        }
-    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
@@ -63,68 +12,43 @@
         <!-- Hero Section -->
         <header class="hero">
             <div class="hero-content">
-                <img src="{{ asset('logo/ccro.png') }}" alt="Logo Left" class="logo-left">
-                <div class="hero-title">
-                    <h1>Republic of the Philippines</h1>
-                    <h2>City of San Jose Del Monte</h2>
-                    <h3>Registrar’s Office (CCRO)</h3>
-                    <p>ARYa San Joseño!</p>
+                <div class="leftSideHeader">
+                    <img src="{{ asset('logo/ccro.png') }}" alt="Logo ccro" class="logo-left">
+                    <img src="{{ asset('logo/Csjdm Logo.png') }}" alt="Logo csjdm" class="logo-right">
+                    <div class="hero-title">
+                        <h2>City of San Jose Del Monte</h2>
+                        <h3>Registry Office (CCRO)</h3>
+                    </div>
                 </div>
-                <img src="{{ asset('logo/Csjdm Logo.png') }}" alt="Logo Right" class="logo-right">
+                
+                <!-- Hamburger Menu Icon -->
+                <div class="menu-icon" id="menuIcon">
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
+
+            <!-- Navigation Tabs (Will be hidden on small screens) -->
+            <nav class="tabs" id="navMenu">
+                <a href="{{ route('contact.us') }}" class="tab {{ request()->routeIs('contact.us') ? 'active' : '' }}">Contact Us</a>
+                <a href="{{ route('requirements') }}" class="tab {{ request()->routeIs('requirements') ? 'active' : '' }}">Requirements</a>
+                <a href="{{ route('services') }}" class="tab {{ request()->routeIs('services') ? 'active' : '' }}">Services</a>
+                <a href="{{ route('about.us') }}" class="tab {{ request()->routeIs('about.us') ? 'active' : '' }}">About Us</a>
+            </nav>
         </header>
 
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <a href="{{ route('contact.us') }}" class="tab {{ request()->routeIs('contact.us') ? 'active' : '' }}">Contact Us</a>
-            <a href="{{ route('requirements') }}" class="tab {{ request()->routeIs('requirements') ? 'active' : '' }}">Requirements</a>
-            <a href="{{ route('services') }}" class="tab {{ request()->routeIs('services') ? 'active' : '' }}">Services</a>
-            <a href="{{ route('about.us') }}" class="tab {{ request()->routeIs('about.us') ? 'active' : '' }}">About Us</a>
+        <div class="scroll-indicator">↓ Scroll Down ↓</div>
+        <div class="mainContent">
+            <!-- Proceed Button -->
+            <div class="proceed-container">
+                <button id="proceed-button" class="btn">Step 1</button>
+                <button id="imgButton" class="btn btn-primary">Upload Requirements</button>    
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p>&copy; 2025 CITY CIVIL REGISTRY</p>
+            </footer>
         </div>
-
-        <!-- Main Content Section -->
-        <div class="tabs-container">
-            <div id="contact-info" class="tab-content {{ request()->routeIs('contact.us') ? 'active' : '' }}">
-                <h3>Contact Information</h3>
-                <p>Email: support@example.com</p>
-                <p>Phone: (123) 456-7890</p>
-                <p>Address: City Civil Registry Office, San Jose Del Monte</p>
-            </div>
-
-            <div id="requirements" class="tab-content {{ request()->routeIs('requirements') ? 'active' : '' }}">
-                <h3>Requirements</h3>
-                <ul>
-                    <li><b>Birth Certificate:</b> Valid ID, Application Form, Payment Fee</li>
-                    <li><b>Marriage License:</b> Birth Certificates of Both Parties, CENOMAR</li>
-                    <li><b>Death Certificate:</b> Medical Certificate, Valid ID</li>
-                </ul>
-            </div>
-
-            <div id="services" class="tab-content {{ request()->routeIs('services') ? 'active' : '' }}">
-                <h3>Services</h3>
-                <ul>
-                    <li>Birth Certificate Registration</li>
-                    <li>Marriage Certificate Processing</li>
-                    <li>Death Certificate Issuance</li>
-                </ul>
-            </div>
-
-            <div id="about-us" class="tab-content {{ request()->routeIs('about.us') ? 'active' : '' }}">
-                <h3>About Us</h3>
-                <p>Welcome to the City Civil Registry System. We aim to provide efficient and reliable services for document processing.</p>
-            </div>
-        </div>
-
-        <!-- Proceed Button -->
-        <div class="proceed-container">
-            <button id="proceed-button" class="btn">Step 1</button>
-            <button id="imgButton"  class="btn btn-primary">Go to Image Requirements</button>    
-        </div>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>&copy; 2025 CITY CIVIL REGISTRY</p>
-        </footer>
     </div>
 
     <!-- Data Privacy Modal -->
@@ -164,7 +88,7 @@
                         <div class="mb-3">
                             <label for="refNumber" class="form-label">Reference Number:</label>
                             <div class="input-button-container">
-                                <input type="text" id="refNumber" name="refNumber" class="form-control @error('refNumber') is-invalid @enderror" placeholder="Enter your reference number" required>
+                                <input type="text" id="refNumber" name="refNumber" class="form-control @error('refNumber') is-invalid @enderror" required>
                                 <button type="submit" id="confirm_reference" class="btn btn-primary">Confirm</button>
                             </div>
                             @error('refNumber')
@@ -175,11 +99,31 @@
                     </form>
                 </div>
             </div>
+        </div>
     </div>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuIcon = document.getElementById("menuIcon");
+            const navMenu = document.getElementById("navMenu");
+
+            // Toggle menu visibility smoothly
+            menuIcon.addEventListener("click", function () {
+                navMenu.classList.toggle("show");
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener("click", function (event) {
+                if (!menuIcon.contains(event.target) && !navMenu.contains(event.target)) {
+                    navMenu.classList.remove("show");
+                }
+            });
+        });
+
+
         // Modal and Button Elements
         const proceedButton = document.getElementById("proceed-button");
         const modal = document.getElementById("modal");
@@ -259,21 +203,32 @@
                 });
             }
         }
-    </script>
 
+        $(document).ready(function () {
+            $("#confirm_reference").click(function (event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                let refNumber = $("#refNumber").val();
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/677e2c3149e2fd8dfe0420bd/1ih2dp8mb';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-        })();
+                $.ajax({
+                    url: "{{ route('check.reference') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        refNumber: refNumber
+                    },
+                    success: function (response) {
+                        if (response.valid) {
+                            // If valid, redirect to image_requirements.blade.php with the reference number
+                            window.location.href = response.redirect + "?reference_number=" + encodeURIComponent(refNumber);
+                        } else {
+                            // If invalid, show an alert and prevent submission
+                            alert("Invalid Reference Number. Please check your input.");
+                        }
+                    }
+                });
+            });
+        });
     </script>
-    <!--End of Tawk.to Script-->
 </body>
 </html>

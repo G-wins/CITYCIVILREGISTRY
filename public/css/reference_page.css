@@ -1,0 +1,149 @@
+:root {
+    --primary-color: #ff7b00; /* Vibrant Orange */
+    --secondary-color: #ff91a4; /* Soft Pink */
+    --accent-color: #ff3d00; /* Deep Orange-Red */
+    --background-color: #fff0f5; /* Light Pink Background */
+    --text-color: #4a2600; /* Deep Brownish-Orange for Text */
+    --success-bg: #ffd9b3; /* Soft Peach */
+    --success-text: #ff6200; /* Bold Orange */
+    --success-border: #ff9500; /* Bright Orange */
+    --box-shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* General Body Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 20px;
+    color: var(--text-color);
+    display: flex;
+}
+
+/* Layout Wrapper */
+.wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    width: 90%;
+    gap: 20px;
+}
+
+/* Container Styling (Left Side) */
+.container {
+    flex: 1;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    border-left: 5px solid var(--primary-color);
+    box-shadow: 0 4px 10px var(--box-shadow);
+    text-align: center;
+    max-width: 490px;
+}
+
+/* Requirement Box (Right Side) */
+.requirement-box {
+    flex: 1;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--box-shadow);
+    border-left: 5px solid var(--primary-color);
+    transition: 0.3s ease-in-out;
+}
+
+/* Two-column layout when screen width is greater than 960px */
+@media (min-width: 960px) {
+    .wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+    }
+
+    .container {
+        width: 48%;
+    }
+
+    .requirement-box {
+        width: 48%;
+    }
+}
+
+/* Mobile View (Single Column) */
+@media (max-width: 959px) {
+    .wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container, 
+    .requirement-box {
+        width: 100%;
+    }
+}
+
+
+/* Header */
+h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    text-transform: uppercase;
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+/* Success Message */
+.alert-success {
+    background: var(--success-bg);
+    color: var(--success-text);
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-weight: bold;
+    text-align: center;
+    border-left: 5px solid var(--success-border);
+}
+
+
+.requirement-box:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Requirement Header */
+.requirement-box h2 {
+    font-size: 20px;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+/* Requirement Lists */
+.requirement-box ul {
+    padding-left: 20px;
+    list-style: none;
+}
+
+.requirement-box ul li {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+}
+
+/* Bullet Styling */
+.requirement-box ul li::before {
+    content: "✔";
+    color: var(--accent-color);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+/* Hidden Sections (Initially Hidden) */
+.hidden {
+    display: none;
+}
+
+

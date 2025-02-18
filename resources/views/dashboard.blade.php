@@ -4,245 +4,267 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 <style>
-    /* Responsive adjustments for smaller screens */
-    @media (max-width: 768px) {
-        .flatpickr-day {
-            width: 45px;
-            height: 45px;
-            line-height: 45px;
-        }
-
-        .flatpickr-day div {
-            font-size: 10px;
-        }
-    }
-
-    .wrap{
-        overflow-y: auto;
-    }
-
-    #marriageCertificateModal, #birthCertificateModal, #marriageLicenseModal, #deathCertificateModal, #cenomarModal, #otherModal{
+    .closeModal {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        backdrop-filter: blur(5px);
+        background: rgba(0, 0, 0, 0.5); /* Dark transparent background */
+        backdrop-filter: blur(8px); /* Blurred background effect */
+        display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10;
-        overflow: auto;
+        z-index: 9999;
+        overflow: hidden;
     }
 
-    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper, #otherModal .contentSemiWrapper{
-        background: rgba(255, 255, 255, 0.9); 
-        width: 80%;
-        max-width: 900px;
-        border-radius: 8px;
+    /* Modal Content - Centered and Scrollable */
+    .contentSemiWrapper {
+        background: white;
         padding: 30px;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        overflow-y: auto;
-        max-height: 90vh;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px; /* Limits the form width */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         position: relative;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 100;
+        text-align: left;
+        animation: fadeIn 0.3s ease-in-out;
+       
+        /* Scrollable Modal */
+        max-height: 80vh; /* Prevents it from taking full height */
+        overflow-y: auto; /* Enables vertical scrolling */
     }
 
-    .contentSemiWrapper h3 {
-        font-size: 24px;
-        color: #333;
-        margin-bottom: 20px;
+    /* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+    .contentSemiWrapper::-webkit-scrollbar {
+        width: 8px;
     }
 
+    .contentSemiWrapper::-webkit-scrollbar-thumb {
+        background: orange;
+        border-radius: 10px;
+    }
+
+    .contentSemiWrapper::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Fade-in Effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* Section Headers */
     .section-header {
-        font-size: 18px;
         font-weight: bold;
-        margin-top: 30px;
-        color: #007bff;
+        font-size: 16px;
+        color: #444;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 5px;
     }
 
-    .form-row {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
+    /* Form Fields */
     .form-group {
-        flex: 1;
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
     }
 
     .form-group label {
-        display: block;
         font-size: 14px;
-        color: #555;
+        font-weight: 600;
+        color: #333;
         margin-bottom: 5px;
     }
 
-    .form-group input, .form-group select {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
         width: 100%;
         padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
         font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+        transition: 0.3s;
     }
 
-    .form-group input[type="date"] {
-        padding: 8px;
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
     }
 
-    .form-group input[type="tel"] {
-        padding-left: 35px; 
-    }
-
+    /* Contact Number Styling */
     .contact-container {
         display: flex;
         align-items: center;
-        position: relative;
     }
 
     .country-code {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
+        background: #f1f1f1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px 0 0 5px;
+    }
+
+    .contact-container input {
+        flex: 1;
+        border-radius: 0 5px 5px 0;
+    }
+
+    /* Button Styles */
+    button, .btn {
+        display: inline-block;
+        padding: 10px;
         font-size: 14px;
-        color: #555;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: 0.3s;
     }
 
-    /* Hint styling for small text */
-    .small.hint {
-        font-size: 12px;
-        color: #888;
-    }
-
-
-    /* Buttons */
-    button {
+    /* Primary Buttons */
+    .btn-primary {
         background-color: #007bff;
         color: white;
-        padding: 12px 20px;
-        border: none;
-        border-radius: 4px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s;
     }
 
-    
-
-    /* Checkbox and Radio button styles */
-    input[type="checkbox"], input[type="radio"] {
-        margin-right: 10px;
-        margin-left: 10px;
-        aspect-ratio: 1;
-        width: 15PX;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+    .btn-primary:hover {
+        background-color: #0056b3;
     }
 
-    /* Scrollable content area */
-    #marriageCertificateModal .contentSemiWrapper, #birthCertificateModal .contentSemiWrapper, #marriageLicenseModal .contentSemiWrapper , #deathCertificateModal .contentSemiWrapper, #cenomarModal .contentSemiWrapper, #otherModal .contentSemiWrapper{
-        overflow-y: auto;
-        max-height: 90vh;
+    /* Secondary Buttons */
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
     }
 
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-        .form-row {
-            flex-direction: column;
-        }
-        
-        .form-group {
-            flex: 1 1 100%;
-            margin-bottom: 15px;
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+    /* Hidden Elements */
+    .hidden {
+        display: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+        .contentSemiWrapper {
+            width: 95%;
+            padding: 20px;
+            max-height: 80vh; /* Adjust max height for smaller screens */
+            overflow-y: auto;
         }
     }
 
 
-    #upperTable {
-        display: flex; 
-        align-items: center; 
-        justify-content: space-between; 
-        margin-bottom: 1rem; 
-    }
 
-    #dateView {
-        display: flex; 
-        align-items: center; 
-    }
 
     #previewDate, #nextDate {
-        background-color: #3b82f6; 
-        color: white; 
-        padding: 0.25rem 0.5rem; 
-        border: none; 
-        border-radius: 0.25rem; 
-        font-size: 0.875rem; 
-        font-weight: 500; 
-        cursor: pointer; 
-        transition: background-color 0.2s; 
+        background-color: transparent;
+        color: #333;
+        padding: 4px 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
     }
 
     #previewDate:hover, #nextDate:hover {
-        background-color: #2563eb; 
+        background-color: #f3f4f6; /* Soft hover effect */
+        border-color: #999;
     }
 
     #tableDate {
-        border: 1px solid #d1d5db; 
-        border-radius: 0.25rem; 
-        padding: 0.25rem 0.5rem; 
-        font-size: 0.875rem;
-        outline: none; 
-        margin: 0 0.5rem; 
-        transition: border-color 0.2s, box-shadow 0.2s; 
-    }
-    #tableDate {
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: textfield;
-        position: relative;
+        border: none;
+        background-color: transparent;
+        font-size: 0.75rem;
+        padding: 2px 6px;
+        text-align: center;
+        outline: none;
         pointer-events: none; /* Disables clicking on the field */
+        width: 100px; /* Adjust width for a compact look */
     }
-
 
     #tableDate:focus {
-        border-color: #3b82f6; 
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); 
+        box-shadow: none;
+        border: none;
     }
 
+    /* Search Container */
+    .search-container {
+        position: relative;
+        width: 250px;
+        transition: width 0.4s ease-in-out;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    /* Search Input */
     #searchDashboard {
-        border: 1px solid #d1d5db; 
-        border-radius: 0.25rem; 
-        padding: 0.25rem 0.5rem; 
-        font-size: 0.875rem; 
-        outline: none; 
-        width: 200px; 
-        transition: border-color 0.2s, box-shadow 0.2s; 
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 50px;
+        font-size: 14px;
+        outline: none;
+        transition: width 0.4s ease-in-out;
+        cursor: pointer;
+        background-color: white;
+        position: absolute;
+        right: 0; /* Ensures it expands towards the left */
     }
 
-    #searchDashboard:focus {
-        border-color: #3b82f6; 
-        box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); 
+    .search-container:focus-within {
+        width: 250px;
     }
 
-    
+    /* FontAwesome Search Icon */
+    .search-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        font-size: 16px;
+        pointer-events: none; /* Prevents interaction */
+    }
+
+    /* Responsive Design (For Smaller Screens) */
+    @media (max-width: 600px) {
+        .search-container {
+            width: 43px;
+        }
+
+        .search-container:focus-within {
+            width: 180px; /* Adjust width for small screens */
+        }
+
+        #searchDashboard {
+            font-size: 12px;
+        }
+    }
+
+
+
+   
 </style>
 <style>
-    .done-row {
-        background-color: #d4edda; /* Light Green */
-        color: #155724; /* Dark Green */
-        font-weight: bold;
-    }
-
-    .rejected-row {
-        background-color: #f8d7da; /* Light Red */
-        color: #721c24; /* Dark Red */
-        font-weight: bold;
-    }
-
     /* Custom Context Menu Styling */
     #customContextMenu {
         display: none;
@@ -300,16 +322,140 @@
         background: #c82333;
     }
 
-    .context-icon {
-        font-size: 16px;
+    tr.bg-green-100 {
+        background-color: #d4edda !important;
+        color: #155724 !important;
     }
+    tr.bg-red-100 {
+        background-color: #f8d7da !important;
+        color: #721c24 !important;
+    }
+
+</style>
+<style>
+
+    /* Tab Navigation */
+    .tab-container {
+        display: flex;
+        border-bottom: 3px solid #ff7b54;
+    }
+
+    .tab-link {
+        padding: 12px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        background: #ffb6c1; /* Soft Pink */
+        color: #fff;
+        border-radius: 8px 8px 0 0;
+        margin-right: 5px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        position: relative;
+        top: 0;
+    }
+
+    .tab-link:hover {
+        background: #ff7b54; /* Soft Orange */
+    }
+
+    .tab-link.active {
+        background: #ff7b54;
+        box-shadow: 0px -3px 5px rgba(0, 0, 0, 0.1);
+        top: 4px;
+    }
+
+    /* Tab Content */
+    .tab-content {
+        display: none;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+   
+    .tab-content.active {
+        overflow-x: auto;
+        display: block;
+    }
+    .tab-content.active::-webkit-scrollbar{
+        height: .5em;
+    }
+    .tab-content.active::-webkit-scrollbar-track {
+        background:rgb(255, 171, 145);
+    }
+    .tab-content.active::-webkit-scrollbar-thumb {
+        background:#ff7b54;
+        border-radius: 100px;
+    }
+
+    /* Table Styling */
+    .table-container {
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+    }
+
+    th {
+        background: #ff7b54; /* Soft Orange */
+        color: white;
+        font-weight: bold;
+        text-align: left;
+        padding: 12px;
+    }
+
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #f0f0f0;
+        transition: background 0.3s ease-in-out;
+    }
+
+    /* Alternating Row Colors */
+    tbody tr:nth-child(even) {
+        background-color: #fff5f7; /* Soft Pink */
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #fff;
+    }
+
+    /* Hover Effects */
+    tbody tr:hover {
+        background-color: #ffd3c8; /* Light Orange */
+        cursor: pointer;
+    }
+
+    /* Status-Based Row Colors */
+    .done-row {
+        background-color: #c8e6c9 !important; /* Light Green for completed */
+    }
+
+    .rejected-row {
+        background-color: #ffcccb !important; /* Light Red for rejected */
+    }
+
+    /* Responsive Table */
+    @media (max-width: 768px) {
+        th, td {
+            padding: 8px;
+            font-size: 14px;
+        }
+    }
+
 </style>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+   
+</style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 </head>
 <body>
-    
+   
 <x-app-layout>
 
     <div class="py-12">
@@ -319,42 +465,33 @@
 
                     <!-- Date and Search Section -->
                     <div class="flex justify-between items-center mb-6">
-                        <div class="flex items-center space-x-2">
-                            <button id="previewDate" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                        <div class="flex items-center space-x-2 border rounded p-2">
+                            <button id="previewDate" class="px-3 py-2 text-gray-600 border rounded hover:bg-gray-100">
                                 &lsaquo;
                             </button>
-                            <input type="date" id="tableDate" class="border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500" readonly>
-                            <button id="nextDate" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                            <input type="date" id="tableDate" class="border rounded px-3 py-2 text-center text-sm focus:ring-2 focus:ring-gray-400" readonly>
+                            <button id="nextDate" class="px-3 py-2 text-gray-600 border rounded hover:bg-gray-100">
                                 &rsaquo;
                             </button>
                         </div>
-                        <input type="text" id="searchDashboard" placeholder="Search..." class="w-1/3 border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500">
+                        <div class="search-container">
+                            <input type="text" id="searchDashboard" autocomplete="off">
+                            <i id="searchIcon" class="fa-solid fa-magnifying-glass search-icon"></i>
+                        </div>
                     </div>
 
                     <!-- Tabs Section -->
-                    <ul class="flex border-b mb-4">
-                        <li class="mr-2">
-                            <a href="#birthCertificate" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Birth Certificates</a>
-                        </li>
-                        <li class="mr-2">
-                            <a href="#marriageCertificate" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Marriage Certificates</a>
-                        </li>
-                        <li class="mr-2">
-                            <a href="#marriageLicense" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Marriage License</a>
-                        </li>
-                        <li class="mr-2">
-                            <a href="#deathCertificate" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Death Certificates</a>
-                        </li>
-                        <li class="mr-2">
-                            <a href="#cenomar" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Cenomar</a>
-                        </li>
-                        <li>
-                            <a href="#otherDocument" class="tab-link py-2 px-4 inline-block text-blue-500 font-medium hover:text-blue-700">Other Document</a>
-                        </li>
-                    </ul>
+                    <div class="tab-container">
+                        <a href="#birthCertificate" class="tab-link active" data-full="Birth Certificate" onclick="changeTab(event, 'birthCertificate')">Birth Certificate</a>
+                        <a href="#marriageCertificate" class="tab-link" data-full="Marriage Certificate" onclick="changeTab(event, 'marriageCertificate')">Marriage Certificate</a>
+                        <a href="#marriageLicense" class="tab-link" data-full="Marriage License" onclick="changeTab(event, 'marriageLicense')">Marriage License</a>
+                        <a href="#deathCertificate" class="tab-link" data-full="Death Certificate" onclick="changeTab(event, 'deathCertificate')">Death Certificate</a>
+                        <a href="#cenomar" class="tab-link" data-full="Cenomar" onclick="changeTab(event, 'cenomar')">Cenomar</a>
+                        <a href="#otherDocument" class="tab-link" data-full="Other Document" onclick="changeTab(event, 'otherDocument')">Other Document</a>
+                    </div>
 
                     <!-- Tab Contents -->
-                    <div id="birthCertificate" class="tab-content">
+                    <div id="birthCertificate" class="tab-content active table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -369,9 +506,9 @@
                             <tbody>
                                 @foreach($appointments as $index => $appointment)
                                     @if($appointment->appointment_type === 'Birth Certificate')
-                                    <tr id="bc_row" class="hover:bg-gray-50 cursor-pointer 
-                                            @if($appointment->status === 'Done') done-row 
-                                            @elseif($appointment->status === 'Rejected') rejected-row 
+                                    <tr id="bc_row" class="hover:bg-gray-50 cursor-pointer
+                                            @if($appointment->status === 'Done') done-row
+                                            @elseif($appointment->status === 'Rejected') rejected-row
                                             @endif"
                                         onclick="viewBirthCertDetails('{{ $appointment->id }}')">
 
@@ -388,7 +525,7 @@
                         </table>
                     </div>
 
-                    <div id="marriageCertificate" class="tab-content hidden">
+                    <div id="marriageCertificate" class="tab-content table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -417,7 +554,7 @@
                         </table>
                     </div>
 
-                    <div id="marriageLicense" class="tab-content hidden">
+                    <div id="marriageLicense" class="tab-content table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -446,7 +583,7 @@
                         </table>
                     </div>
 
-                    <div id="deathCertificate" class="tab-content hidden">
+                    <div id="deathCertificate" class="tab-content table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -475,7 +612,7 @@
                         </table>
                     </div>
 
-                    <div id="cenomar" class="tab-content hidden">
+                    <div id="cenomar" class="tab-content table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -504,7 +641,7 @@
                         </table>
                     </div>
 
-                    <div id="otherDocument" class="tab-content hidden">
+                    <div id="otherDocument" class="tab-content table-container">
                         <table class="w-full text-sm border-collapse border border-gray-200">
                             <thead>
                                 <tr class="bg-gray-100">
@@ -544,8 +681,7 @@
                 <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="birthCertificateModal">View Images</button>
                 <form id="birthCertAppointmentForm" action="{{ route('updateBirthCertificate', ['id' => ':id']) }}" method="POST">
                     @csrf
-                    @method('PUT') <!-- Use PUT for updating -->
-
+                    @method('PUT')
                     <div class="section-header">Requester's Details</div>
                     <input type="hidden" id="bc_refNumber" name="reference_number" class="referenceNumberInput">
                     <div class="form-row">
@@ -799,12 +935,12 @@
                                 } else {
                                     otherPurposeInput.style.display = "none";
                                     otherPurposeInput.removeAttribute('required');
-                                    otherPurposeInput.value = ""; 
+                                    otherPurposeInput.value = "";
                                 }
                             }
 
                         </script>
-                        
+                       
                         <label>Delayed Registration:</label>
                         <div class="radio-group">
                             <input type="radio" id="bc_delayed_yes" name="delayed" value="1" onclick="bcToggleDelayedDate()" disabled required>
@@ -828,8 +964,8 @@
                                     bc_delayedDate.setAttribute("required", "required"); // Make the date field required
                                 } else {
                                     bc_delayedDateContainer.style.display = "none"; // Hide the container
-                                    bc_delayedDate.removeAttribute("required"); 
-                                    bc_delayedDate.value = ""; 
+                                    bc_delayedDate.removeAttribute("required");
+                                    bc_delayedDate.value = "";
                                 }
                             }
 
@@ -839,7 +975,7 @@
                                 <label for="appointment_date">Appointment Date:</label>
                                 <input type="text" name="appointment_date" id="bc_appointment_date" style="width: 300px; height: 50px;" disabled required>
                                 <input type="hidden" id="bc_appointment_time" name="appointment_time">
-                                <i class="fas fa-calendar-alt calendar-icon"></i> 
+                                <i class="fas fa-calendar-alt calendar-icon"></i>
                             </div>
                         </div>
                         <div id="slot-container"></div>
@@ -1046,7 +1182,7 @@
                             mc_otherPurposeInput.setAttribute('required', 'required');
                         } else {
                             mc_otherPurposeInput.style.display = "none";
-                            mc_otherPurposeInput.value = ""; 
+                            mc_otherPurposeInput.value = "";
                             mc_otherPurposeInput.removeAttribute('required');
                         }
                     }
@@ -1054,9 +1190,9 @@
                 <div class="form-group">
                     <label>Delayed Registration:</label>
                     <div class="radio-group">
-                        <input type="radio" id="mc_delayed_yes" name="delayed" value="Yes" onclick="toggleDelayedDate()" disabled required>
+                        <input type="radio" id="mc_delayed_yes" name="delayed" value="1" onclick="toggleDelayedDate()" disabled required>
                         <label for="delayed_yes">Yes</label>
-                        <input type="radio" id="mc_delayed_no" name="delayed" value="No" onclick="toggleDelayedDate()" disabled required>
+                        <input type="radio" id="mc_delayed_no" name="delayed" value="0" onclick="toggleDelayedDate()" disabled required>
                         <label for="delayed_no">No</label>
                     </div>
                     <div class="form-group" id="mc_delayed_date_container" style="display:none;">
@@ -1066,17 +1202,17 @@
                 </div>
                 <script>
                     function toggleDelayedDate() {
-                        const mc_delayedYes = document.getElementById("mc_delayed_yes").checked; 
-                        const mc_delayedDateContainer = document.getElementById("mc_delayed_date_container"); 
-                        const mc_delayedDate = document.getElementById("mc_delayed_date"); 
+                        const mc_delayedYes = document.getElementById("mc_delayed_yes").checked;
+                        const mc_delayedDateContainer = document.getElementById("mc_delayed_date_container");
+                        const mc_delayedDate = document.getElementById("mc_delayed_date");
 
                         if (mc_delayedYes) {
-                            mc_delayedDateContainer.style.display = "block"; 
-                            mc_delayedDate.setAttribute("required", "required"); 
+                            mc_delayedDateContainer.style.display = "block";
+                            mc_delayedDate.setAttribute("required", "required");
                         } else {
-                            mc_delayedDateContainer.style.display = "none"; 
-                            mc_delayedDate.removeAttribute("required"); 
-                            mc_delayedDate.value = ""; 
+                            mc_delayedDateContainer.style.display = "none";
+                            mc_delayedDate.removeAttribute("required");
+                            mc_delayedDate.value = "";
                         }
                     }
 
@@ -1086,7 +1222,7 @@
                     <label for="appointment_date">Appointment Date:</label>
                     <input type="text" name="appointment_date" id="mc_appointment_date" disabled required>
                     <input type="hidden" id="mc_appointment_time" name="appointment_time">
-                    <i class="fas fa-calendar-alt calendar-icon"></i> 
+                    <i class="fas fa-calendar-alt calendar-icon"></i>
                 </div>
 
                 <input type="submit" class="btn btn-primary w-100 py-2 mt-2">
@@ -1252,7 +1388,7 @@
                             mlOtherPurposeInput.setAttribute('required', 'required');
                         } else {
                             mlOtherPurposeInput.style.display = "none";
-                            mlOtherPurposeInput.value = ""; 
+                            mlOtherPurposeInput.value = "";
                             mlOtherPurposeInput.removeAttribute('required');
                         }
                     }
@@ -1310,7 +1446,7 @@
 
     <div id="deathCertificateModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="section-header">Requester's Details</h3>   
+            <h3 class="section-header">Requester's Details</h3>  
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="deathCertificateModal">View Images</button>
             <form id="deathCertificateAppointmentForm" action="{{ route('updateDeathCertificate', ['id' => ':id']) }}" method="POST">
                 @csrf
@@ -1485,7 +1621,7 @@
                             dcOtherPurposeInput.setAttribute('required', 'required');
                         } else {
                             dcOtherPurposeInput.style.display = "none";
-                            dcOtherPurposeInput.value = ""; 
+                            dcOtherPurposeInput.value = "";
                             dcOtherPurposeInput.removeAttribute('required');
                         }
                     }
@@ -1515,9 +1651,9 @@
                             dc_delayedDateContainer.style.display = "block";
                             dc_delayedDate.setAttribute("required", "required");
                         } else {
-                            dc_delayedDateContainer.style.display = "none"; 
-                            dc_delayedDate.removeAttribute("required"); 
-                            dc_delayedDate.value = ""; 
+                            dc_delayedDateContainer.style.display = "none";
+                            dc_delayedDate.removeAttribute("required");
+                            dc_delayedDate.value = "";
                         }
                     }
 
@@ -1530,18 +1666,16 @@
                 </div>
 
                 <!-- Submit Button -->
-                <div class="form-group">
-                    <input type="submit">
-                    <button id="dcEnableButton">Edit</button>
-                    <button id="dcCancelButton" class="hidden">Cancel</button>
-                </div>
+                <input type="submit" class="btn btn-primary w-100 py-2 mt-2">
+                <button id="dcEnableButton">Edit</button>
+                <button id="dcCancelButton" class="hidden">Cancel</button>
             </form>
         </div>
     </div>
 
     <div id="cenomarModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="section-header">Requester's Details</h3>   
+            <h3 class="section-header">Requester's Details</h3>  
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="cenomarModal">View Images</button>
             <form id="cenomarAppointmentForm" action="{{ route('updateCenomar', ['id' => ':id']) }}" method="POST">
                 @csrf
@@ -1753,7 +1887,7 @@
                             ceOtherPurposeInput.setAttribute('required', 'required');
                         } else {
                             ceOtherPurposeInput.style.display = "none";
-                            ceOtherPurposeInput.value = ""; 
+                            ceOtherPurposeInput.value = "";
                             ceOtherPurposeInput.removeAttribute('required');
                         }
                     }
@@ -1915,16 +2049,16 @@
                             otOtherPurposeInput.setAttribute('required', 'required');
                         } else {
                             otOtherPurposeInput.style.display = "none";
-                            otOtherPurposeInput.value = ""; 
+                            otOtherPurposeInput.value = "";
                             otOtherPurposeInput.removeAttribute('required');
                         }
                     }
                 </script>
                 <label>Delayed Registration:</label>
                 <div class="radio-group">
-                    <input type="radio" id="ot_delayed_yes" name="delayed" value="Yes" onclick="otToggleDelayedDate()" disabled required>
+                    <input type="radio" id="ot_delayed_yes" name="delayed" value="1" onclick="otToggleDelayedDate()" disabled required>
                     <label for="delayed_yes">Yes</label>
-                    <input type="radio" id="ot_delayed_no" name="delayed" value="No" onclick="otToggleDelayedDate()" disabled required>
+                    <input type="radio" id="ot_delayed_no" name="delayed" value="0" onclick="otToggleDelayedDate()" disabled required>
                     <label for="delayed_no">No</label>
                 </div>
 
@@ -1966,27 +2100,28 @@
 
     <div id="customContextMenu" style="display: none; position: absolute; background: #fff; border: 1px solid #ddd; padding: 10px;">
         <ul>
-            <li id="contextDone" onclick="appointmentDone()">Done</li>
-            <li id="contextReject" onclick="appointmentReject()">Reject</li>
+            <li id="contextDone">Done</li>
+            <li id="contextReject">Reject</li>
         </ul>
     </div>
 
 
 </x-app-layout>
-    
+   
 
 </body>
 </html>
+<!-- context menu for table rows -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll("tbody").forEach(tbody => {
             tbody.addEventListener("contextmenu", function (event) {
                 let targetRow = event.target.closest("tr");
                 if (targetRow) {
-                    event.preventDefault(); // Prevent default right-click menu
+                    event.preventDefault();
 
-                    let referenceNumber = targetRow.querySelector("td:last-child").innerText.trim(); // Assuming the reference number is in the last column
-                    
+                    let referenceNumber = targetRow.querySelector("td:last-child").innerText.trim();
+
                     if (!referenceNumber) {
                         console.error("Reference number not found.");
                         return;
@@ -1997,23 +2132,23 @@
                     customMenu.style.left = `${event.pageX}px`;
                     customMenu.style.display = "block";
 
-                    // Store the reference number for later use
+                    // Store the reference number and row element
                     customMenu.setAttribute("data-reference-number", referenceNumber);
+                    customMenu.setAttribute("data-target-row", targetRow.dataset.rowId || ""); // Unique identifier
                 }
             });
         });
 
-        // Hide the menu when clicking anywhere else
+        // Hide the context menu when clicking anywhere else
         document.addEventListener("click", function () {
             document.getElementById("customContextMenu").style.display = "none";
         });
 
-        // Handle "Done" button click
+        // Attach event listeners to the 'Done' and 'Reject' buttons
         document.getElementById("contextDone").addEventListener("click", function () {
             updateStatus("Done");
         });
 
-        // Handle "Reject" button click
         document.getElementById("contextReject").addEventListener("click", function () {
             updateStatus("Rejected");
         });
@@ -2035,27 +2170,30 @@
                 },
                 body: JSON.stringify({ reference_number: referenceNumber, status: status })
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Network response was not ok");
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-        if (data.success) {
-            alert("Status updated successfully!");
+                if (data.success) {
+                    alert("Status updated successfully!");
 
-            // Find the row with the matching reference number
-            document.querySelectorAll("tbody tr").forEach(row => {
-                let rowRefNumber = row.querySelector("td:last-child").innerText.trim();
-                if (rowRefNumber === referenceNumber) {
-                    // Update row style based on status
-                    row.classList.remove("bg-green-100", "text-green-700", "bg-red-100", "text-red-700");
+                    // Find the row with the matching reference number
+                    document.querySelectorAll("tbody tr").forEach(row => {
+                        let rowRefNumber = row.querySelector("td:last-child").innerText.trim();
+                        if (rowRefNumber === referenceNumber) {
+                            // Remove previous status classes
+                            row.classList.remove("bg-green-100", "text-green-700", "bg-red-100", "text-red-700");
+
+                            // Apply new background color
                             if (status === "Done") {
                                 row.classList.add("bg-green-100", "text-green-700", "font-bold");
                             } else if (status === "Rejected") {
                                 row.classList.add("bg-red-100", "text-red-700", "font-bold");
                             }
+
+                            // Force DOM repaint (ensures visual update)
+                            row.style.display = "none";
+                            setTimeout(() => {
+                                row.style.display = "table-row";
+                            }, 50);
                         }
                     });
 
@@ -2067,21 +2205,27 @@
             })
             .catch(error => console.error("Error:", error));
         }
-
-
     });
 
-
-    
 
 </script>
 
 <!-- Search bar  function -->
 <script>
+    document.getElementById('searchDashboard').addEventListener('focus', function() {
+        document.getElementById('searchIcon').style.display = "none"; // Hide icon when focused
+    });
+
+    document.getElementById('searchDashboard').addEventListener('blur', function() {
+        if (this.value === "") { // Show icon only if input is empty
+            document.getElementById('searchIcon').style.display = "block";
+        }
+    });
+
     document.getElementById('searchDashboard').addEventListener('input', function () {
         let query = this.value;
 
-        if (query.length >= 2) { // Start searching after typing 2 characters
+        if (query.length >= 2) {
             fetch(`/dashboard/search?query=${query}`, {
                 method: 'GET',
                 headers: {
@@ -2108,19 +2252,30 @@
             const tableBody = document.querySelector(`#${tableId} tbody`);
             const row = document.createElement('tr');
             row.classList.add('cursor-pointer', 'hover:bg-gray-100');
+
+            // Apply background color based on status
+            if (item.status === "Done") {
+                row.classList.add("bg-green-100", "text-green-700", "font-bold");
+            } else if (item.status === "Rejected") {
+                row.classList.add("bg-red-100", "text-red-700", "font-bold");
+            }
+
             row.innerHTML = `
-                <td class="border px-4 py-2">${counter++}</td>
+                <td class="border px-4 py-2">${item.id}</td>
                 <td class="border px-4 py-2">${item.requester_last_name}</td>
                 <td class="border px-4 py-2">${item.requester_first_name}</td>
                 <td class="border px-4 py-2">${item.requester_middle_name ?? ''}</td>
                 <td class="border px-4 py-2">${item.appointment_date}</td>
                 <td class="border px-4 py-2">${item.reference_number}</td>
             `;
+
             row.addEventListener('click', function() {
                 viewFunction(item.id);
             });
+
             tableBody.appendChild(row);
         }
+
 
         // Populate Birth Certificates Table
         data.birth_certificates.forEach(item => appendRow('birthCertificate', item, viewBirthCertDetails));
@@ -2142,6 +2297,7 @@
     }
 
 </script>
+
 <!-- date selector/sorter -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -2194,6 +2350,13 @@
                     row.classList.add("cursor-pointer", "hover:bg-gray-100");
                     row.onclick = () => viewAppointmentDetails(appointment.id, tableId);
 
+                    // Apply background color based on status
+                    if (appointment.status === "Done") {
+                        row.classList.add("bg-green-100", "text-green-700", "font-bold");
+                    } else if (appointment.status === "Rejected") {
+                        row.classList.add("bg-red-100", "text-red-700", "font-bold");
+                    }
+
                     row.innerHTML = `
                         <td class="border px-4 py-2">${index + 1}</td>
                         <td class="border px-4 py-2">${appointment.requester_last_name}</td>
@@ -2210,6 +2373,7 @@
             // Append new rows at once (no blinking)
             tableBody.appendChild(fragment);
         }
+
 
         // Function to handle viewing appointment details dynamically
         function viewAppointmentDetails(id, tableId) {
@@ -2244,8 +2408,53 @@
         fetchAppointments(currentDate);
     });
 </script>
+
 <!-- script for all the modal -->
 <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const forms = document.querySelectorAll("form");
+
+        forms.forEach((form) => {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const formData = new FormData(form);
+                const actionUrl = form.action;
+
+                fetch(actionUrl, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.success) {
+                            // Hide the modal
+                            document.querySelectorAll(".modal").forEach((modal) => {
+                                modal.classList.add("hidden");
+                            });
+
+                            // Show a success message (Optional)
+                            alert("Appointment updated successfully!");
+
+                            // Refresh the page after 1 second
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        } else {
+                            alert("An error occurred. Please try again.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                        alert("Something went wrong. Please try again.");
+                    });
+            });
+        });
+    });
+
     // BIRTH CERTIFICATE
     const bcEnableBtn = document.getElementById('bcEnableButton');
     const bcCancelBtn = document.getElementById('bcCancelButton');
@@ -2257,7 +2466,7 @@
         document.getElementById('bc_requester_mailing_address').disabled = false;
         document.getElementById('bc_requester_city_municipality').disabled = false;
         document.getElementById('bc_requester_province').disabled = false;
-        document.getElementById('bc_contact_no').disabled = false;       
+        document.getElementById('bc_contact_no').disabled = false;      
         document.getElementById('bc_requester_sex').disabled = false;
         document.getElementById('bc_requester_age').disabled = false;
         document.getElementById('bc_request_type').disabled = false;
@@ -2307,8 +2516,8 @@
             document.getElementById('bc_requester_sex').value = data.requester_sex;
             document.getElementById('bc_requester_age').value = data.requester_age;
             document.getElementById('bc_request_type').value = data.request_type;
-            
-            
+           
+           
             if (data.certificate_of_conversion === "Yes" || data.certificate_of_conversion === "1" || data.certificate_of_conversion === true) {
                 document.getElementById('bc_muslim_yes').checked = true;
             } else{
@@ -2356,7 +2565,7 @@
             } else {
                 otherPurposeInput.style.display = "none";
             }
-            
+           
             document.getElementById('bc_purpose_other').value = data.other_purposes;
 
             const bc_delayedYes = document.getElementById('bc_delayed_yes');
@@ -2374,25 +2583,25 @@
                 bc_delayedDateContainer.style.display = "none";
             }
             document.getElementById('bc_delayed_date').value = data.delayed_date ? data.delayed_date : "";
-            
-            
+           
+           
             // Populate the appointment date and time fields
             document.getElementById('bc_appointment_date').value = data.appointment_date;
-            
+           
             // Update the form action URL with the current appointment ID
             document.getElementById('birthCertAppointmentForm').action = document.getElementById('birthCertAppointmentForm').action.replace(':id', appointmentId);
             // Show the modal after populating the data
             document.getElementById('birthCertificateModal').classList.remove('hidden');
             document.getElementById('marriageCertificateModal').classList.add('hidden');
             document.getElementById('marriageLicenseModal').classList.add('hidden');
-            
+           
         })
         .catch(error => {
             console.error("Error fetching appointment details:", error);
         });
     }
     // END OF BIRTH CERTIFICATE
-    
+   
     // MARRIAGE CERTIFICATE  
     const mcEnableButton = document.getElementById('marriageCertificateEnableButton');
     const mcCancelBtn = document.getElementById('mcCancelButton');
@@ -2404,7 +2613,7 @@
         document.getElementById('mc_requester_mailing_address').disabled = false;
         document.getElementById('mc_requester_city_municipality').disabled = false;
         document.getElementById('mc_requester_province').disabled = false;
-        document.getElementById('mc_contact_no').disabled = false;       
+        document.getElementById('mc_contact_no').disabled = false;      
         document.getElementById('mc_requester_sex').disabled = false;
         document.getElementById('mc_requester_age').disabled = false;
         document.getElementById('mc_requestType').disabled = false;
@@ -2461,11 +2670,11 @@
             document.getElementById('mc_requesting_party').value = data.requesting_party;
             document.getElementById('mc_relationship_to_owner').value = data.relationship_to_owner;
             document.getElementById('mc_delayed_date').value = data.delayed_date;
-            
-            
+           
+           
             document.getElementById('mc_purpose').value = data.purpose;
             const mc_checkBoxMarriedAbroad = document.getElementById('mc_married_abroad');
-            
+           
             if(data.married_abroad === true){
                 mc_checkBoxMarriedAbroad.checked = true;
             }else{
@@ -2501,17 +2710,17 @@
             }
             document.getElementById('mc_purpose_other').value = data.other_purposes;
 
-            
+           
             // Populate the appointment date and time fields
             document.getElementById('mc_appointment_date').value = data.appointment_date;
-            
+           
             // Update the form action URL with the current appointment ID
             document.getElementById('marriageAppointmentForm').action = document.getElementById('marriageAppointmentForm').action.replace(':id', appointmentId);
             // Show the modal after populating the data
             document.getElementById('marriageCertificateModal').classList.remove('hidden');
             document.getElementById('marriageLicenseModal').classList.add('hidden');
             document.getElementById('birthCertificateModal').classList.add('hidden');
-            
+           
         })
         .catch(error => {
             console.error("Error fetching appointment details:", error);
@@ -2531,7 +2740,7 @@
         document.getElementById('ml_requester_mailing_address').disabled = false;
         document.getElementById('ml_requester_city_municipality').disabled = false;
         document.getElementById('ml_requester_province').disabled = false;
-        document.getElementById('ml_contact_no').disabled = false;       
+        document.getElementById('ml_contact_no').disabled = false;      
         document.getElementById('ml_requester_sex').disabled = false;
         document.getElementById('ml_requester_age').disabled = false;
         document.getElementById('ml_request_type').disabled = false;
@@ -2585,8 +2794,8 @@
             document.getElementById('ml_place_of_marriage').value = data.place_of_marriage;
             document.getElementById('ml_requesting_party').value = data.requesting_party;
             document.getElementById('ml_relationship_to_owner').value = data.relationship_to_owner;
-            
-            
+           
+           
             document.getElementById('ml_purpose').value = data.purpose;
 
             const mlPurposeSelect = document.getElementById('ml_purpose');
@@ -2610,11 +2819,11 @@
             if (data.delayed === true) {
                 ml_delayedYes.checked = true;
                 ml_delayedDateContainer.style.display = 'block';
-                ml_delayedDate.value = data.delayed_date || ''; 
+                ml_delayedDate.value = data.delayed_date || '';
                 ml_delayedDate.setAttribute('required', 'required');
             } else if (data.delayed === false) {
                 ml_delayedNo.checked = true;
-                ml_delayedDateContainer.style.display = 'none'; 
+                ml_delayedDateContainer.style.display = 'none';
                 ml_delayedDate.value = '';
                 ml_delayedDate.removeAttribute('required');
             } else {
@@ -2622,17 +2831,17 @@
             }
 
             document.getElementById('ml_delayed_date').value = data.delayed_date;
-                        
+                       
             // Populate the appointment date and time fields
             document.getElementById('ml_appointment_date').value = data.appointment_date;
-            
+           
             // Update the form action URL with the current appointment ID
             document.getElementById('marriageLicenseAppointmentForm').action = document.getElementById('marriageLicenseAppointmentForm').action.replace(':id', appointmentId);
             // Show the modal after populating the data
             document.getElementById('marriageLicenseModal').classList.remove('hidden');
             document.getElementById('marriageCertificateModal').classList.add('hidden');
             document.getElementById('birthCertificateModal').classList.add('hidden');
-            
+           
         })
         .catch(error => {
             console.error("Error fetching appointment details:", error);
@@ -2651,7 +2860,7 @@
         document.getElementById('dc_requester_mailing_address').disabled = false;
         document.getElementById('dc_requester_city_municipality').disabled = false;
         document.getElementById('dc_requester_province').disabled = false;
-        document.getElementById('dc_contact_no').disabled = false;       
+        document.getElementById('dc_contact_no').disabled = false;      
         document.getElementById('dc_requester_sex').disabled = false;
         document.getElementById('dc_requester_age').disabled = false;
         document.getElementById('dc_request_type').disabled = false;
@@ -2695,7 +2904,7 @@
                 document.getElementById('dc_requester_age').value = data.requester_age;
                 document.getElementById('dc_request_type').value = data.request_type;
                 document.getElementById('dc_brn').value = data.brn;
-                
+               
                 document.getElementById('dc_deceased_last_name').value = data.deceased_last_name;
                 document.getElementById('dc_deceased_first_name').value = data.deceased_first_name;
                 document.getElementById('dc_deceased_middle_name').value = data.deceased_middle_name;
@@ -2744,11 +2953,11 @@
                 if (data.delayed === true) {
                     dc_delayedYes.checked = true;
                     dc_delayedDateContainer.style.display = 'block';
-                    dc_delayedDate.value = data.delayed_date || ''; 
+                    dc_delayedDate.value = data.delayed_date || '';
                     dc_delayedDate.setAttribute('required', 'required');
                 } else if (data.delayed === false) {
                     dc_delayedNo.checked = true;
-                    dc_delayedDateContainer.style.display = 'none'; 
+                    dc_delayedDateContainer.style.display = 'none';
                     dc_delayedDate.value = '';
                     dc_delayedDate.removeAttribute('required');
                 } else {
@@ -2757,7 +2966,7 @@
 
                 document.getElementById('dc_purpose').value = data.purpose;
                 document.getElementById('dc_delayed_date').value = data.delayed_date;
-                            
+                           
                 // Populate the appointment date and time fields
                 document.getElementById('dc_appointment_date').value = data.appointment_date;
 
@@ -2786,7 +2995,7 @@
         document.getElementById('ce_requester_mailing_address').disabled = false;
         document.getElementById('ce_requester_city_municipality').disabled = false;
         document.getElementById('ce_requester_province').disabled = false;
-        document.getElementById('ce_contact_no').disabled = false;       
+        document.getElementById('ce_contact_no').disabled = false;      
         document.getElementById('ce_requester_sex').disabled = false;
         document.getElementById('ce_requester_age').disabled = false;
         document.getElementById('ce_request_type').disabled = false;
@@ -2871,14 +3080,14 @@
             document.getElementById('ce_requesting_party').value = data.requesting_party;
             document.getElementById('ce_relationship_to_owner').value = data.relationship_to_owner;
             document.getElementById('ce_purpose').value = data.purpose;
-            
+           
             document.getElementById('ce_delayed_date').value = data.delayed_date ? data.delayed_date : "";;
-            
-            
+           
+           
             // Populate the appointment date and time fields
             document.getElementById('ce_appointment_date').value = data.appointment_date;
-            
-            
+           
+           
             document.getElementById('ce_date_of_birth').value = data.date_of_birth;
 
 
@@ -2908,7 +3117,7 @@
                 ce_delayedDateContainer.style.display = "none";
                 ce_delayedDate.removeAttribute("required");
             }
-            
+           
             // Update the form action URL with the current appointment ID
             document.getElementById('cenomarAppointmentForm').action = document.getElementById('cenomarAppointmentForm').action.replace(':id', appointmentId);
             // Show the modal after populating the data
@@ -2916,7 +3125,7 @@
             document.getElementById('birthCertificateModal').classList.add('hidden');
             document.getElementById('marriageCertificateModal').classList.add('hidden');
             document.getElementById('marriageLicenseModal').classList.add('hidden');
-            
+           
         })
         .catch(error => {
             console.error("Error fetching appointment details:", error);
@@ -2935,7 +3144,7 @@
         document.getElementById('ot_requester_mailing_address').disabled = false;
         document.getElementById('ot_requester_city_municipality').disabled = false;
         document.getElementById('ot_requester_province').disabled = false;
-        document.getElementById('ot_contact_no').disabled = false;       
+        document.getElementById('ot_contact_no').disabled = false;      
         document.getElementById('ot_requester_sex').disabled = false;
         document.getElementById('ot_requester_age').disabled = false;
 
@@ -2977,7 +3186,7 @@
             document.getElementById('ot_relationship_to_owner').value = data.relationship_to_owner;
             document.getElementById('ot_purpose').value = data.purpose;
             document.getElementById('ot_purpose_other').value = data.purpose_other;
-            
+           
             // Check if "Other" is selected
             const otPurposeSelect = document.getElementById('ot_purpose');
             const otOtherPurposeInput = document.getElementById('ot_purpose_other');
@@ -3003,8 +3212,8 @@
                 ot_delayedDateContainer.style.display = "none";
             }
             document.getElementById('ot_delayed_date').value = data.delayed_date ? data.delayed_date : "";
-            
-            
+           
+           
             // Populate the appointment date and time fields
             document.getElementById('ot_appointment_date').value = data.appointment_date;
 
@@ -3077,7 +3286,7 @@
         document.getElementById('bc_requester_mailing_address').disabled = true;
         document.getElementById('bc_requester_city_municipality').disabled = true;
         document.getElementById('bc_requester_province').disabled = true;
-        document.getElementById('bc_contact_no').disabled = true;       
+        document.getElementById('bc_contact_no').disabled = true;      
         document.getElementById('bc_requester_sex').disabled = true;
         document.getElementById('bc_requester_age').disabled = true;
         document.getElementById('bc_request_type').disabled = true;
@@ -3115,7 +3324,7 @@
         document.getElementById('mc_requester_mailing_address').disabled = true;
         document.getElementById('mc_requester_city_municipality').disabled = true;
         document.getElementById('mc_requester_province').disabled = true;
-        document.getElementById('mc_contact_no').disabled = true;       
+        document.getElementById('mc_contact_no').disabled = true;      
         document.getElementById('mc_requester_sex').disabled = true;
         document.getElementById('mc_requester_age').disabled = true;
         document.getElementById('mc_requestType').disabled = true;
@@ -3141,14 +3350,14 @@
         closeModal({ target: marriageCertificateModal, currentTarget: marriageCertificateModal });
     });
     mlCancelBtn.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         document.getElementById('ml_requester_last_name').disabled = true;
         document.getElementById('ml_requester_first_name').disabled = true;
         document.getElementById('ml_requester_middle_name').disabled = true;
         document.getElementById('ml_requester_mailing_address').disabled = true;
         document.getElementById('ml_requester_city_municipality').disabled = true;
         document.getElementById('ml_requester_province').disabled = true;
-        document.getElementById('ml_contact_no').disabled = true;       
+        document.getElementById('ml_contact_no').disabled = true;      
         document.getElementById('ml_requester_sex').disabled = true;
         document.getElementById('ml_requester_age').disabled = true;
         document.getElementById('ml_request_type').disabled = true;
@@ -3172,14 +3381,14 @@
         closeModal({ target: marriageLicenseModal, currentTarget: marriageLicenseModal });
     });
     dcCancelBtn.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         document.getElementById('dc_requester_last_name').disabled = true;
         document.getElementById('dc_requester_first_name').disabled = true;
         document.getElementById('dc_requester_middle_name').disabled = true;
         document.getElementById('dc_requester_mailing_address').disabled = true;
         document.getElementById('dc_requester_city_municipality').disabled = true;
         document.getElementById('dc_requester_province').disabled = true;
-        document.getElementById('dc_contact_no').disabled = true;       
+        document.getElementById('dc_contact_no').disabled = true;      
         document.getElementById('dc_requester_sex').disabled = true;
         document.getElementById('dc_requester_age').disabled = true;
         document.getElementById('dc_request_type').disabled = true;
@@ -3203,14 +3412,14 @@
         closeModal({ target: deathCertificateModal, currentTarget: deathCertificateModal });
     });
     ceCancelBtn.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         document.getElementById('ce_requester_last_name').disabled = true;
         document.getElementById('ce_requester_first_name').disabled = true;
         document.getElementById('ce_requester_middle_name').disabled = true;
         document.getElementById('ce_requester_mailing_address').disabled = true;
         document.getElementById('ce_requester_city_municipality').disabled = true;
         document.getElementById('ce_requester_province').disabled = true;
-        document.getElementById('ce_contact_no').disabled = true;       
+        document.getElementById('ce_contact_no').disabled = true;      
         document.getElementById('ce_requester_sex').disabled = true;
         document.getElementById('ce_requester_age').disabled = true;
         document.getElementById('ce_request_type').disabled = true;
@@ -3241,14 +3450,14 @@
         closeModal({ target: cenomarModal, currentTarget: cenomarModal });
     });
     otCancelBtn.addEventListener('click', function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
         document.getElementById('ot_requester_last_name').disabled = true;
         document.getElementById('ot_requester_first_name').disabled = true;
         document.getElementById('ot_requester_middle_name').disabled = true;
         document.getElementById('ot_requester_mailing_address').disabled = true;
         document.getElementById('ot_requester_city_municipality').disabled = true;
         document.getElementById('ot_requester_province').disabled = true;
-        document.getElementById('ot_contact_no').disabled = true;       
+        document.getElementById('ot_contact_no').disabled = true;      
         document.getElementById('ot_requester_sex').disabled = true;
         document.getElementById('ot_requester_age').disabled = true;
 
@@ -3267,26 +3476,79 @@
     });
 </script>
 
-<!-- Script for Tab Functionality -->
+<!-- Tab functions -->
 <script>
-    document.querySelectorAll('.tab-content').forEach((content) => {
-        content.style.display = 'none'; // Hide all tabs by default
-    });
-    document.querySelector('#birthCertificate').style.display = 'block';
+    function changeTab(event, tabId) {
+        event.preventDefault();
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
 
-    document.querySelectorAll('.border-b a').forEach((tab) => {
-        tab.addEventListener('click', function(event) {
-            event.preventDefault();
-            document.querySelectorAll('.tab-content').forEach((content) => {
-                content.style.display = 'none'; // Hide all contents
+        // Show selected tab
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".tab-link");
+
+        function updateTabLabels() {
+            tabs.forEach(tab => {
+                const fullText = tab.getAttribute("data-full");
+                const shortText = getInitials(fullText);
+
+                if (window.innerWidth < 768) {
+                    if (tab.classList.contains("active")) {
+                        smoothExpand(tab, fullText); // Use animation when active
+                    } else {
+                        tab.innerHTML = shortText;
+                    }
+                } else {
+                    tab.innerHTML = fullText;
+                }
             });
-            document.querySelectorAll('.border-b a').forEach((link) => {
-                link.classList.remove('text-blue-800');
-            });
-            document.querySelector(this.getAttribute('href')).style.display = 'block';
-            this.classList.add('text-blue-800');
+        }
+
+        function getInitials(text) {
+            return text.split(" ").map(word => word[0]).join("").toUpperCase();
+        }
+
+        function smoothExpand(tab, fullText) {
+            tab.innerHTML = ""; // Reset text first to prevent overlapping characters
+            let index = 0;
+
+            function typeNextLetter() {
+                if (index < fullText.length) {
+                    tab.innerHTML += fullText[index];
+                    index++;
+                    setTimeout(typeNextLetter, 20); // Adjust speed here
+                }
+            }
+
+            typeNextLetter();
+        }
+
+        function handleTabClick(event) {
+            tabs.forEach(tab => tab.classList.remove("active"));
+            event.currentTarget.classList.add("active");
+            updateTabLabels(); // Ensure labels update properly
+        }
+
+        // Initial update
+        updateTabLabels();
+
+        // Listen for window resize with debounce
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(updateTabLabels, 200);
+        });
+
+        // Listen for tab clicks to update labels
+        tabs.forEach(tab => {
+            tab.addEventListener("click", handleTabClick);
         });
     });
+
 </script>
 
 <!-- script for navigating to image requirements -->
