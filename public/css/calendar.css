@@ -1,0 +1,160 @@
+#calendar-container {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    max-width: 700px;
+}
+
+/* Make sure calendar expands form correctly */
+.form-container.expanded {
+    transition: padding-bottom 0.3s ease-in-out;
+}
+
+
+
+
+.calendar {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+}
+
+/* Header with better alignment */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    color: rgb(0, 0, 0);
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Calendar navigation wrapper */
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Navigation buttons */
+.nav-span {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.nav-span:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Month-Year Display */
+.month-year {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Days of the Week */
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    font-weight: bold;
+    background: #f1f1f1;
+    border-radius: 5px;
+    color: #000000;
+    text-align: center;
+    padding: 5px;
+}
+
+/* Individual Day Styling */
+.day_num {
+    position: relative;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 50px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.day_num:hover {
+    background: #e3f2fd;
+}
+
+/* Today Highlight */
+.selected {
+    background: #ffa981 !important;
+    color: rgb(255, 255, 255);
+    border: none;
+}
+
+/* Past Dates */
+.past {
+    background: #f1f1f1 !important;
+    color: #999;
+    pointer-events: none;
+}
+
+/* Weekends */
+.weekend {
+    background: #ffcccc !important;
+    font: none;
+    pointer-events: none;
+}
+
+/* Available Slots */
+.slot {
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    color: #696969;
+}
+.slot.available {
+    color: green;
+}
+.slot.full {
+    color: red;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 500px) {
+    #calendar-container{
+        max-width: 450px;
+    }
+    .calendar {
+        max-width: 450px;
+        padding: 10px;
+    }
+    .day_num {
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+.day_num.ignore.unavailable {
+    pointer-events: none; /* Prevents clicking */
+}
+

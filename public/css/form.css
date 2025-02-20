@@ -338,3 +338,8 @@ button:hover {
     flex-direction: column;
     gap: 15px;
 }
+
+#submit_btn {
+    transition: margin-top 0.3s ease-in-out;
+    margin-top: 20px;
+}

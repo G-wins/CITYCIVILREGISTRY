@@ -13,13 +13,17 @@ use App\Models\AppointmentMarriageLicense;
 use App\Models\AppointmentDeathCertificate;
 use App\Models\AppointmentCenomar;
 use App\Models\AppointmentOtherDocument;
+use App\Helpers\Calendar;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
+    
     public function create()
     {
-        return view('client.form'); 
+        $calendar = new Calendar();
+        return view('client.form', compact('calendar')); 
+
     }
 
     public function store(Request $request){
@@ -325,33 +329,6 @@ class AppointmentController extends Controller
         return $prefixes[$documentService] ?? 'GEN-';
     }
 
-    
-
-    // Fetch unavailable dates dynamically
-    public function unavailableDates()
-{
-    $models = [
-        \App\Models\AppointmentBirthCertificate::class,
-        \App\Models\AppointmentMarriageCertificate::class,
-        \App\Models\AppointmentMarriageLicense::class,
-        \App\Models\AppointmentDeathCertificate::class,
-        \App\Models\AppointmentCenomar::class,
-        \App\Models\AppointmentOtherDocument::class,
-    ];
-
-    $maxAppointments = 100; // Maximum appointments per date
-    $unavailableDates = collect();
-
-    foreach ($models as $model) {
-        $dates = $model::select('appointment_date')
-            ->groupBy('appointment_date')
-            ->havingRaw('COUNT(*) >= ?', [$maxAppointments])
-            ->pluck('appointment_date');
-        $unavailableDates = $unavailableDates->merge($dates);
-    }
-
-    return response()->json($unavailableDates->unique()->values());
-}
 
 
     // Fetch available slots dynamically
@@ -382,9 +359,9 @@ class AppointmentController extends Controller
             'PM' => $pmSlots > 0 ? $pmSlots : 'Full',
         ]);
     }
-// Determine model based on appointment_type
-private function getModelClass($appointmentType)
-{
+    // Determine model based on appointment_type
+    private function getModelClass($appointmentType)
+    {
     switch ($appointmentType) {
         case 'Birth Certificate':
             return \App\Models\AppointmentBirthCertificate::class;
@@ -401,7 +378,7 @@ private function getModelClass($appointmentType)
         default:
             return null;
     }
-}
+    }
 
     public function updateStatus(Request $request){
         $referenceNumber = $request->input('reference_number');
@@ -450,4 +427,5 @@ private function getModelClass($appointmentType)
             return response()->json(['valid' => false]);
         }
     }
+    
 }

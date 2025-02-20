@@ -445,6 +445,10 @@
         }
     }
 
+    .viewImagesButton{
+        margin-bottom: 30px;
+    }
+
 </style>
 
 <style>
@@ -677,12 +681,11 @@
 
     <div id="birthCertificateModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-                <h3 class="text-xl font-bold mb-4">Edit Appointment Details</h3>
+                <h3 class="text-xl font-bold mb-4">Requester's Details</h3>
                 <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="birthCertificateModal">View Images</button>
                 <form id="birthCertAppointmentForm" action="{{ route('updateBirthCertificate', ['id' => ':id']) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <div class="section-header">Requester's Details</div>
                     <input type="hidden" id="bc_refNumber" name="reference_number" class="referenceNumberInput">
                     <div class="form-row">
                         <div class="form-group">
@@ -988,14 +991,13 @@
 
     <div id="marriageCertificateModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="text-xl font-bold mb-4">Edit Appointment Details</h3>
+        <h3 class="text-xl font-bold mb-4">Requester's Details</h3>
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="marriageCertificateModal">View Images</button>
             <form id="marriageAppointmentForm" action="{{ route('updateMarriageCertificate', ['id' => ':id']) }}" method="POST">
                 @csrf
                 @method('PUT')
 
                 <!-- Requester's Details -->
-                <div class="section-header">Requester's Details</div>
                 <div class="form-row">
                     <input type="hidden" id="mc_refNumber" name="reference_number" class="referenceNumberInput">
                     <div class="form-group">
@@ -1446,7 +1448,7 @@
 
     <div id="deathCertificateModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="section-header">Requester's Details</h3>  
+            <h3 class="text-xl font-bold mb-4">Requester's Details</h3> 
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="deathCertificateModal">View Images</button>
             <form id="deathCertificateAppointmentForm" action="{{ route('updateDeathCertificate', ['id' => ':id']) }}" method="POST">
                 @csrf
@@ -1675,13 +1677,12 @@
 
     <div id="cenomarModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="section-header">Requester's Details</h3>  
+            <h3 class="text-xl font-bold mb-4">Requester's Details</h3>
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="cenomarModal">View Images</button>
             <form id="cenomarAppointmentForm" action="{{ route('updateCenomar', ['id' => ':id']) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <!-- Requester's Details Section -->
-                <div class="section-header">Requester's Details</div>
                 <div class="form-row">
                     <input type="hidden" id="ce_refNumber" name="reference_number" class="referenceNumberInput">
                     <div class="form-group">
@@ -1940,13 +1941,11 @@
 
     <div id="otherModal" class="hidden closeModal">
         <div class="contentSemiWrapper">
-            <h3 class="section-header">Requester's Details</h3>
+            <h3 class="text-xl font-bold mb-4">Requester's Details</h3>
             <button type="button" class="btn btn-secondary w-100 py-2 mt-2 viewImagesButton" data-modal="otherModal">View Images</button>
             <form id="otherAppointmentForm" action="{{ route('updateOther', ['id' => ':id']) }}" method="POST">
                 @csrf
                 @method('PUT')
-
-                <div class="section-header">Requester's Details</div>
 
                 <div class="form-row">
                     <input type="hidden" id="ot_refNumber" name="reference_number" class="referenceNumberInput">
@@ -2493,7 +2492,6 @@
         document.getElementById('bc_delayed_yes').disabled = false;
         document.getElementById('bc_delayed_no').disabled = false;
         document.getElementById('bc_delayed_date').disabled = false;
-        document.getElementById('bc_appointment_date').disabled = false;
 
         bcEnableButton.classList.add('hidden')
         bcCancelBtn.classList.remove('hidden');
@@ -2635,7 +2633,6 @@
         document.getElementById('mc_delayed_yes').disabled = false;
         document.getElementById('mc_delayed_no').disabled = false;
         document.getElementById('mc_delayed_date').disabled = false;
-        document.getElementById('mc_appointment_date').disabled = false;
 
         mcEnableButton.classList.add('hidden');
         mcCancelBtn.classList.remove('hidden');
@@ -2760,7 +2757,6 @@
         document.getElementById('ml_delayed_yes').disabled = false;
         document.getElementById('ml_delayed_no').disabled = false;
         document.getElementById('ml_delayed_date').disabled = false;;
-        document.getElementById('ml_appointment_date').disabled = false;
 
         mlEnableButton.classList.add('hidden');
         mlCancelBtn.classList.remove('hidden');
@@ -2880,7 +2876,6 @@
         document.getElementById('dc_delayed_yes').disabled = false;
         document.getElementById('dc_delayed_no').disabled = false;
         document.getElementById('dc_delayed_date').disabled = false;;
-        document.getElementById('dc_appointment_date').disabled = false;
 
         dcEnableButton.classList.add('hidden');
         dcCancelBtn.classList.remove('hidden');
@@ -3024,7 +3019,6 @@
         document.getElementById('ce_delayed_yes').disabled = false;
         document.getElementById('ce_delayed_no').disabled = false;
         document.getElementById('ce_delayed_date').disabled = false;;
-        document.getElementById('ce_appointment_date').disabled = false;
 
         ceEnableButton.classList.add('hidden');
         ceCancelBtn.classList.remove('hidden');
@@ -3158,7 +3152,6 @@
         document.getElementById('ot_delayed_yes').disabled = false;
         document.getElementById('ot_delayed_no').disabled = false;
         document.getElementById('ot_delayed_date').disabled = false;;
-        document.getElementById('ot_appointment_date').disabled = false;
 
         otEnableButton.classList.add('hidden');
         otCancelBtn.classList.remove('hidden');

@@ -7,10 +7,11 @@
     <title>City Civil Registry</title>
 
     <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/calendar.css') }}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <script src="{{ asset('js/form.js') }}"></script>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
@@ -150,10 +151,18 @@
                 <label for="appointment_date">Appointment Date:</label>
                 <input type="text" name="appointment_date" id="appointment_date" autocomplete="off" required>
             </div>
+            <div id="calendar-container" style="display: none; position: absolute; z-index: 1000; background: white; padding: 10px; border: 1px solid #ccc;">
+                <div id="calendar" data-month="{{ $calendar->getMonth() }}" data-year="{{ $calendar->getYear() }}">
+                    {!! $calendar !!}
+                </div>
+            </div>
             <button type="button" id="submit_btn" class="btn btn-primary w-100 py-2 mt-2" onclick="showConfirmation()">Next</button>
         </form> 
     </div>
-     
+    
+
+   
+
 
 
     <div id="confirmationModal" class="modal hidden">
@@ -841,122 +850,10 @@
         </div>
     </div>
 
+<script src="{{ asset('js/form.js') }}"></script>
 <script>
-    // prevent numerical characters to specific input field
-    document.addEventListener("DOMContentLoaded", function() {
-        const alphabetInputs = document.querySelectorAll(".alphabet-only");
-
-        alphabetInputs.forEach(input => {
-            input.addEventListener("input", function() {
-                this.value = this.value.replace(/[^A-Za-z\s]/g, '');
-            });
-        });
-    });
     
 
-    //APPOINTMENT CALENDAR
-    $(document).ready(function () {
-        // Ensure jQuery UI Datepicker is loaded
-        if (!$.fn.datepicker) {
-            console.error("Error: jQuery UI Datepicker is not loaded!");
-            return;
-        }
-
-        // Inject Custom CSS for Proper Datepicker Alignment
-        const style = document.createElement('style');
-        style.innerHTML = `
-            /* Ensure Datepicker Appears Above Input */
-            .ui-datepicker {
-                z-index: 1050 !important;
-                font-size: 1.2em !important;
-                background-color: #ffffff !important;
-                border: 1px solid #ddd !important;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                height: auto !important;
-                padding: 15px;
-                border-radius: 8px;
-                display: none; /* Hidden by default */
-                position: absolute !important;
-                width: auto !important;
-            }
-
-            /* Unavailable Dates */
-            .unavailable-date a {
-                background-color: #f44336 !important;
-                color: white !important;
-                pointer-events: none;
-                opacity: 0.7;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Function to dynamically position and resize the datepicker ABOVE the input field
-        function updateDatepickerPosition() {
-            var $input = $("#appointment_date");
-            var datepicker = $(".ui-datepicker");
-
-            if ($input.length && datepicker.length && datepicker.is(":visible")) {
-                var inputOffset = $input.offset();
-                var inputWidth = $input.outerWidth();
-                var inputHeight = $input.outerHeight();
-
-                // Ensure the datepicker is always positioned ABOVE the input field
-                datepicker.css({
-                    position: "absolute",
-                    top: inputOffset.top - datepicker.outerHeight() - 5, // Position above input
-                    left: inputOffset.left,
-                    width: inputWidth + "px", // Match input width
-                    display: "block"
-                });
-            }
-        }
-
-        // Initialize Datepicker
-        var today = new Date();
-
-        // Fetch unavailable dates
-        $.ajax({
-            url: '/appointments/unavailable-dates',
-            method: 'GET',
-            success: function (bookedDates) {
-                $("#appointment_date").datepicker({
-                    dateFormat: 'yy-mm-dd',
-                    minDate: today,
-                    beforeShow: function () {
-                        updateDatepickerPosition();
-                    },
-                    beforeShowDay: function (date) {
-                        var formattedDate = $.datepicker.formatDate('yy-mm-dd', date);
-                        var day = date.getDay();
-
-                        // Disable weekends and unavailable dates
-                        if (day === 0 || day === 6 || bookedDates.includes(formattedDate)) {
-                            return [false, 'unavailable-date', 'Unavailable'];
-                        }
-                        return [true, '', 'Available'];
-                    }
-                });
-            },
-            error: function () {
-                console.error("Error fetching unavailable dates.");
-            }
-        });
-
-        // **Fix Flickering & Ensure Datepicker Stays Above**
-        let resizeTimeout;
-        $(window).on("resize", function () {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(updateDatepickerPosition, 50); // Adjust position on resize
-        });
-
-        // Ensure Datepicker Shows & Updates Position Correctly
-        $("#appointment_date").on("focus", function () {
-            $(this).datepicker("show");
-            updateDatepickerPosition(); // Update position dynamically
-        }).on("blur", function () {
-            setTimeout(updateDatepickerPosition, 50); // Ensure proper positioning
-        });
-    });
 </script>
 </body>
 </html>

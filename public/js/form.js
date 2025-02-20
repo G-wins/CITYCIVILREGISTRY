@@ -447,9 +447,30 @@ function applyRestrictions() {
     letterOnlyFields.forEach(function (id) {
         var inputField = document.getElementById(id);
         if (inputField) {
-            inputField.addEventListener("input", preventNumbers); // Listen for input changes
+            inputField.addEventListener("input", preventNumbers);
         }
     });
+
+    // Get today's date in YYYY-MM-DD format
+    let today = new Date().toISOString().split('T')[0];
+
+    // Prevent future dates for Date of Birth fields
+    let birthDateInputs = document.querySelectorAll("input[type='date'][name='date_of_birth']");
+    birthDateInputs.forEach(input => {
+        input.setAttribute("max", today);
+    });
+
+    // Prevent future dates for Date of Death fields
+    let deathDateInputs = document.querySelectorAll("input[type='date'][name='date_of_death']");
+    deathDateInputs.forEach(input => {
+        input.setAttribute("max", today);
+    });
+    
+    // Prevent future dates for Date of Marraige fields
+    // let marriageDateInput = document.querySelectorAll("input[type='date'][name='date_of_marriage']");
+    // marriageDateInput.forEach(input => {
+    //     input.setAttribute("max", today);
+    // });
 }
 
 // Ensure the script runs after the DOM is fully loaded
@@ -964,3 +985,145 @@ document.getElementById('appointment_form').addEventListener('submit', function 
     console.log(new FormData(this)); // Log form data to check missing fields
 });
 
+/********* wait for the page to fully loaded before running the code 
+ * inside this is to prevent the numerical characters in some input fields
+ * calendar view ***************/
+
+// prevent numerical characters to specific input field
+const alphabetInputs = document.querySelectorAll(".alphabet-only");
+
+alphabetInputs.forEach(input => {
+    input.addEventListener("input", function() {
+        this.value = this.value.replace(/[^A-Za-z\s]/g, '');
+    });
+});
+document.addEventListener('DOMContentLoaded', function () {
+
+    let inputField = document.getElementById('appointment_date');
+    let calendarContainer = document.getElementById('calendar-container');
+    let formContainer = document.querySelector('.form-container');
+    let submitButton = document.getElementById('submit_btn');
+
+    let currentYear = new Date().getFullYear();
+    let currentMonth = new Date().getMonth() + 1; // JavaScript months start from 0
+
+    // Function to position the calendar below the input field
+    function positionCalendar() {
+        let rect = inputField.getBoundingClientRect();
+        calendarContainer.style.width = inputField.offsetWidth + 'px';
+        calendarContainer.style.top = window.scrollY + rect.bottom + 5 + 'px';
+        calendarContainer.style.left = rect.left + 'px';
+    }
+
+    // Function to update form height dynamically
+    function updateFormHeight() {
+        if (calendarContainer.style.display === 'block') {
+            let calendarHeight = calendarContainer.offsetHeight;
+            submitButton.style.marginTop = calendarHeight + 20 + 'px'; // Adjust submit button position
+        } else {
+            submitButton.style.marginTop = '20px'; // Reset button position
+        }
+    }
+
+    // Function to reset calendar to current month
+    function resetCalendarView() {
+        fetch(`/update-calendar?month=${currentMonth}&year=${currentYear}`)
+            .then(response => response.text())
+            .then(html => {
+                let calendarElement = document.getElementById('calendar');
+                calendarElement.innerHTML = html;
+                calendarElement.setAttribute('data-month', currentMonth);
+                calendarElement.setAttribute('data-year', currentYear);
+                bindCalendarNavigation(); // Rebind events
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Show calendar when input field is clicked
+    inputField.addEventListener('click', function () {
+        calendarContainer.style.display = 'block';
+        formContainer.classList.add('expanded');
+
+        positionCalendar();
+        updateFormHeight();
+    });
+
+    // Hide calendar when clicking outside & reset month
+    document.addEventListener('click', function (event) {
+        if (!calendarContainer.contains(event.target) && event.target !== inputField) {
+            calendarContainer.style.display = 'none';
+            formContainer.classList.remove('expanded');
+            formContainer.style.paddingBottom = ''; // Reset padding
+            submitButton.style.marginTop = '20px'; // Reset button position
+
+            resetCalendarView(); // Reset to current month
+        }
+    });
+
+    // Update calendar position on window resize
+    window.addEventListener('resize', function () {
+        if (calendarContainer.style.display === 'block') {
+            positionCalendar();
+        }
+    });
+
+    // Make available dates clickable
+    document.addEventListener('click', function (event) {
+        let selectedDay = event.target.closest('.day_num');
+
+        if (selectedDay && 
+            !selectedDay.classList.contains('past') && 
+            !selectedDay.classList.contains('weekend') && 
+            !selectedDay.classList.contains('full') &&
+            !selectedDay.classList.contains('unavailable')) {
+                
+            let selectedDate = selectedDay.getAttribute('data-date'); 
+            inputField.value = selectedDate; 
+
+            calendarContainer.style.display = 'none';
+            formContainer.classList.remove('expanded');
+            updateFormHeight();
+
+            resetCalendarView(); // Reset to current month after selecting date
+        }
+    });
+
+    // Function to rebind navigation buttons
+    function bindCalendarNavigation() {
+        document.querySelectorAll('.nav-span').forEach(span => {
+            span.addEventListener('click', function () {
+                let step = parseInt(this.getAttribute('data-step'));
+                let calendarElement = document.getElementById('calendar');
+                let selectedMonth = parseInt(calendarElement.getAttribute('data-month'));
+                let selectedYear = parseInt(calendarElement.getAttribute('data-year'));
+
+                selectedMonth += step;
+
+                if (selectedMonth < 1) {
+                    selectedMonth = 12;
+                    selectedYear--;
+                } else if (selectedMonth > 12) {
+                    selectedMonth = 1;
+                    selectedYear++;
+                }
+
+                // Fetch updated calendar
+                fetch(`/update-calendar?month=${selectedMonth}&year=${selectedYear}`)
+                    .then(response => response.text())
+                    .then(html => {
+                        calendarElement.innerHTML = html;
+                        calendarElement.setAttribute('data-month', selectedMonth);
+                        calendarElement.setAttribute('data-year', selectedYear);
+
+                        // Rebind event listeners after updating the calendar
+                        bindCalendarNavigation();
+                        updateFormHeight(); // Adjust form height based on new month view
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    }
+
+    // Initial binding of calendar navigation
+    bindCalendarNavigation();
+});

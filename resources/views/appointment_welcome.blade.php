@@ -36,12 +36,22 @@
             </nav>
         </header>
 
+        
+
         <div class="scroll-indicator">↓ Scroll Down ↓</div>
         <div class="mainContent">
             <!-- Proceed Button -->
-            <div class="proceed-container">
-                <button id="proceed-button" class="btn">Step 1</button>
-                <button id="imgButton" class="btn btn-primary">Upload Requirements</button>    
+            <div class="steps">
+                <h2>Steps to Get an Appointment</h2>
+                <div class="step">
+                    <p><strong>Step 1:</strong> Fill out the form with your personal details and select the type of document you need (Birth Certificate, Marriage Certificate, Marriage License, Death Certificate, CENOMAR, or other documents). <a id="proceed-button" href="#">Click here to fill up the form</a>.</p>
+                </div>
+                <div class="step">
+                    <p><strong>Step 2:</strong> Upload the required supporting documents to complete your request. <a id="imgButton" href="#">Click here to upload your documents</a>.</p>
+                </div>
+                <div class="step">
+                    <p><small><i>Can't upload your document yet? Just save your reference number and return here on or before your scheduled appointment date to complete the upload.</i></small></p>
+                </div>
             </div>
 
             <!-- Footer -->
@@ -106,6 +116,37 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let lastScrollTop = window.scrollY;
+            const mainContent = document.querySelector(".mainContent");
+
+            window.addEventListener("scroll", function () {
+                let currentScroll = window.scrollY;
+                let screenHeight = window.innerHeight; // Get viewport height
+                let mainContentTop = mainContent.offsetTop; // Get mainContent's position
+
+                if (currentScroll < lastScrollTop - 10) { 
+                    // If scrolling up, go all the way to the top
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+                } else if (currentScroll > lastScrollTop + 1) { 
+                    // If scrolling down, go all the way down to mainContent
+                    window.scrollTo({
+                        top: mainContentTop,
+                        behavior: "smooth"
+                    });
+                }
+
+                lastScrollTop = currentScroll;
+            });
+        });
+
+
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
             const menuIcon = document.getElementById("menuIcon");
             const navMenu = document.getElementById("navMenu");

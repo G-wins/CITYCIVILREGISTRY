@@ -11,6 +11,7 @@ use App\Http\Controllers\ImageRequirementsController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Http\Request;
+use App\Helpers\Calendar;
 
 
 
@@ -147,6 +148,13 @@ Route::get('/reference', function (Request $request) {
 
 
 Route::post('/check-reference', [AppointmentController::class, 'checkReference'])->name('check.reference');
+Route::get('/unavailable-dates', [AppointmentController::class, 'unavailableDates'])->name('unavailable_dates');
 
-
+Route::get('/update-calendar', function (Illuminate\Http\Request $request) {
+    $year = $request->input('year', date('Y'));
+    $month = $request->input('month', date('m'));
+    
+    $calendar = new Calendar($year, $month);
+    return response($calendar->__toString());
+});
 require __DIR__.'/auth.php';
