@@ -421,11 +421,12 @@ class AppointmentController extends Controller
         if ($exists) {
             return response()->json([
                 'valid' => true, 
-                'redirect' => route('image.requirements')
+                'redirect' => route('image.requirements', ['reference_number' => $refNumber]) // Pass in URL
             ]);
         } else {
-            return response()->json(['valid' => false]);
+            return response()->json(['valid' => false]); // Show error if not found
         }
     }
+
     
 }

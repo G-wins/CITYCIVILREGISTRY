@@ -12,7 +12,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Http\Request;
 use App\Helpers\Calendar;
-
+use App\Http\Controllers\FrontPageController;
 
 
 //WELCOME PAGE TAB
@@ -93,6 +93,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/front-page', function () {
+    return view('frontpage');
+})->name('frontPage');
+Route::post('/posts', [FrontPageController::class, 'store'])->name('posts.store');
+Route::get('/posts', [FrontPageController::class, 'index'])->name('posts.index');
+Route::get('/posts/{post}', [FrontPageController::class, 'show'])->name('posts.show');
+
 
 // Registration routes
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -134,7 +141,7 @@ Route::get('/appointments-by-date', [DashboardController::class, 'getAppointment
 Route::post('/mark-notifications-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
 
 Route::match(['get', 'post'], '/image_requirements', [ImageRequirementsController::class, 'showReference'])->name('image.requirements');
-Route::post('/image-requirements', [ImageRequirementsController::class, 'store'])->name('image.requirements.store');
+Route::post('/image-requirements/store', [ImageRequirementsController::class, 'store'])->name('image.requirements.store');
 Route::get('/images/{reference_number}', [ImageRequirementsController::class, 'showImages'])->name('images.show');
 Route::post('/update-image-status/{id}', [ImageRequirementsController::class, 'updateStatus'])->name('image.update.status');
 

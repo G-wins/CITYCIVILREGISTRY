@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
     <link rel="stylesheet" href="{{ asset('css/welcome_style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/post.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -20,7 +21,7 @@
                         <h3>Registry Office (CCRO)</h3>
                     </div>
                 </div>
-                
+                    
                 <!-- Hamburger Menu Icon -->
                 <div class="menu-icon" id="menuIcon">
                     <i class="fas fa-bars"></i>
@@ -35,31 +36,76 @@
                 <a href="{{ route('about.us') }}" class="tab {{ request()->routeIs('about.us') ? 'active' : '' }}">About Us</a>
             </nav>
         </header>
-
-        
-
-        <div class="scroll-indicator">↓ Scroll Down ↓</div>
         <div class="mainContent">
-            <!-- Proceed Button -->
             <div class="steps">
                 <h2>Steps to Get an Appointment</h2>
+                
                 <div class="step">
-                    <p><strong>Step 1:</strong> Fill out the form with your personal details and select the type of document you need (Birth Certificate, Marriage Certificate, Marriage License, Death Certificate, CENOMAR, or other documents). <a id="proceed-button" href="#">Click here to fill up the form</a>.</p>
+                    <p><strong>Step 1:</strong> Fill out the form with your personal details and select the type of document you need (Birth Certificate, Marriage Certificate, Marriage License, Death Certificate, CENOMAR, or other documents).</p>
+                    <a id="proceed-button" href="#" class="button">Proceed to Form</a>
                 </div>
+
                 <div class="step">
-                    <p><strong>Step 2:</strong> Upload the required supporting documents to complete your request. <a id="imgButton" href="#">Click here to upload your documents</a>.</p>
+                    <p><strong>Step 2:</strong> Upload the required supporting documents to complete your request.</p>
+                    <a id="imgButton" href="#" class="button">Upload Documents</a>
                 </div>
-                <div class="step">
-                    <p><small><i>Can't upload your document yet? Just save your reference number and return here on or before your scheduled appointment date to complete the upload.</i></small></p>
+
+                <div class="note">
+                    <p><small><i>You may return anytime for Step 2, as long as it's within your scheduled appointment date.</i></small></p>
+                </div>
+
+                <!-- Tutorial Video (Moved Inside Steps if it's a Guide) -->
+                <div class="tutorial-container">
+                    <h3>Watch the Tutorial</h3>
+                    <video class="tutorial" controls>
+                        <source src="{{ asset('video/tutorial.mp4') }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
+        </div>
 
-            <!-- Footer -->
-            <footer class="footer">
-                <p>&copy; 2025 CITY CIVIL REGISTRY</p>
-            </footer>
+        <div class="scroll-indicator">↓ Scroll Down for Updates & Announcements ↓</div>
+
+        <!-- News & Announcements -->
+        <div class="postsWrapper">
+            @if(session('success'))
+                <div class="success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if($posts->isEmpty())
+                <p class="no-posts"></p>
+            @else
+                <div class="posts">
+                    @foreach($posts as $post)
+                        <div class="post">
+                            <div class="news-item">
+                                <h3>{{ $post->title }}</h3>
+                                <p class="datePost">Posted on {{ $post->created_at->format('M d, Y') }}</p>
+                                
+                                <p class="news-content lineMax">{{ $post->content }}</p>
+                                @if($post->image)
+                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="post-image">
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    {{ $posts->links() }}
+                </div>
+            @endif
         </div>
     </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 CITY CIVIL REGISTRY</p>
+    </footer>
+
 
     <!-- Data Privacy Modal -->
     <div id="modal" class="modal">
@@ -93,14 +139,15 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('image.requirements') }}" method="POST" autocomplete="off">
+                    <form id="referenceForm" action="{{ route('image.requirements') }}" method="POST" autocomplete="off">
                         @csrf
                         <div class="mb-3">
                             <label for="refNumber" class="form-label">Reference Number:</label>
                             <div class="input-button-container">
                                 <input type="text" id="refNumber" name="refNumber" class="form-control @error('refNumber') is-invalid @enderror" required>
-                                <button type="submit" id="confirm_reference" class="btn btn-primary">Confirm</button>
+                                <button type="button" id="confirm_reference" class="btn btn-primary">Confirm</button>
                             </div>
+                            <div id="refNumberError" class="text-danger"></div> <!-- Error message container -->
                             @error('refNumber')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -115,161 +162,60 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('js/welcome.js') }}"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let lastScrollTop = window.scrollY;
-            const mainContent = document.querySelector(".mainContent");
+$(document).ready(function(){
+    $('#confirm_reference').click(function(){
+        var refNumber = $('#refNumber').val();
+        var form = $('#referenceForm');
 
-            window.addEventListener("scroll", function () {
-                let currentScroll = window.scrollY;
-                let screenHeight = window.innerHeight; // Get viewport height
-                let mainContentTop = mainContent.offsetTop; // Get mainContent's position
-
-                if (currentScroll < lastScrollTop - 10) { 
-                    // If scrolling up, go all the way to the top
-                    window.scrollTo({
-                        top: 0,
-                        behavior: "smooth"
-                    });
-                } else if (currentScroll > lastScrollTop + 1) { 
-                    // If scrolling down, go all the way down to mainContent
-                    window.scrollTo({
-                        top: mainContentTop,
-                        behavior: "smooth"
-                    });
+        $.ajax({
+            url: "{{ route('check.reference') }}", // Route for checking reference
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                refNumber: refNumber
+            },
+            success: function(response) {
+                if(response.valid) {
+                    window.location.href = response.redirect; // Redirect if valid
+                } else {
+                    $('#refNumberError').text("Reference number not found. Please try again.");
                 }
-
-                lastScrollTop = currentScroll;
-            });
-        });
-
-
-
-
-
-        document.addEventListener("DOMContentLoaded", function () {
-            const menuIcon = document.getElementById("menuIcon");
-            const navMenu = document.getElementById("navMenu");
-
-            // Toggle menu visibility smoothly
-            menuIcon.addEventListener("click", function () {
-                navMenu.classList.toggle("show");
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener("click", function (event) {
-                if (!menuIcon.contains(event.target) && !navMenu.contains(event.target)) {
-                    navMenu.classList.remove("show");
-                }
-            });
-        });
-
-
-        // Modal and Button Elements
-        const proceedButton = document.getElementById("proceed-button");
-        const modal = document.getElementById("modal");
-        const closeModal = document.querySelector(".close");
-        const confirmProceed = document.getElementById("confirm-proceed");
-        const confirmRef = document.getElementById('confirm_reference');
-        const imageButton = document.getElementById("imgButton");
-        const imgModal = document.getElementById('imageModal');
-        const refNumberForm = document.getElementById('refNumberForm');
-
-        // Ensure modals are hidden initially
-        if (modal) modal.style.display = "none";
-        if (imgModal) imgModal.style.display = "none";
-
-        // Proceed Modal Logic
-        if (proceedButton) {
-            proceedButton.onclick = function () {
-                if (modal) modal.style.display = "flex";
-            };
-        }
-
-        if (closeModal) {
-            closeModal.onclick = function () {
-                if (modal) modal.style.display = "none";
-            };
-        }
-
-        if (confirmProceed) {
-            confirmProceed.onclick = function () {
-                const url = confirmProceed.getAttribute('data-url') || "{{ route('appointment.form') }}";
-                window.location.href = url;
-            };
-        }
-
-        // Click outside modal to close
-        window.onclick = function (event) {
-            if (event.target === modal) {
-                modal.style.display = "none";
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                $('#refNumberError').text("An error occurred. Please try again later.");
             }
-            if (event.target === imgModal) {
-                imgModal.style.display = "none";
-            }
-        };
+        });
+    });
+});
 
-        // Image Modal Logic
-        if (imageButton) {
-            imageButton.onclick = function () {
-                if (imgModal) imgModal.style.display = "flex";
-            };
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.news-content').forEach(content => {
+        content.classList.add('lineMax');
 
-        if (document.getElementById('closeButton')) {
-            document.getElementById('closeButton').addEventListener('click', function () {
-                console.log('Modal close button clicked.');
-                if (imgModal) imgModal.style.display = "none";
-            });
-        }
+        if (content.scrollHeight > content.clientHeight) {
+            let readMore = document.createElement('span');
+            readMore.className = 'read-more';
+            readMore.innerText = '... Read more';
 
-        // Prevent form submission if input is empty
-        if (refNumberForm) {
-            refNumberForm.addEventListener('submit', function (event) {
-                const refNumberInput = document.getElementById('refNumber');
-                if (refNumberInput && refNumberInput.value.trim() === '') {
-                    event.preventDefault();
-                    alert('Please enter your reference number.');
+            content.appendChild(readMore);
+
+            readMore.addEventListener('click', function () {
+                if (content.classList.contains('lineMax')) {
+                    content.classList.remove('lineMax');
+                    readMore.innerText = ' Read less';
+                } else {
+                    content.classList.add('lineMax');
+                    readMore.innerText = '... Read more';
                 }
             });
-
-            // Prevent Enter keypress if input is empty
-            const refNumberInput = document.getElementById('refNumber');
-            if (refNumberInput) {
-                refNumberInput.addEventListener('keydown', function (event) {
-                    if (event.key === 'Enter' && this.value.trim() === '') {
-                        event.preventDefault();
-                        alert('Please enter your reference number.');
-                    }
-                });
-            }
         }
+    });
+});
 
-        $(document).ready(function () {
-            $("#confirm_reference").click(function (event) {
-                event.preventDefault(); // Prevent default form submission
-                
-                let refNumber = $("#refNumber").val();
 
-                $.ajax({
-                    url: "{{ route('check.reference') }}",
-                    type: "POST",
-                    data: {
-                        _token: "{{ csrf_token() }}",
-                        refNumber: refNumber
-                    },
-                    success: function (response) {
-                        if (response.valid) {
-                            // If valid, redirect to image_requirements.blade.php with the reference number
-                            window.location.href = response.redirect + "?reference_number=" + encodeURIComponent(refNumber);
-                        } else {
-                            // If invalid, show an alert and prevent submission
-                            alert("Invalid Reference Number. Please check your input.");
-                        }
-                    }
-                });
-            });
-        });
     </script>
 </body>
 </html>

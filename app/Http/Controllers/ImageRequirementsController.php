@@ -5,19 +5,23 @@ use Illuminate\Http\Request;
 use App\Models\ImageRequirement;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class ImageRequirementsController extends Controller
 {
+    // Show Reference Number in View
     public function showReference(Request $request)
     {
         return view('image_requirements', ['refNumber' => $request->input('refNumber', null)]);
     }
 
+    // Store Uploaded Files
     public function store(Request $request)
     {
         try {
             Log::info('Incoming File Upload Request', $request->all());
 
+            // Validate request
             $request->validate([
                 'files.*' => 'required|file|mimes:jpeg,png,jpg,gif|max:10240',
                 'descriptions.*' => 'required|string|max:255',
@@ -26,6 +30,7 @@ class ImageRequirementsController extends Controller
 
             $referenceNumber = $request->input('refNumber');
 
+            // List of appointment tables to check for reference_number
             $models = [
                 \App\Models\AppointmentBirthCertificate::class,
                 \App\Models\AppointmentMarriageCertificate::class,
@@ -35,15 +40,17 @@ class ImageRequirementsController extends Controller
                 \App\Models\AppointmentOtherDocument::class,
             ];
 
-            $exists = collect($models)->some(fn($model) => $model::where('reference_number', $referenceNumber)->exists());
+            // Check if reference number exists in any table
+            $exists = collect($models)->contains(fn($model) => $model::where('reference_number', $referenceNumber)->exists());
 
             if (!$exists) {
                 Log::error('Reference number not found', ['referenceNumber' => $referenceNumber]);
                 return response()->json(['success' => false, 'message' => "Reference number $referenceNumber does not exist."], 400);
             }
 
+            // Process each uploaded file
             foreach ($request->file('files') as $index => $file) {
-                $path = $file->store('uploads', 'public');
+                $path = $file->store('uploads', 'public'); // Store in /storage/app/public/uploads
 
                 ImageRequirement::create([
                     'file_path' => $path,
@@ -59,6 +66,7 @@ class ImageRequirementsController extends Controller
         }
     }
 
+    // Show Uploaded Images Based on Reference Number
     public function showImages($reference_number)
     {
         $images = ImageRequirement::where('reference_number', $reference_number)->get();
@@ -70,6 +78,7 @@ class ImageRequirementsController extends Controller
         ]);
     }
 
+    // Update Image Status (Approval/Rejection)
     public function updateStatus(Request $request, $id)
     {
         try {
