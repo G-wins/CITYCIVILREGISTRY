@@ -2,14 +2,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 
 class FrontPageController extends Controller
 {
     public function index()
     {
-        return view('frontpage');
+        $posts = Post::latest()->paginate(5);
+        return view('frontpage', compact('posts'));
     }
+
+
+    public function destroy(Post $post)
+    {
+        if ($post->image) {
+            Storage::delete('public/' . $post->image);
+        }
+
+        $post->delete();
+        return redirect()->route('frontPage')->with('success', 'Post deleted successfully.');
+    }
+
 
     public function store(Request $request)
     {

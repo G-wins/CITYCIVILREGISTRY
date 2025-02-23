@@ -9,9 +9,10 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest()->paginate(5);
+        $posts = Post::latest()->get(); // Get all posts
         return view('appointment_welcome', compact('posts'));
     }
+
 
     public function show(Post $post)
     {

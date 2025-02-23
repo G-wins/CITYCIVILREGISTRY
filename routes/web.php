@@ -99,6 +99,8 @@ Route::get('/front-page', function () {
 Route::post('/posts', [FrontPageController::class, 'store'])->name('posts.store');
 Route::get('/posts', [FrontPageController::class, 'index'])->name('posts.index');
 Route::get('/posts/{post}', [FrontPageController::class, 'show'])->name('posts.show');
+Route::delete('/posts/{post}', [FrontPageController::class, 'destroy'])->name('posts.destroy');
+Route::get('/front-page', [FrontPageController::class, 'index'])->name('frontPage');
 
 
 // Registration routes

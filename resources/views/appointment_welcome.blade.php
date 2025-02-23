@@ -84,23 +84,24 @@
                             <div class="news-item">
                                 <h3>{{ $post->title }}</h3>
                                 <p class="datePost">Posted on {{ $post->created_at->format('M d, Y') }}</p>
-                                
+
                                 <p class="news-content lineMax">{{ $post->content }}</p>
+
                                 @if($post->image)
-                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="post-image">
+                                    <!-- Clickable Image -->
+                                    <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image" class="post-image" onclick="openModalZoom(`{{ asset('storage/' . $post->image) }}`)">
                                 @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    {{ $posts->links() }}
-                </div>
             @endif
         </div>
     </div>
+    <div id="imageModalZoom" class="modalZoom" onclick="closeModalZoom(event)">
+        <img id="modalImageZoom" class="modal-content-zoom">
+    </div>
+    
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2025 CITY CIVIL REGISTRY</p>
@@ -164,56 +165,77 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('js/welcome.js') }}"></script>
     <script>
-$(document).ready(function(){
-    $('#confirm_reference').click(function(){
-        var refNumber = $('#refNumber').val();
-        var form = $('#referenceForm');
+        // Open the Modal
+        function openModalZoom(imageSrc) {
+            let modal = document.getElementById('imageModalZoom');
+            let modalImage = document.getElementById('modalImageZoom');
 
-        $.ajax({
-            url: "{{ route('check.reference') }}", // Route for checking reference
-            type: "POST",
-            data: {
-                _token: "{{ csrf_token() }}",
-                refNumber: refNumber
-            },
-            success: function(response) {
-                if(response.valid) {
-                    window.location.href = response.redirect; // Redirect if valid
-                } else {
-                    $('#refNumberError').text("Reference number not found. Please try again.");
-                }
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-                $('#refNumberError').text("An error occurred. Please try again later.");
+            modalImage.src = imageSrc;  // Set image source
+            modal.classList.add('show'); // Add 'show' class to make modal visible
+        }
+
+        // Close the Modal when clicking outside the image
+        function closeModalZoom(event) {
+            let modal = document.getElementById('imageModalZoom');
+            
+            // Only close if clicking outside the image
+            if (event.target === modal) {
+                modal.classList.remove('show'); // Remove 'show' class to hide modal
             }
+        }
+
+
+
+        $(document).ready(function(){
+            $('#confirm_reference').click(function(){
+                var refNumber = $('#refNumber').val();
+                var form = $('#referenceForm');
+
+                $.ajax({
+                    url: "{{ route('check.reference') }}", // Route for checking reference
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        refNumber: refNumber
+                    },
+                    success: function(response) {
+                        if(response.valid) {
+                            window.location.href = response.redirect; // Redirect if valid
+                        } else {
+                            $('#refNumberError').text("Reference number not found. Please try again.");
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        $('#refNumberError').text("An error occurred. Please try again later.");
+                    }
+                });
+            });
         });
-    });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.news-content').forEach(content => {
-        content.classList.add('lineMax');
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.news-content').forEach(content => {
+                content.classList.add('lineMax');
 
-        if (content.scrollHeight > content.clientHeight) {
-            let readMore = document.createElement('span');
-            readMore.className = 'read-more';
-            readMore.innerText = '... Read more';
-
-            content.appendChild(readMore);
-
-            readMore.addEventListener('click', function () {
-                if (content.classList.contains('lineMax')) {
-                    content.classList.remove('lineMax');
-                    readMore.innerText = ' Read less';
-                } else {
-                    content.classList.add('lineMax');
+                if (content.scrollHeight > content.clientHeight) {
+                    let readMore = document.createElement('span');
+                    readMore.className = 'read-more';
                     readMore.innerText = '... Read more';
+
+                    content.appendChild(readMore);
+
+                    readMore.addEventListener('click', function () {
+                        if (content.classList.contains('lineMax')) {
+                            content.classList.remove('lineMax');
+                            readMore.innerText = ' Read less';
+                        } else {
+                            content.classList.add('lineMax');
+                            readMore.innerText = '... Read more';
+                        }
+                    });
                 }
             });
-        }
-    });
-});
+        });
 
 
     </script>

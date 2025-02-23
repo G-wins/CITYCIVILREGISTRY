@@ -24,7 +24,7 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    background: rgba(0, 0, 0, 0.5);
     z-index: 0;
 }
 
@@ -207,7 +207,7 @@ body::before {
     border-left: 5px solid #fc6731;
     border-radius: 10px;
     padding: 10px;
-    box-shadow: 2px 8px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .step a {
@@ -215,7 +215,7 @@ body::before {
     padding: 8px 10px;
     font-size: 14px;
     text-align: center;
-    background-color: #008CFF;
+    background-color: #ff64a5;
     color: white;
     text-decoration: none;
     font-weight: normal;
@@ -224,7 +224,7 @@ body::before {
 }
 
 .step a:hover {
-    background-color: #005bb5;
+    background-color: #ff3489;
 }
 
 .note {
@@ -267,7 +267,8 @@ body::before {
     z-index: 2;
     color: #000;
     max-width: 1000px;
-    margin-bottom: 90px;
+    margin-bottom: 80px;
+    min-width: 80%;
 }
 
 .posts {
@@ -320,28 +321,28 @@ body::before {
     border-radius: 8px;
     margin-top: 15px;
     object-fit: contain;
+    box-shadow: 0px 0px 5px #00000048;
 }
 
 /* Pagination */
 .pagination {
-    display: flex;
-    justify-content: center;
     margin-top: 20px;
+    text-align: center;
 }
 
 .pagination a {
     padding: 8px 12px;
-    margin: 0 5px;
-    background-color: #008CFF;
+    margin: 2px;
+    background: #3498db;
     color: white;
+    border-radius: 4px;
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
 .pagination a:hover {
-    background-color: #005bb5;
+    background: #2980b9;
 }
+
 
 /* Footer */
 .footer {
@@ -417,7 +418,7 @@ body::before {
     font-size: 16px;
     font-weight: 500;
     color: white;
-    background-color: #008CFF;
+    background-color: #ff64a5;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -425,7 +426,7 @@ body::before {
 }
 
 #modal #confirm-proceed:hover {
-    background-color: #005bb5;
+    background-color: #ff3489;
 }
 
 /* Image Upload Modal */
@@ -541,7 +542,7 @@ body::before {
     font-size: 14px;
     font-weight: 500;
     color: white;
-    background-color: #008CFF;
+    background-color: #ff64a5;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -549,7 +550,7 @@ body::before {
 }
 
 #imageModal .btn-primary:hover {
-    background-color: #005bb5;
+    background-color: #ff3489;
 }
 
 #imageModal .invalid-feedback {
@@ -566,3 +567,34 @@ body::before {
 #refNumberError{
     color: #c20000;
 }
+
+/* Modal Background */
+.modalZoom {
+    display: none;  /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Show Modal */
+.modalZoom.show {
+    display: flex; /* Display modal when class 'show' is added */
+}
+
+/* Modal Image */
+.modal-content-zoom {
+    max-width: 1000px; /* ✅ Limits the image width */
+    width: 90%;
+    max-height: 90vh;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+
+
